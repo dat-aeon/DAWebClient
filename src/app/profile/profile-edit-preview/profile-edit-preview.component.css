@@ -1,0 +1,4 @@
+
+.mat-card-header { margin-bottom: 20px; }
+.mat-card>.mat-card-actions:last-child { margin-bottom: initial; padding-bottom: inherit; }
+#row { min-height: calc(100vh - 192px); }

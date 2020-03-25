@@ -1,0 +1,125 @@
+<div class="row" id="row">
+    <div class="container">
+        <span class="circle circle-top"></span>
+        <span class="circle circle-right"></span>
+  
+        <div class="row content-wrapper">
+            <div class="col-md-12">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title class="form-title"> {{'app.purchase.title' | translate }}  </mat-card-title>
+                        </mat-card-header>
+  
+                        <mat-card-content>
+                            <div class="row">
+                                <div class="col-lg-12 col-12">
+  
+                                <div class="col-lg-6 col-12" *ngFor="let purchaseList of purchaseInfoProductDtoList; let i=index">
+                                  <mat-card-header>
+                                    <mat-card-title class="form-title"> purchaseList-{{i+1}}  </mat-card-title>
+                                </mat-card-header>
+                                <div class="form-group row">
+                                  <label class="col-12 col-md-4 col-form-label">Product Category </label>
+                                  <div class="col-12 col-md-8 border-bottom"> {{ purchaseList.daProductTypeId }}</div>
+                              </div>
+                              <div class="form-group row">
+                                <label class="col-12 col-md-4 col-form-label">Product Description </label>
+                                <div class="col-12 col-md-8 border-bottom"> {{ purchaseList.productDescription }}</div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-12 col-md-4 col-form-label">Brand </label>
+                              <div class="col-12 col-md-8 border-bottom"> {{ purchaseList.brand }}</div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-12 col-md-4 col-form-label">Model </label>
+                            <div class="col-12 col-md-8 border-bottom"> {{ purchaseList.model }}</div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-12 col-md-4 col-form-label">Price </label>
+                          <div class="col-12 col-md-8 border-bottom"> {{ purchaseList.price }}</div>
+                      </div>
+                              </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.outlet' | translate }} </label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.outletName }}</div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> Purchase Location </label>
+                                        <div class="col-12 col-md-8 border-bottom "> {{ purchaseInfo.purchaseLocation }} </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="col-12 col-md-4 col-form-label"> Cashdown Amount </label>
+                                      <div class="col-12 col-md-8 border-bottom"> {{cashDownAmount}} </div>
+                                  </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.purchaseDate' | translate }} </label>
+                                        <div class="col-12 col-md-8 border-bottom outputData"> {{ purchaseInfo.purchaseDate|date:'yyyy-MM-dd' }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.invoice' | translate }} </label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.invoiceNo }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.agreementNo' | translate }}</label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.agreementNo }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.financeAmount' | translate }} </label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.financeAmount }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> Term of Finance </label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.financeTerm }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'app.processingFees' | translate }} </label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.processingFees }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.compulsoryAmount' | translate }}</label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.compulsoryAmount }} </div>
+                                    </div>
+  
+                                    <div class="form-group row">
+                                        <label class="col-12 col-md-4 col-form-label"> {{ 'label.settlementAmount' | translate }}</label>
+                                        <div class="col-12 col-md-8 border-bottom"> {{ purchaseInfo.settlementAmount }}</div>
+                                    </div>
+                                </div>
+  
+                                <div class="col-lg-6 col-12" *ngFor="let attImage of purchaseInfo.purchaseInfoAttachmentDtoList">
+                                    <div class="form-group row">
+                                        <label for="member_card" class="col-12 col-md-4 col-form-label"> {{ attImage.fileType | attachementType  }} </label>
+                                        <div class="col-12 col-md-8">
+                                            <ul class="clearfix no-list-style image-box">
+                                                <li><img  class="img-fluid" [src]="imageUrl + attImage.filePath"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-card-content>
+  
+                        <mat-card-actions>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button mat-button class="back" routerLink='/inquery'>
+                                        <mat-icon>keyboard_arrow_left</mat-icon>
+                                        <span> {{ 'btn.back' | translate }} </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+            </div>
+        </div>
+    </div>
+  </div>
+  

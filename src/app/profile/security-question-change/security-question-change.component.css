@@ -1,0 +1,28 @@
+.cmn-form { box-shadow: 1px 1px 5px 1px rgba(140, 79, 202, 0.4); border-radius: 5px; width: 500px; }
+#row { min-height: calc(100vh - 192px); }
+.error-message { color: red; }
+.btn-gp button { margin-left: 20px; }
+button[disabled] { background-color: gray; }
+
+.cmn-bg02 { padding: 0px; }
+@media (min-width: 1440px) and (max-width: 2560px) {
+    .effect-2:focus ~ .focus-border { width: 85%; left: 45px!important; }
+}
+
+@media (max-width: 1440px) {
+    .effect-2:focus ~ .focus-border { width: 85%; left: 45px!important; }
+}
+
+@media (max-width: 425px) {
+    .effect-2:focus ~ .focus-border { width: 82%; left: 35px!important; }
+    .cmn-form { width: 100%; }
+}
+
+@media (max-width: 375px) {
+    .effect-2:focus ~ .focus-border { width: 82%; left: 30px!important; }
+    .btn-gp button { width: 100%; margin-left: 0px; margin-bottom: 20px; }
+}
+
+@media (max-width: 320px) {
+    .effect-2:focus ~ .focus-border { width: 82%; left: 28px!important; }
+}

@@ -1,0 +1,161 @@
+
+<div class="row main background-image "   >
+
+  <!-- <span class="circle circle-top"></span>
+  <span class="circle circle-right" id="circle-middle"></span>
+  <span class="circle circle-top-center"></span>
+  <span class="circle circle-bottom" id="circle-bottom"></span> -->
+
+      <div class="left col-md-6 col-xs-6 col-sm-6 col-lg-6 " style="align-self: center;">
+        <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 mt-3  mt-md-0" style="margin:auto;" >
+          <mat-card >
+        <mat-card-header>
+          <mat-card-title> <h4 class="form-ttl" style="margin-top: 10%;"> Login </h4> </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content >
+        <form class="col-12 form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="col-12">
+
+            <input matInput type="text" autocomplete="off" formControlName="username" minlength="9" maxlength="11"
+              placeholder="{{ 'app.form.phone' | translate }}" numbersOnly />
+            <mat-hint align="end">{{ f.username.value?.length || 0 }} / 11 </mat-hint>
+            <mat-error *ngIf="errorHandling('username', 'required')"> Login Phone No is required. </mat-error>
+            <mat-error *ngIf="errorHandling('username', 'onlyNumber')"> Login Phone No must be digit. </mat-error>
+            <mat-error *ngIf="errorHandling('username', 'minlength')"> Phone No must be more than 9 digits
+            </mat-error>
+            <mat-error *ngIf="errorHandling('username', 'validPhone')"> Phone No is not mobile number. </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <input matInput type="password" autocomplete="off" formControlName="password"
+              placeholder="{{ 'app.form.password' | translate }}" />
+            <mat-error *ngIf="errorHandling('password', 'required')"> Password is required. </mat-error>
+            <mat-error *ngIf="errorHandling('password', 'minlength')"> Password must be more than 6 characters
+            </mat-error>
+            <mat-error *ngIf="errorHandling('password', 'langError')"> Answer allow english characters and numbers.
+            </mat-error>
+          </mat-form-field>
+          <div class="col-12">
+            <div class="btn-gp">
+              <button mat-button [disabled]="loading">
+                <mat-icon>lock</mat-icon> {{ 'login.button' | translate }} <div class="ld ld-ring ld-spin"
+                  *ngIf="loading"></div>
+              </button>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-flex flex-row-reverse bd-highlight">
+              <a routerLink="/reset-password" class="forget-pwd"> {{ 'login.forgetpassword' | translate }} </a>
+            </div>
+          </div>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+    </div>
+
+      </div>
+
+        <div  class="right  col-md-6 col-xs-6 col-sm-6 col-lg-6">
+          <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8"  style="margin: auto;  margin-top: 5%;margin-bottom: 5%;">
+           <mat-card  style="background-color: #F4EEF9;">
+          <mat-card-header>
+            <mat-card-title> <h4 class="form-ttl" style="margin-top: 10%;"> New User Application Apply </h4> </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="col-12">
+            <!-- <div class="col-12">
+              <div class="d-flex flex-row-reverse bd-highlight" style="margin-top: 20px; float: left;">
+                <a routerLink="" style="color: #8C4FCA;" (click)="showNewUser()"> New User Application Apply</a>
+              </div>
+            </div> -->
+            <form class="col-14 form-container content-wrapper" [formGroup]="registerForm" >
+            <div >
+              <mat-form-field class="col-12" >
+                <input matInput  useValueAsDate  autoComplete="off" [max]="maxDate" [min]="minDate" [matDatepicker]="picker"  formControlName="dob"  placeholder="{{ 'app.form.dob' | translate }}" (dateChange)="date($event)"  />
+                <mat-datepicker-toggle matSuffix [for]="picker" >
+            </mat-datepicker-toggle>
+                <mat-datepicker #picker ></mat-datepicker>
+                <mat-error *ngIf="errorHandlingForRegister('dob', 'required')">  Date of Birth is required. </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-12">
+                <input matInput  placeholder="{{ 'app.form.phone' | translate }}" minlength="9" maxlength="11" autocomplete="off" formControlName="phoneNo"/>
+                <mat-hint align="end">{{ ff.phoneNo.value?.length || 0 }} / 11 </mat-hint>
+                <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'required')"> Phone no is required. </mat-error>
+                <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'onlyNumber')"> {{ errorMsg.number }} </mat-error>
+                <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'minlength')">  Phone No must be more than 9 digits </mat-error>
+                <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'validPhone')"> Phone No is not mobile number. </mat-error>
+                <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'duplicatePhoneNo')"> Your phone no. already exists. </mat-error>
+              </mat-form-field>
+              
+
+              <mat-form-field class="col-6">
+                <mat-select formControlName="nrcCode" id="nrcCode" (selectionChange)="changeNrcState($event)">
+                  <mat-option  *ngFor="let steid of stateIdList; let i = index" [value]="stateIdList[i]"> {{ steid }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandlingForRegister('nrcCode', 'required')">NRC code is required. </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-6" >
+                <mat-select id="nrcTownshipCode" formControlName="nrcTownshipCode"  (selectionChange)="duplicateNRC=false;" >
+                  <mat-option  *ngFor="let townshipCodeList of townshipList" [value]="townshipCodeList"> {{ townshipCodeList }} </mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandlingForRegister('nrcTownshipCode', 'required')">NRC Township is required. </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-6 ">
+                <mat-select formControlName="nrcType" id="nrcType" (selectionChange)="duplicateNRC=false;"> 
+                  <mat-option *ngFor="let nrcTypeId of nrcTypeList; let i=index " [value]="nrcTypeList[i]">{{nrcTypeId}} </mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandlingForRegister('nrcType', 'required')">NRC Type is required. </mat-error>
+              </mat-form-field>
+
+              <mat-form-field hintLabel="6 Digits Code" class="col-6">
+                <input matInput  maxlength="6" placeholder="{{ 'app.form.nrc' | translate }} "  (input)=" duplicateNRC=false;" [max]="6"  autocomplete="off" formControlName="nrcNo" numbersOnly/>
+                <mat-hint align="end">{{ ff.nrcNo.value?.length || 0 }} / 6 </mat-hint>
+                <mat-error *ngIf="errorHandlingForRegister('nrcNo', 'required')">NRC No is required. </mat-error>
+                <mat-error *ngIf="errorHandlingForRegister('nrcNo', 'onlyNumber')"> NRC No must be digit. </mat-error>
+                <mat-error *ngIf="errorHandlingForRegister('nrcNo', 'minlength')"> NRC No must be 6 digits.</mat-error>
+
+              </mat-form-field>
+              <mat-error *ngIf="duplicateNRC">Your nrc no. already exists.</mat-error>
+
+
+
+              <div class="col-12" style="margin-top: 10%;">
+                <div class="btn-gp">
+                  <button mat-button [disabled]="loading" (click)="register()">
+                    Check
+                  <mat-spinner *ngIf="loading"></mat-spinner>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> {{'app.network.error.title' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"> <span
+        aria-hidden="true">&times;</span> </button>
+  </div>
+  <div class="modal-body">
+    {{ 'app.network.error' | translate }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>

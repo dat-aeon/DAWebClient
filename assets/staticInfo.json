@@ -1,0 +1,23 @@
+
+{
+    "loan_status" : [
+        { "id" : 1 , "title": "draft" },
+        { "id" : 2 , "title": "new" }, 
+        { "id" : 3 , "title": "index" }, 
+        { "id" : 4 , "title": "upload finish" }, 
+        { "id" : 5 , "title": "document followup waiting" },
+        { "id" : 6 , "title": "document follow up applicant updated" },
+        { "id" : 7 , "title": "document follow up checked" },
+        { "id" : 8 , "title": "cancel" },
+        { "id" : 9 , "title": "approve" },
+        { "id" : 10 , "title": "reject" },
+        { "id" : 11 , "title": "purchase initial" },
+        { "id" : 12 , "title": "purchase confirm waiting" },
+        { "id" : 13 , "title": "purchase confirm" },
+        { "id" : 14 , "title": "purchase complete" },
+        { "id" : 15 , "title": "purchase cancel" },
+        { "id" : 16 , "title": "settlement index" },
+        { "id" : 17 , "title": "settlement upload finish" },
+        { "id" : 18 , "title": "settlement pending" }
+    ]
+}

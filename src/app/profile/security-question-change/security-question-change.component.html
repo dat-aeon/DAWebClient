@@ -1,0 +1,77 @@
+<div class="row" id="row">
+    <div class="container">
+        <span class="circle circle-top"></span>
+        <span class="circle circle-right"></span>
+        <span class="circle circle-bottom"></span>
+
+        <div class="row content-wrapper justify-content-md-center">
+            <div class="col-md-6 col-sm-12">
+                <form [formGroup]="questionForm">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title class="form-title"> 
+                                <h3> {{ 'sq.title' | translate }} </h3>
+                            </mat-card-title>
+                        </mat-card-header>
+
+                        <mat-card-content>
+                            <div class="row">
+                                <div class="col-md-12 col-12" *ngFor="let question of q.controls; let i = index">
+                                    <div [formGroup]="question">
+                                        <div class="col-12 form-wrapper">
+                                            <mat-form-field hintLabel="Q. {{ i + 1 }}">
+                                                <mat-select formControlName="secQuesId" placeholder=" {{ 'sq.select' | translate }}">
+                                                    <mat-option [value]="sqid.secQuestionId" *ngFor="let sq of securityQuestion; let sqid = index"> {{ sq.selected }} </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="question.controls.secQuesId.hasError('required')"> *{{ 'required-question' | translate }} </mat-error>
+                                                <mat-error *ngIf="question.controls.secQuesId.hasError('duplicated')"> *{{'duplicatedQuestion' | translate }} </mat-error>
+                                            </mat-form-field>
+            
+                                            <mat-form-field hintLabel="A. {{ i + 1 }}">
+                                                <input matInput formControlName="answer" maxlength="{{ numOfAnsChar }}">
+                                                <mat-hint align="end">{{ q.value[i].answer?.length || 0 }}/{{ numOfAnsChar }} </mat-hint>
+                                                
+                                                <mat-error *ngIf="AnswersControlErrorHandling(i, 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+                                                <mat-error *ngIf="AnswersControlErrorHandling(i, 'required')"> *{{ 'required-answer' | translate }} </mat-error>
+                                                <mat-error *ngIf="AnswersControlErrorHandling(i,'specialchar')"> *{{ 'required-specialchar' | translate }} </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </mat-card-content>
+
+                    <mat-card-actions>
+                        <div class="row">
+                            <div class="col-md-12">
+    
+                                <div class="btn-group-align-right">
+                                    <button mat-button (click)="onSubmit()" [disabled]="loading" class="save">
+                                        <mat-icon> save </mat-icon> 
+                                        <span> {{ 'btn.change' | translate }} </span> 
+                                        <mat-spinner *ngIf="loading"></mat-spinner>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-actions>
+                    </mat-card>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #erorrSnack>
+    <div #alert class="alert alert-danger" role="alert"> 
+        <i class="material-icons"> block </i>
+        {{'required-sometingWrong' | translate }} 
+    </div>
+</ng-template>
+
+<ng-template #invalidAnswer>
+    <div #alert class="alert alert-danger" role="alert"> 
+        <i class="material-icons"> block </i>
+        {{'required-invalidAnswer' | translate }} 
+    </div>
+</ng-template>

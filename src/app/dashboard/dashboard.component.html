@@ -1,0 +1,84 @@
+<div class="row" id="row">
+    <div class="container">
+        <span class="circle circle-top"></span>
+        <span class="circle circle-right" id="circle-middle"></span>
+        <span class="circle circle-bottom" id="circle-bottom"></span>
+        
+        <div class="row content-wrapper">
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/applies_icon.png">
+                        <h3> {{ dashboardData.appliedCount }} </h3>
+                        <p> New </p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/edit_requested_icon.png" />
+                        <h3> {{ dashboardData.attachmentEditRequestedCount }} </h3>
+                        <p> Attachment Edit Requested </p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/approve_icon.png" />
+                        <h3> {{ dashboardData.approvedCount }}  </h3>
+                        <p> Approved </p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/reject_list_icon.png">
+                        <h3> {{ dashboardData.rejectedCount }} </h3>
+                        <p> Rejected </p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/cancel_icon.png">
+                        <h3> {{ dashboardData.canceledCount }} </h3>
+                        <p> Canceled </p>
+                    </mat-card-content>
+                </mat-card>
+            </div> 
+
+
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/purchase_confirm_icon.png">
+                        <h3> {{ dashboardData.purchaseConfirmedCount }}  </h3>
+                        <p> Purchase Confirmed </p>
+                    </mat-card-content>
+                </mat-card>
+            </div> 
+    
+            <div class="col-md-3 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <img src="assets/images/purchase_cancel_icon.png">
+                        <h3> {{ dashboardData.purchaseCanceledCount }} </h3>
+                        <p> Purchase Canceled </p>
+                    </mat-card-content>
+                </mat-card>
+            </div> 
+
+
+
+        </div>
+    </div>
+</div>
+

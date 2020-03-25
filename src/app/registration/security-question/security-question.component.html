@@ -1,0 +1,54 @@
+<div class="row background-image">
+	<div class="container">
+	  <div class="row content-wrapper justify-content-md-center">
+		<div class="col-md-6 col-sm-12">
+		  <mat-card>
+			<mat-card-header>
+			  <mat-card-title> <h3 class="form-ttl"> {{ 'login.title' | translate }} </h3> </mat-card-title>
+			</mat-card-header>
+			
+			<form [formGroup]="questionForm" class="row form-container">
+			<mat-card-content>
+				<div *ngFor="let question of q.controls; let i = index">
+						<div [formGroup]="question">
+							<div class="col-12 form-wrapper">
+								<mat-form-field hintLabel="Q. {{ i + 1 }}">
+									<mat-select formControlName="secQuesId" placeholder=" {{ 'sq.select' | translate }}">
+										<mat-option [value]="sq.secQuestionId" *ngFor="let sq of securityQuestion; let sqid = index"> {{ sq.selected }} </mat-option>
+									</mat-select>
+									<mat-error *ngIf="question.controls.secQuesId.hasError('required')"> *{{'required-question' | translate }} </mat-error>
+									<mat-error *ngIf="question.controls.secQuesId.hasError('duplicated')"> *{{'duplicatedQuestion' | translate }} </mat-error>
+								</mat-form-field>
+
+								<mat-form-field hintLabel="A. {{ i + 1 }}">
+									<mat-hint align="end">{{ q.value[i].answer?.length || 0 }}/ *{{ numOfAnsChar }} </mat-hint>
+									<input matInput formControlName="answer" maxlength="{{ numOfAnsChar }}">
+
+									<mat-error *ngIf="question.invalid && AnswersControlErrorHandling(i, 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+									<mat-error *ngIf="question.invalid && AnswersControlErrorHandling(i, 'required')">  *{{ 'required-answer' | translate }} </mat-error>
+								</mat-form-field>
+							</div>
+						</div>
+				</div>
+
+			</mat-card-content>
+
+			<mat-card-actions align="end">
+				<button mat-button routerLink="/login" class="back">
+					<mat-icon>keyboard_arrow_left</mat-icon> 
+					<span> {{ 'btn.cancle.register' | translate }}  </span> 
+				</button>
+	
+				<button mat-button (click)="onSubmit()" class="save">
+					<mat-icon>verified_user</mat-icon> 
+					<span> {{ 'btn.register' | translate }} </span> 
+				</button>
+			</mat-card-actions>
+			</form>
+		  </mat-card>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+ 

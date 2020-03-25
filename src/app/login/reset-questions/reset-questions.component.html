@@ -1,0 +1,119 @@
+<div class="row background-image">
+	<div class="container">
+	  <div class="row content-wrapper justify-content-md-center">
+		<div class="col-md-6 col-sm-12">
+		  <mat-card *ngIf="passwodChange === false">
+			<mat-card-header>
+			  <mat-card-title> <h3 class="form-ttl"> {{ 'sq.title' | translate }} </h3> </mat-card-title>
+			</mat-card-header>
+		  
+			<mat-card-content>
+				<form [formGroup]="questionForm" class="row form-container">
+					<div *ngFor="let question of q.controls; let i = index">
+						<div [formGroup]="question">
+							<div class="col-12 form-wrapper">
+								<mat-form-field hintLabel="Q. {{ i + 1 }}">
+									<mat-select formControlName="secQuesId" placeholder=" {{ 'sq.select' | translate }}">
+										<mat-option [value]="sq.secQuestionId" *ngFor="let sq of securityQuestion; let sqid = index"> {{ sq.selected }} </mat-option>
+									</mat-select>
+
+									<mat-error *ngIf="question.invalid && question.controls.secQuesId.hasError('required')"> *{{ 'required-question' | translate }} </mat-error>
+									<mat-error *ngIf="question.controls.secQuesId.hasError('duplicated')"> *{{ 'duplicatedQuestion' | translate }} </mat-error>
+								</mat-form-field>
+
+								<mat-form-field hintLabel="A. {{ i + 1 }}">
+									<input matInput formControlName="answer" maxlength="{{ numOfAnsChar }}">
+									<mat-hint align="end">{{ q.value[i].answer?.length || 0 }}/{{ numOfAnsChar }} </mat-hint>
+									
+									<mat-error *ngIf="AnswersControlErrorHandling(i, 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+									<mat-error *ngIf="question.controls.answer.hasError('required')"> *{{ 'required-answer' | translate }} </mat-error>
+									<mat-error *ngIf="question.controls.answer.hasError('specialchar')"> *{{ 'required-specialchar' | translate }} </mat-error>
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+				</form>
+			</mat-card-content>
+
+			<mat-card-actions align="end">
+				<button mat-button routerLink="/reset-password" class="back">
+					<mat-icon>keyboard_arrow_left</mat-icon> 
+					<span> {{'btn.back' | translate }}  </span> 
+				</button>
+	
+				<button mat-button (click)="onSubmit()" [disabled]="loading" class="save">
+					<span> {{'btn.next' | translate }}  </span> 
+					<mat-icon>keyboard_arrow_right</mat-icon>
+					<mat-spinner *ngIf="loading"></mat-spinner>
+				</button>
+			  </mat-card-actions>
+		  </mat-card>
+
+		  <mat-card *ngIf="passwodChange === true">
+			<mat-card-header>
+			  <mat-card-title> <h3 class="form-ttl"> {{ 'app.changePassword' | translate }} </h3> </mat-card-title>
+			</mat-card-header>
+		  
+			<mat-card-content>
+				<form [formGroup]="passwordForm" class="row form-container">
+					<mat-form-field hintLabel="{{ 'input-label-password' | translate }}" class="col-12">
+						<input matInput type="password" formControlName="password" minlength="6" maxLength="16" placeholder="{{ 'app.form.password' | translate }}" />
+						<mat-hint align="end">{{ p.password.value?.length || 0 }}/16 </mat-hint>
+			
+						<mat-error *ngIf="passwordErrorHandling('password', 'required')"> {{ 'required-password' | translate }} </mat-error>
+						<mat-error *ngIf="passwordErrorHandling('password', 'minlength')"> *{{ 'input-label-password' | translate }} </mat-error>
+						<mat-error *ngIf="passwordErrorHandling('password', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+					</mat-form-field>
+
+					<mat-form-field hintLabel="{{ 'input-label-password' | translate }}" class="col-12">
+						<input matInput type="password" formControlName="compwd" minlength="6" maxLength="16" placeholder="{{ 'app.form.cpass' | translate }}" />
+						<mat-hint align="end">{{ p.compwd.value?.length || 0 }}/16 </mat-hint>
+			
+						<mat-error *ngIf="passwordErrorHandling('compwd', 'required')"> {{ 'required-confirmPassword' | translate }} </mat-error>
+						<mat-error *ngIf="passwordErrorHandling('compwd', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+						<mat-error *ngIf="passwordErrorHandling('compwd', 'minlength')"> {{ 'input-label-password' | translate }}</mat-error>
+						<mat-error *ngIf="passwordErrorHandling('compwd', 'passwordMatch')"> {{ 'required-matchPassword' | translate }} </mat-error>
+					  </mat-form-field>
+				</form>
+			</mat-card-content>
+
+			<mat-card-actions align="end">
+				<button mat-button routerLink="/reset-password" class="back">
+					<mat-icon>keyboard_arrow_left</mat-icon> 
+					<span> {{'btn.back' | translate }}  </span> 
+				</button>
+	
+				<button mat-button [disabled]="passwordLoading" (click)="onResetPassword()" class="save">
+					<span> {{'btn.next' | translate }}  </span> 
+					<mat-icon>keyboard_arrow_right</mat-icon>
+					<mat-spinner *ngIf="passwordLoading"></mat-spinner>
+				</button>
+			  </mat-card-actions>
+		  </mat-card>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+<ng-template #erorrSnack>
+    <div #alert class="alert alert-danger" role="alert"> 
+        <i class="material-icons"> block </i>
+        {{'required-sometingWrong' | translate }} 
+	</div>
+</ng-template>
+  
+<ng-template #duplicatedQuestion>
+	<div #alert class="alert alert-danger" role="alert"> 
+        <i class="material-icons"> block </i>
+        {{'duplicatedQuestion' | translate }} 
+    </div>
+</ng-template>
+
+
+
+<ng-template #securityFail>
+    <div #alert class="alert alert-danger" role="alert"> 
+        <i class="material-icons"> check_circle </i> 
+        <span> {{ 'wrongQuestion&Answer' | translate }} </span>
+    </div>
+</ng-template>

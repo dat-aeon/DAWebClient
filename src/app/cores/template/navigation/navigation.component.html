@@ -1,0 +1,35 @@
+<div class="row">
+  <mat-toolbar class="nav-toolbar-top">
+    <mat-toolbar-row>
+        <div class="nav-toolbar-top-align-left">
+          <img src="assets/images/logo/aeon_logo.png" routerLink="/" title="Aeon Microfinance" alt="Aeon Microfinance" /> 
+          <span routerLink="/"> Digital Application  </span>
+        </div>
+  
+        <div class="fill-remaining-space"></div>
+  
+        <div class="nav-toolbar-top-align-right" *ngIf="activeProfile">
+            <button mat-button [matMenuTriggerFor]="menu" class="profile-btn">
+              <mat-icon>person</mat-icon> {{ currentUser.data.userInformationResDto.name }}  <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item routerLink="/profile"> <mat-icon>person</mat-icon> {{'app.profile' | translate }}  </button>
+              <button mat-menu-item routerLink="/password"> <mat-icon>lock</mat-icon> {{'app.changePassword' | translate }} </button>
+              <button mat-menu-item routerLink="/security-questions-change"> <mat-icon>question_answer</mat-icon> {{ 'label.security' | translate }}  </button>
+              <button mat-menu-item (click)="logout()"> <mat-icon>lock_open</mat-icon> {{'app.logout' | translate }} </button>
+            </mat-menu>      
+        </div>
+
+        <img src="assets/images/united-kingdom.png" (click)="useLanguage('en')">
+        <img src="assets/images/myanmar.png" (click)="useLanguage('mm')">
+    </mat-toolbar-row>
+  
+    <mat-toolbar-row class="nav-toolbar-sub-header" *ngIf="activeProfile">
+      <div class="nav-toolbar-top-align-left">
+        <a routerLink="application"> {{'nav.app.title' | translate }} </a>
+        <a routerLink="inquery" style="margin-left: 20px;"> {{ 'app.inquries' | translate }} </a>
+      </div>
+  </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+

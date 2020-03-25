@@ -1,0 +1,14 @@
+.circle-right { top: 80%; } 
+.circle-bottom { bottom: -101%; }
+.btn-group-align-right:last-child { margin-right: 20px; }
+
+input[type="file"] { display: none; }
+.upload-img { width: 215px; height: 215px; }
+.img-fluid { width: 100%; max-height: 300px; padding: 20px; }
+.password-title { font-size: 20px; line-height: 30px; }
+.material-icons { font-size: medium; line-height: initial; }
+.col-form-label { padding-top: 20px; }
+.terms-and-conditions { color: #9B51E0!important; cursor: pointer!important; text-decoration: underline!important; }
+.errorsMessage { width: 100%; float: left; padding-left: 20px; color: red; }
+.mat-stapper-wrapper { margin-bottom: 20px; margin-top: 20px; }
+#row { min-height: calc(100vh - 192px); }

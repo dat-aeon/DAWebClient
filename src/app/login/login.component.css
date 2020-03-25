@@ -1,0 +1,84 @@
+.forget-pwd { text-decoration: underline; }
+.error-message { color: red; font-size: 11px; font-weight: normal; }
+.effect-2 ~ .focus-border { bottom: 19px!important; }
+
+@media (min-width: 1440px ) and (max-width: 2560px) {
+    .cmn-form { width: 60%!important; margin-left: auto!important; }
+    .effect-2:focus ~ .focus-border{ width: 93%!important; left: 17px!important; }
+}
+
+@media (max-width: 1440px ) {
+    .cmn-form { width: 50%!important; margin-left: auto!important; }
+    .effect-2:focus ~ .focus-border{ width: 93%!important; left: 15px!important; }
+}
+
+@media(max-width: 1024px) {
+    .cmn-form { width: 50%!important; }
+    .effect-2:focus ~ .focus-border{ width: 93%!important; left: 15px!important; }
+}
+
+@media (max-width: 768px) {
+    .cmn-form { width: 50%!important; }
+    .effect-2:focus ~ .focus-border{ width: 90%!important; left: 15px!important; }
+}
+
+@media (max-width: 425px) {
+    .cmn-form { width: 100%!important; }
+    .effect-2:focus ~ .focus-border{ width: 92%!important; left: 15px!important; }
+}
+
+@media (max-width: 375px) {
+    .cmn-form { width: 126%!important; margin-left: -35px!important; }
+    .effect-2:focus ~ .focus-border{ width: 91%!important; left: 15px!important; }
+}
+
+@media (max-width: 320px) {
+    .cmn-form { width: 130%!important; }
+    .effect-2:focus ~ .focus-border{ width: 90%!important; left: 15px!important; }
+}
+
+.back-btn {
+    cursor: pointer;
+}
+
+.main{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content: center;
+
+}
+
+.left {
+  position: relative;
+
+
+}
+
+.right {
+  position: relative;
+
+
+}
+
+@media(min-width:1152px){
+.main {
+    justify-content: space-between;
+}
+
+.left {
+    order:2;
+
+
+}
+
+.right {
+    order:1;
+
+
+}
+}
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,1),
+              0 1px 1px 0 rgba(0,0,0,1),
+              0 1px 3px 0 rgba(0,0,0,1);
+}

@@ -1,0 +1,5 @@
+.snackbar { width:100%; border-radius: 5px; background-color: #fff; color: #000; box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25); }
+.snackbar-title,
+.snackbar-body { width: 100%; }
+.snackbar-title > h4 { padding: 15px; padding-bottom: 0px; color: #9B51E0; font-size: 18px; font-weight: 500; }
+.snackbar-body > p { padding-left: 15px; padding-right: 15px; padding-bottom: 20px; font-size: small; }

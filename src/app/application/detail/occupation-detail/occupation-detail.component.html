@@ -1,0 +1,126 @@
+<div class="row" id="row">
+    <div class="container">
+        <span class="circle circle-top"></span>
+        <span class="circle circle-right"></span>
+
+        <div class="row content-wrapper">
+            <div class="col-md-12">
+                <ul class="sub-nav-wrapper">
+                    <li><a routerLink="/application-detail" [state]="{ orderId: id }" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                    <li><a routerLink="/occupation-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.occupation' | translate }}</a></li>
+                    <li><a routerLink="/emergency-contact-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.emergency' | translate }} </a></li>
+                    <li><a routerLink="/guarantor-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.guarantor' | translate }} </a></li>
+                    <li><a routerLink="/loan-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.loan' | translate }} </a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-12">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title class="form-title"> 
+                            <label class="page-number"> 2  </label> 
+                            <span class="page-text"> {{ 'title.occupation' | translate }} </span>
+                            <span class="page-pager"> 2/5 </span>
+                        </mat-card-title>
+                    </mat-card-header>  
+
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{'app.form.companyName' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.companyName }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.companyAddress' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.companyAddress }}</div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.companyTelNo' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.companyTelNo }}</div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.contactTime' | translate }} </label>
+                                    <div class="col-md-4 col-12"> {{ appInfo.contactTimeFrom }} </div>
+                                    <div class="col-md-4 col-12"> {{ appInfo.contactTimeTo }} </div>
+                                </div>       
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.department' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.department }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.position' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.position }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.yearOfService' | translate }} </label>
+                                    <div class="col-md-4 col-12">
+                                        {{ appInfo.yearOfServiceYear }}
+                                        <span *ngIf="appInfo.yearOfServiceYear > 1"> Years </span> 
+                                        <span *ngIf="appInfo.yearOfServiceYear === 1 || appInfo.yearOfServiceYear === 0"> Year </span> 
+                                    </div>
+                                     <div class="col-md-4 col-12"> 
+                                         {{ appInfo.yearOfServiceMonth }}
+                                         <span *ngIf="appInfo.yearOfServiceMonth > 1"> Months </span> 
+                                         <span *ngIf="appInfo.yearOfServiceMonth === 1 || appInfo.yearOfServiceMonth === 0"> Month </span>  
+                                    </div>
+                                </div>       
+                            </div>
+
+                            <div class="col-lg-6 col-12"> 
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.companyStatus' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.companyStatus | companyStatus: appInfo.companyStatusOther }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.monthlyBasicIncome' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.monthlyBasicIncome }} Ks </div>
+                                </div>
+    
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">  {{ 'app.form.otherIncome' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.otherIncome }} Ks </div>
+                                </div>
+    
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.totalIncome' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.totalIncome }} Ks </div>
+                                </div> 
+    
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.salaryDay' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.salaryDay }}  Days </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                    <mat-card-actions>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button mat-button routerLink="/application-detail/{{ id }}" class="back"> 
+                                    <mat-icon> keyboard_arrow_left </mat-icon>
+                                    <span> {{'btn.back' | translate }}  </span>
+                                </button>
+    
+                                <div class="btn-group-align-right">
+                                    <button mat-button routerLink="/emergency-contact-detail/{{ id }}">
+                                        <span> {{ 'btn.next' | translate }} </span> 
+                                        <mat-icon>keyboard_arrow_right</mat-icon> 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

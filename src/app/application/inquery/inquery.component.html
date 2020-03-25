@@ -1,0 +1,143 @@
+<section class="cmn-bg02 personal-loan-sec">  
+    <span class="circle circle2"></span>
+    <span class="circle circle3"></span> 
+    <div class="container">
+        <span class=" circle circle1"></span>
+
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title> {{'application.inqueries' | translate }} </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="row">
+                    <form class="col-12" [formGroup]="inquerySearchForm">
+                        <mat-form-field class="col-md-3 col-sm-12">
+                            <mat-label> {{ 'application.no' | translate }}</mat-label>
+                            <input matInput type="text" formControlName="appNo">
+
+                            <mat-error *ngIf="errorHandling('appNo', 'langError')">{{ errorMsg.language }} </mat-error>
+                            <mat-error *ngIf="errorHandling('appNo', 'onlyNumber')"> Only Support Number </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-3 col-sm-12">
+                            <mat-label> {{ 'app.categories' | translate }} </mat-label>
+                            <mat-select formControlName="category">
+                                <mat-option value="0"> {{ 'app.categories' | translate }} </mat-option>
+                                <mat-option value="1"> Mobile-Loan </mat-option>
+                                <mat-option value="2"> Non-Mobile </mat-option>
+                                <mat-option value="3"> Personal-Loan </mat-option>
+                                <mat-option value="4"> MotorCycle-Loan </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-3 col-12">
+                            <mat-label> {{ 'app.selectDate' | translate }} </mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="appDate" placeholder="{{ 'app.selectDate' | translate }}" (dateChange)="date($event)">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-3 col-sm-12">
+                            <mat-label> {{ 'app.categories' | translate }} </mat-label>
+                            <mat-select formControlName="status">
+                                <mat-option value="0"> All </mat-option>																																														
+                                <mat-option value="1"> draft </mat-option>
+                                <mat-option value="2"> new </mat-option>
+                                <mat-option value="3"> index </mat-option>
+                                <mat-option value="4"> upload finish </mat-option>
+                                <mat-option value="5"> document followup waiting </mat-option>
+                                <mat-option value="6"> ddocument follow up applicant updated </mat-option>
+                                <mat-option value="7"> document follow up checked </mat-option>
+                                <mat-option value="8"> cancle </mat-option>
+                                <mat-option value="9"> reject </mat-option>
+                                <mat-option value="10"> approve </mat-option>						
+                                <mat-option value="11"> purchase cancel </mat-option>
+                                <mat-option value="12"> purchase initial </mat-option>
+                                <mat-option value="13"> purchase confirm waiting </mat-option>
+                                <mat-option value="14"> purchase confirm </mat-option>
+                                <mat-option value="15"> purchase complete </mat-option>
+                                <mat-option value="16"> settlement upload finish </mat-option>		
+                                <mat-option value="17"> settlement pending </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+                <button mat-button (click)="onSubmit()" [disabled]="loading" class="back-btn">
+                    <mat-icon>search</mat-icon> 
+                    <span> {{ 'btn.search' | translate }} </span> 
+                    <mat-spinner *ngIf="loading"></mat-spinner>
+                </button>
+            </mat-card-actions>
+
+            <mat-card-content>
+                <div class="table-responsive">
+                    <table class="table col-md-12 col-sm-12" mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="applicationNo" class="custom-table">
+                          <th mat-header-cell *matHeaderCellDef> Application No. </th>
+                          <td mat-cell *matCellDef="let element"> <span *ngIf="tableShow"> {{ element.applicationNo }}</span> </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="financeAmount">
+                          <th mat-header-cell *matHeaderCellDef> Finance Amount </th>
+                          <td mat-cell *matCellDef="let element"> <span *ngIf="tableShow"> {{ element.financeAmount }}  </span> </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="financeTerm">
+                          <th mat-header-cell *matHeaderCellDef> Terms of Finance </th>
+                          <td mat-cell *matCellDef="let element"> <span *ngIf="tableShow"> {{ element.financeTerm }} </span> </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="daLoanTypeName">
+                          <th mat-header-cell *matHeaderCellDef> Category </th>
+                          <td mat-cell *matCellDef="let element"> <span *ngIf="tableShow"> {{ element.daLoanTypeName }}</span> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="appliedDate">
+                            <th mat-header-cell *matHeaderCellDef> Application Date </th>
+                            <td mat-cell *matCellDef="let element"> <span *ngIf="tableShow"> {{ element.appliedDate | date : 'medium'}}</span> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef> status </th>
+                            <td mat-cell *matCellDef="let element"> <span *ngIf="tableShow"> {{ element.status | status }}  </span> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="daApplicationInfoId">
+                            <th mat-header-cell *matHeaderCellDef> Purchase Info </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div *ngIf="tableShow">
+                                <a routerLink="/attachment-edit" [state]="{orderId: element.daApplicationInfoId}"  class="red-color"> {{'btn.attachment.edit'| translate}} </a>
+                                <a routerLink="/purchase-detail" [state]="{ orderId: element.daApplicationInfoId }" class="blue-color"> {{ 'btn.purchase.detail' | translate }} </a> 
+                                <a routerLink="/loan-detail" [state]="{ orderId: element.daApplicationInfoId }"> {{'btn.loan.detail' | translate }} </a>
+                                <a *ngIf="element.status === 5" routerLink="/loan-detail" [state]="{ orderId: element.daApplicationInfoId }" class="green-color"> {{ 'btn.loan.edit' | translate }} </a>
+                                </div>
+                            </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+                    
+                      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</section>
+
+<ng-template #mymodal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title"> {{'app.network.error.title' | translate }}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <div class="modal-body"> 
+          {{ 'app.network.error' | translate }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+        </div>
+</ng-template>

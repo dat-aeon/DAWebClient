@@ -1,0 +1,40 @@
+td > a { margin-left: 20px;}
+:focus{outline: none;}
+
+.effect-2 ~ .focus-border { bottom: 19px; }
+
+button[disabled] { background-color: gray; }
+[effect="appNo"] { bottom: 23px!important; }
+[effect="date"] { bottom: 23px!important; }
+
+@media(min-width: 1444px) and (max-width: 2560px) {
+    .effect-2:focus ~ .focus-border{ left: 15px; }
+}
+
+@media(max-width: 1024px) {
+    .effect-2:focus ~ .focus-border{ left: 9px; }
+}
+
+@media(max-width: 768px) {
+    .effect-2:focus ~ .focus-border{ width: 84%!important; left: 15px!important; }
+}
+
+@media(max-width: 425px) {
+    .feedback { top: -10px; }
+    .effect-2:focus ~ .focus-border{ width: 93%!important; left: 15px!important; }
+    .effect-2 ~ .focus-border { bottom: 18px!important; }
+}
+
+@media(max-width: 320px) {
+    .effect-2:focus ~ .focus-border{ width: 91%!important; left: 15px; }
+}
+
+mat-header-row, [mat-header-row] {
+    background: #9B51E0;
+    color: #fff;
+    border-radius: 5px 5px 0px 0px!important;
+}
+
+.mat-header-cell { color: #fff; }
+
+.cmn-bg02 { min-height: calc(100vh - 192px); }

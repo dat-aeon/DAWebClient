@@ -1,0 +1,73 @@
+<div class="row" id="row">
+    <div class="container">
+        <span class="circle circle-top"></span>
+        <span class="circle circle-right"></span>
+        <span class="circle circle-bottom"></span>
+        
+        <div class="row content-wrapper">
+            <div class="col-md-12">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title class="form-title">
+                            <h3 class="text-center">  {{ 'app.profile' | translate }}  </h3>
+                        </mat-card-title>
+                    </mat-card-header>  
+
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12" *ngIf="hideReject">
+                                <h4 style="color: red;text-align-last: center;"> Reject </h4>
+                   
+                                    <div  class="form-group row">
+                                      <label  style="color: red;" for="dob" class="col-12 col-md-3 col-form-label"><b>Reject Comment</b> </label>
+                                    
+                                      <div s style="color: red;" class="col-12 col-md-9 outputData"><b> {{ profileEditData.comment }}</b>  </div>
+                                  </div>
+                              
+                                </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h4> {{ 'app.form.personalInfo' | translate }} </h4>
+                                <mat-grid-list cols="2" rowHeight="5:1">
+                                    <mat-grid-tile> {{ 'app.form.name' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile> {{ currentUser.data.userInformationResDto.name }}</mat-grid-tile>
+
+                                    <mat-grid-tile> {{'app.form.dob' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile> {{ currentUser.data.userInformationResDto.dateOfBirth }} </mat-grid-tile>
+
+                                    <mat-grid-tile> {{ 'app.form.nrc' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile> {{ currentUser.data.userInformationResDto.nrcNo }}  </mat-grid-tile>
+
+                                    <mat-grid-tile> {{ 'app.form.mobileNo' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile> {{ currentUser.data.userInformationResDto.phoneNo }} </mat-grid-tile>
+                                  </mat-grid-list>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <h4 class="purple"> {{ 'app.form.personalInfo' | translate }} <span class="blue">({{'btn.request' | translate }})</span> </h4>
+                                <mat-grid-list cols="2" rowHeight="5:1">
+                                    <mat-grid-tile> {{ 'app.form.name' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile class="color-gray"> {{ profileEditData.name }} </mat-grid-tile>
+
+                                    <mat-grid-tile> {{'app.form.dob' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile class="color-gray"> {{ profileEditData.dob }} </mat-grid-tile>
+
+                                    <mat-grid-tile> {{ 'app.form.nrc' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile class="color-gray"> {{ profileEditData.nrcNo }}  </mat-grid-tile>
+
+                                    <mat-grid-tile> {{ 'app.form.mobileNo' | translate }} </mat-grid-tile>
+                                    <mat-grid-tile class="color-gray"> {{ profileEditData.phoneNo }} </mat-grid-tile>
+                                  </mat-grid-list>
+                                  
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                    <mat-card-actions class="justify-content-center">
+                        <button mat-button class="back" routerLink="/profile"> 
+                            <mat-icon>keyboard_arrow_left</mat-icon> {{ 'btn.back' | translate }} </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

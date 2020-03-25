@@ -1,0 +1,177 @@
+<form [formGroup]="occupationForm" (ngSubmit)="formSave()">
+    <div class="row">
+        <div class="col-md-12 form-title">
+            <span class="page-text"> {{ 'app.form.occupation' | translate }} </span>
+        </div>
+    </div>
+
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+        <mat-form-field hintLabel="{{ 'required-max60' | translate }}" class="col-12">
+            <mat-label> {{'app.form.companyName' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxLength="60" formControlName="companyName">
+            <mat-hint align="end">{{ getOccupation.companyName.value?.length || 0 }}/60 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('companyName', 'required')"> *{{ 'required-company' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('companyName', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-max100' | translate }}" class="col-12">
+            <mat-label> {{'app.form.companyAddress' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxLength="100" formControlName="companyAddress">
+            <mat-hint align="end">{{ getOccupation.companyAddress.value?.length || 0 }}/100 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('companyAddress', 'required')"> *{{ 'required-companyAddress' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('companyAddress', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-digit11Phone' | translate }}" class="col-12">
+            <mat-label> {{'app.form.companyTelNo' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxLength="11" formControlName="companyTelNo">
+            <mat-hint align="end">{{ getOccupation.companyTelNo.value?.length || 0 }}/11 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('companyTelNo', 'required')"> *{{ 'required-companyPhone' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('companyTelNo', 'onlyNumber') || errorHandling('companyTelNo', 'minDigit')"> *{{ 'required-digit11Phone' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'input-label-from' | translate }}" class="col-6">
+            <mat-label> {{'app.form.contactTime' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" [ngxTimepicker]="timepickerfrom" [min]="'12:00 am'" [max]="'11:59 am'" formControlName="contactTimeFrom" readonly>
+            <ngx-material-timepicker #timepickerfrom></ngx-material-timepicker>
+
+            <mat-error *ngIf="errorHandling('contactTimeFrom', 'required')"> *{{ 'required-contactTime' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'input-label-to' | translate }}" class="col-6">
+            <mat-label> {{'app.form.contactTime' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput [ngxTimepicker]="timepickerto" [min]="'12:00 pm'" [max]="'11:59 pm'" formControlName="contactTimeTo" readonly>
+            <ngx-material-timepicker #timepickerto></ngx-material-timepicker>
+
+            <mat-error *ngIf="errorHandling('contactTimeTo', 'required')"> *{{ 'required-contactTime' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-max60' | translate }}" class="col-12">
+            <mat-label> {{'app.form.department' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxLength="60" formControlName="department">
+            <mat-hint align="end">{{ getOccupation.department.value?.length || 0 }}/60 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('department', 'required')"> *{{ 'required-department' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('department', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-max60' | translate }}" class="col-12">
+            <mat-label> {{'app.form.position' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxlength="60" formControlName="position">
+            <mat-hint align="end">{{ getOccupation.position.value?.length || 0 }}/60 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('position', 'required')"> *{{ 'required-position' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('position', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'input-label-year' | translate }}" class="col-6">
+            <mat-label> {{'app.form.yearOfService' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <mat-select formControlName="yearOfServiceYear">
+                <mat-option *ngFor="let item of arrayOne(99); let i = index;" value="{{ i }}"> {{ i }} </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="errorHandling('yearOfServiceYear', 'required')"> *{{ 'required-serviceYear' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'input-label-month' | translate }}" class="col-6">
+            <mat-label> {{'app.form.yearOfService' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <mat-select formControlName="yearOfServiceMonth">
+                <mat-option *ngFor="let item of arrayOne(12); let i = index;" value="{{ i }}"> {{ i }} </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="errorHandling('yearOfServiceMonth', 'required')"> *{{ 'required-serviceMonth' | translate }} </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-12">
+        <mat-form-field class="col-12">
+            <mat-label> {{'app.form.companyStatus' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <mat-select formControlName="companyStatus" (selectionChange)="enableOtherComapnyStatus($event)">
+                <mat-option value="1"> Public Company </mat-option>
+                <mat-option value="2"> Factory </mat-option>
+                <mat-option value="3"> Police </mat-option>
+                <mat-option value="4"> Private Company </mat-option>
+                <mat-option value="5"> SME Owner </mat-option>
+                <mat-option value="6"> Government Office </mat-option>
+                <mat-option value="7"> Taxi Owner </mat-option>
+                <mat-option value="8"> Specialist </mat-option>
+                <mat-option value="9"> SME Officer </mat-option>
+                <mat-option value="10"> Military </mat-option>
+                <mat-option value="11"> NGO </mat-option>
+                <mat-option value="12"> Other </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
+            <mat-label> {{'app.form.companyStatusOther' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxlength="50" formControlName="companyStatusOther">
+            <mat-hint align="end">{{ getOccupation.companyStatusOther.value?.length || 0 }}/50 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('companyStatusOther', 'required')"> *{{ 'required-otherCompany' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('companyStatusOther', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-digit10' | translate }}" class="col-6" (change)="calculateTotalIncome($event, 'monthly')">
+            <mat-label> {{'app.form.monthlyBasicIncome' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" [ngAutonumeric]="currencyOption" formControlName="monthlyBasicIncome">
+
+            <mat-error *ngIf="errorHandling('monthlyBasicIncome', 'invalidValue')"> *{{ 'required-monthlyBasicIncome' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-digit10' | translate }}" class="col-6"  (change)="calculateTotalIncome($event, 'other')">
+            <mat-label> {{'app.form.otherIncome' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" [ngAutonumeric]="currencyOption" formControlName="otherIncome">
+
+            <mat-error *ngIf="errorHandling('otherIncome', 'invalidValue')"> *{{ 'required-otherIncome' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+            <mat-label> {{'app.form.totalIncome' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" formControlName="totalIncome" [ngAutonumeric]="currencyOption" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+            <mat-label> {{'app.form.salaryDay' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <mat-select formControlName="salaryDay" [value]="1" (selectionChange)="enableOtherComapnyStatus($event)">
+                <mat-option *ngFor="let item of arrayOne(31); let i = index;" value="{{ i + 1}}"> {{ i + 1}} </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <button mat-button matStepperPrevious class="back">
+            <mat-icon>keyboard_arrow_left</mat-icon> 
+            <span> {{ 'btn.back' | translate }} </span> 
+       </button>
+
+        <button mat-button matStepperNext class="btn-group-align-right">
+            <span> {{ 'btn.next' | translate }} </span> 
+            <mat-icon>keyboard_arrow_right</mat-icon> 
+       </button>
+
+        <button mat-button [disabled]="loading" class="save btn-group-align-right">
+            <mat-icon>save</mat-icon> 
+            <span> {{ 'btn.save' | translate }} </span> 
+            <mat-spinner *ngIf="loading"></mat-spinner>
+        </button>
+    </div>
+</div>
+</form>
+
+<ng-template #erorrSnack>
+    <div #alert class="alert alert-danger" role="alert"> 
+        {{'required-all' | translate }} 
+    </div>
+</ng-template>
+
+<ng-template #successfullSave>
+    <div #alert class="alert alert-success" role="alert"> 
+        <span> {{ 'save-successfull' | translate }} </span>
+    </div>
+</ng-template>

@@ -1,0 +1,122 @@
+<div class="row background-image">
+	<div class="container">
+	  <div class="row content-wrapper justify-content-md-center">
+		<div class="col-md-6 col-sm-12">
+		  <mat-card>
+			<mat-card-header>
+			  <mat-card-title> <h3 class="form-ttl"> {{ 'register.title' | translate }} </h3> </mat-card-title>
+			</mat-card-header>
+      
+      <form class="col-12 form-container" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+          <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
+            <input matInput formControlName="name" maxlength="50" placeholder="{{ 'app.form.name' | translate }}"/>
+            <mat-hint align="end">{{ f.name.value?.length || 0 }}/50 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('name', 'required')">  {{ 'required-name' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('name', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('name', 'maxlength')"> *{{ 'required-max50' | translate }} </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-12" hintLabel="{{ 'required-18+' | translate }}">
+            <input matInput [max]="maxDate" [matDatepicker]="picker" formControlName="dob" placeholder="{{ 'app.form.dob' | translate }}" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="errorHandling('dob', 'required')">  {{ 'required-dob' | translate }} </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-12" hintLabel="{{ 'required-nineDigit' | translate }}">
+            <input matInput formControlName="phoneNo" maxlength="11" placeholder="{{ 'app.form.phone' | translate }}" />
+            <mat-hint align="end">{{ f.phoneNo.value?.length || 0 }}/11 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('phoneNo', 'required')">  {{ 'required-phone' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('phoneNo', 'onlyNumber')"> {{ 'required-digit' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('phoneNo', 'minPhNo')"> {{ 'required-digit11Phone' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('phoneNo', 'validPhone')"> {{ 'required-mobile' | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="{{ 'input-label-nrcNo' | translate }}" class="col-6">
+            <mat-select formControlName="nrcCode" (selectionChange)="changeNrcState($event)">
+              <mat-option *ngFor="let steid of stateIdList; let i = index" [value]="stateIdList[i]"> {{ steid }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="{{ 'input-label-township' | translate }}" class="col-6">
+            <mat-select formControlName="nrcList" id="nrclist">
+              <mat-option *ngFor="let townshipCodeList of matchTownShip" [value]="townshipCodeList"> {{ townshipCodeList }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="{{ 'input-label-nrcType' | translate }}" class="col-6">
+            <mat-select formControlName="nrcType">
+              <mat-option *ngFor="let nrcType of nrcTypeList;" [value]="nrcType"> {{ nrcType }}  </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="{{ 'input-label-sixDigit' | translate }}" class="col-6">
+            <input matInput formControlName="nrcNo" minLength="6" maxlength="6" placeholder="{{ 'app.form.nrc' | translate }} " />
+            <mat-hint align="end">{{ f.nrcNo.value?.length || 0 }}/6 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('nrcNo', 'required')"> {{ 'required-nrc' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('nrcNo', 'minDigit') || errorHandling('nrcNo', 'onlyNumber')"> {{ 'required-minLength6' | translate }} </mat-error>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="{{ 'input-label-password' | translate }}" class="col-12">
+            <input matInput type="password" formControlName="password" minlength="6" maxLength="16" placeholder="{{ 'app.form.password' | translate }}" />
+            <mat-hint align="end">{{ f.password.value?.length || 0 }}/16 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('password', 'required')"> {{ 'required-password' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('password', 'minlength')"> *{{ 'input-label-password' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('password', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="{{ 'input-label-password' | translate }}" class="col-12">
+            <input matInput type="password" formControlName="compwd" minlength="6" maxLength="16" placeholder="{{ 'app.form.cpass' | translate }}" />
+            <mat-hint align="end">{{ f.compwd.value?.length || 0 }}/16 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('compwd', 'required')"> {{ 'required-confirmPassword' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('compwd', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('compwd', 'minlength')"> {{ 'input-label-password' | translate }}</mat-error>
+            <mat-error *ngIf="errorHandling('compwd', 'passwordMatch')"> {{ 'required-matchPassword' | translate }} </mat-error>
+          </mat-form-field>
+      </mat-card-content>
+
+			<mat-card-actions>
+				<div class="row">
+					<div class="col-md-12">
+            <button mat-button routerLink="/login" class="back" > 
+              <mat-icon>keyboard_arrow_left</mat-icon>  
+							<span> {{ 'btn.cancle' | translate }} </span>
+						</button>
+
+						<div class="btn-group-align-right">
+							<button mat-button [disabled]="loading" class="save">
+                <span> {{ 'btn.next' | translate }} </span>
+                <mat-icon> keyboard_arrow_right </mat-icon> 
+								<mat-spinner *ngIf="loading"></mat-spinner>
+							</button>
+						</div>
+					</div>
+				</div>
+      </mat-card-actions>
+      </form>
+		  </mat-card>
+		</div>
+    </div>
+	</div>
+  </div>
+
+<ng-template #registrationSnackBar>
+  <div #alert class="alert alert-danger" role="alert"> 
+      <i class="material-icons"> block </i>
+      {{'required-all' | translate }} 
+  </div>
+</ng-template>
+
+
+<ng-template #successfullSave>
+  <div #alert class="alert alert-success" role="alert"> 
+      <i class="material-icons"> check_circle </i> 
+      <span> {{ 'save-successfull' | translate }} </span>
+  </div>
+</ng-template>

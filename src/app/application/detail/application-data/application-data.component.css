@@ -1,0 +1,6 @@
+.personal-loan-link { box-shadow: 1px 1px 5px 1px rgba(140, 79, 202, 0.4); border-radius: 5px; }
+.application-form .cmn-btn { padding: 10px 40px; }
+.col-form-label { font-family: "Roboto","myanmar-unicode"!important; }
+#row { min-height: calc(100vh - 192px); }
+.form-group > div { line-height: 40px; }
+

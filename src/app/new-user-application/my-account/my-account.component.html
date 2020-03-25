@@ -1,0 +1,140 @@
+<div class="row background-image" >
+    <div class="container">
+        <div class="row content-wrapper justify-content-md-center">
+            <div class="col-md-12 col-sm-12">
+                <mat-card>
+                    <mat-card-content>
+                        <div class="row content-wrapper">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <ul class="sub-nav-wrapper " style="font-family: none;">
+                                        <li><a id="new-user" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                                        <li><a id="new-user-occupation" [routerLink]="" (click)="clickBackLink($event)" > {{ 'app.form.occupation' | translate }}</a></li>
+                                        <li><a  id="new-user-emergency" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.emergency' | translate }} </a></li>
+                                        <li><a id="new-user-guarantor" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.guarantor' | translate }} </a></li>
+                                        <li><a id="new-user-loan" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.loan' | translate }} </a></li>
+                                        <li><a id="my-account" routerLink="/my-account" routerLinkActive="active" > {{ 'app.form.myAccount' | translate }} </a></li>
+                                    </ul>
+                                  </div>
+                                <form [formGroup]="myAccountForm" (keydown.enter)="$event.preventDefault()" >
+                                    <mat-card>
+                                        <mat-card-header>
+                                            <mat-card-title class="form-title">
+                                                <label class="page-number"> 6 </label>
+                                                <span class="page-text"> {{ 'app.form.myAccount' | translate }} </span>
+                                                <span class="page-pager-free"> 6/6 </span>
+                                            </mat-card-title>
+                                        </mat-card-header>
+
+                                        <mat-card-content>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+
+                                                        <mat-form-field class="col-12">
+                                                          <input matInput type="password"  minlength="6" maxlength="16" formControlName="password" placeholder="{{ 'app.new.password' | translate }}" />
+                                                          <mat-error *ngIf="errorHandling('password', 'required')">{{ errorMsg.blank }} </mat-error>
+                                                          <mat-error *ngIf="errorHandling('password', 'langError')"> {{ errorMsg.language }} </mat-error>
+                                                          <mat-error *ngIf="errorHandling('password', 'minlength')"> {{ errorMsg.password }} </mat-error>
+                                                        </mat-form-field>
+                                                        <mat-form-field class="col-12">
+                                                        <input matInput type="password"  minlength="6" maxlength="16" formControlName="compwd" placeholder="{{ 'app.comfirm.password' | translate }}" />
+                                                        <mat-error *ngIf="errorHandling('compwd', 'required')">{{ errorMsg.blank }} </mat-error>
+                                                        <mat-error *ngIf="errorHandling('compwd', 'langError')"> {{ errorMsg.language }} </mat-error>
+                                                        <mat-error *ngIf="errorHandling('compwd', 'minlength')"> {{ errorMsg.password }} </mat-error>
+                                                        <mat-error *ngIf="errorHandling('compwd', 'passwordMatch')"> Password and Confirm Password does not match. </mat-error>
+                                                      </mat-form-field>
+
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-12">
+                                                	<div *ngFor="let question of q.controls; let i = index">
+                                                    <div [formGroup]="question">
+                                                      <div class="col-12 form-wrapper">
+                                                        <mat-form-field hintLabel="Q. {{ i + 1 }}">
+                                                          <mat-select formControlName="secQuesId" placeholder=" {{ 'sq.select' | translate }}">
+                                                            <mat-option [value]="securityQuestion[sqid].secQuestionId" *ngFor="let sq of securityQuestion; let sqid=index"> {{ sq.selected }} </mat-option>
+                                                          </mat-select>
+                                                          <mat-error *ngIf="question.controls.secQuesId.hasError('required')"> *{{'required-question' | translate }} </mat-error>
+                                                          <mat-error *ngIf="question.controls.secQuesId.hasError('duplicated')"> *{{'duplicatedQuestion' | translate }} </mat-error>
+                                                        </mat-form-field>
+
+                                                        <mat-form-field hintLabel="A. {{ i + 1 }}">
+                                                          <input matInput formControlName="answer" maxlength="{{ numOfAnsChar }}" autocomplete="off">
+                                                          <mat-hint align="end">{{ q.value[i].answer?.length || 0 }}/{{ numOfAnsChar }} </mat-hint>
+
+
+                                                          <mat-error *ngIf="question.invalid && AnswersControlErrorHandling(i, 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+                                                          <mat-error *ngIf="question.invalid && AnswersControlErrorHandling(i, 'required')">  *{{ 'required-answer' | translate }} </mat-error>
+                                                        </mat-form-field>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+
+                                        <mat-card-actions>
+                                            <div class="row">
+                                       
+
+                                                <div class="col-md-12">
+                                                    <button mat-button  (click)="this.router.navigate(['/new-user-loan/'], { queryParams:  filter, skipLocationChange: true});" class="back">
+                                                        <mat-icon> keyboard_arrow_left </mat-icon>
+                                                        <span> {{'btn.back' | translate }} </span>
+                                                    </button>
+
+                                                    <div class="btn-group-align-right">
+                                                        <button mat-button (click)="termsAndCondition()"  [disabled]="loading"  name="terms&conditions"  class="save"  >
+                                                            <mat-icon> save </mat-icon>
+                                                            <span>{{ 'app.termsAndConditions' | translate }} </span>
+                                                            <mat-spinner *ngIf="loading"></mat-spinner>
+                                                        </button>
+
+                                                        <button data-toggle="modal" id="agreeAndSubmitModal" data-target="#agreeAndSubmit"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card-actions>
+                                        
+                                    </mat-card>
+                                </form>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div #content class="modal cmn-modal" id="termsAndConditions" [ngStyle]="{'display':display}">
+
+  <div class="modal-dialog modal-dialog-centered">
+      
+      <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title text-center"> {{ 'app.termsAndConditions' | translate }} </h3>
+              <button type="button" class="close"  (click)="display='none'">&times;</button>
+          </div>
+          <div class="modal-body modal-scrollbar ml-2 mr-3" id="scrollbar">
+              <p class="text-left"> {{ termsAndConditions }} </p>
+             
+             
+          </div>
+        
+          <div class="modal-footer">
+              <button type="button" class="mat-button px-5" (click)="display='none'"> {{ 'btn.close' | translate }} </button>
+              <button type="button" class="mat-button px-5" (click)="submit()"> {{ 'btn.agree' | translate }}</button>
+          </div>
+      </div>
+  </div>
+
+  <ng-template #erorrSnack>
+    <div #alert class="alert alert-danger" role="alert"> 
+        {{'required-all' | translate }} 
+    </div>
+</ng-template>

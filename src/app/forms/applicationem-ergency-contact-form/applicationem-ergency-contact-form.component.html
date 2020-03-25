@@ -1,0 +1,112 @@
+<form [formGroup]="emergencyContactForm">
+    <div class="row">
+        <div class="col-md-12 form-title">
+            <span class="page-text"> {{ 'app.form.emergency' | translate }} </span>
+        </div>
+    </div>
+
+    <div class="row">
+    <div class="col-md-6 col-sm-12">
+        <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
+            <input matInput formControlName="name" maxlength="50" placeholder="{{ 'app.form.name' | translate }}"/>
+            <mat-hint align="end">{{ getEmergencyContact.name.value?.length || 0 }}/50 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('name', 'required')">  *{{ 'required-name' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('name', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('name', 'maxlength')"> *{{ 'required-max50' | translate }} </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field  hintLabel="{{ 'required-relationship' | translate }}" class="col-12">
+            <mat-label> {{ 'app.form.relationship' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <mat-select formControlName="relationship" (selectionChange)="relationshipChange($event)">    
+                <mat-option value="1"> Parent </mat-option>
+                <mat-option value="2"> Spouse </mat-option>
+                <mat-option value="3"> Relative </mat-option>
+                <mat-option value="4"> Friend </mat-option>
+                <mat-option value="5"> Other </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
+            <mat-label> {{ 'app.form.relationshipOther' | translate }} <strong class="red-color">*</strong></mat-label>
+            <input matInput type="text" formControlName="relationshipOther" maxlength="50">
+            <mat-hint align="end">{{ getEmergencyContact.relationshipOther.value?.length || 0 }}/50 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('relationshipOther', 'required')"> *{{ 'required-otherRelationship' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('relationshipOther', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="{{ 'required-max100' | translate }}" class="col-12">
+            <mat-label> {{ 'app.form.currentAddress' | translate }} <strong class="red-color">*</strong> </mat-label>
+            <input matInput type="text" maxlength="100" formControlName="currentAddress" />
+            <mat-hint align="end">{{ getEmergencyContact.currentAddress.value?.length || 0 }}/100 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('currentAddress', 'required')"> *{{ 'required-currentAddress' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('currentAddress', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <mat-form-field hintLabel="{{ 'required-digit11' | translate }}" class="col-12">
+            <mat-label> {{ 'app.form.mobileNo' | translate }} <strong class="red-color">*</strong></mat-label>
+            <input matInput type="text" maxLength="11" minLength="11" formControlName="mobileNo">
+            <mat-hint align="end">{{ getEmergencyContact.mobileNo.value?.length || 0 }}/11 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('mobileNo', 'required')"> *{{ 'required-phone' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('mobileNo', 'validPhone')"> *{{ 'required-mobile' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('mobileNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
+            <mat-error *ngIf="errorHandling('mobileNo', 'minDigit')"> *{{ 'required-digit11Phone' | translate }} </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field hintLabel="{{ 'required-digit11' | translate }}" class="col-12">
+            <mat-label> {{ 'app.form.residentTelNo' | translate }} </mat-label>
+            <input matInput type="text" maxlength="11" minLength="11" formControlName="residentTelNo" />
+            <mat-hint align="end">{{ getEmergencyContact.residentTelNo.value?.length || 0 }}/11 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('residentTelNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
+        </mat-form-field>
+        
+
+        <mat-form-field hintLabel="{{ 'required-digit14' | translate }}"  class="col-12">
+            <mat-label> {{ 'app.form.otherPhoneNo' | translate }} </mat-label>
+            <input matInput type="text" maxlength="14" formControlName="otherPhoneNo" />
+            <mat-hint align="end"> {{ getEmergencyContact.otherPhoneNo.value?.length || 0 }}/14 </mat-hint>
+
+            <mat-error *ngIf="errorHandling('otherPhoneNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
+        </mat-form-field>
+    </div>  
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button mat-button matStepperPrevious class="back">
+                <mat-icon>keyboard_arrow_left</mat-icon> 
+                <span> {{ 'btn.back' | translate }} </span> 
+           </button>
+
+            <button mat-button matStepperNext class="btn-group-align-right">
+                <span> {{ 'btn.next' | translate }} </span> 
+                <mat-icon>keyboard_arrow_right</mat-icon> 
+           </button>
+
+            <button mat-button [disabled]="loading" (click)="emergencySave()" class="save btn-group-align-right">
+                <mat-icon>save</mat-icon> 
+                <span> {{ 'btn.save' | translate }} </span> 
+                <mat-spinner *ngIf="loading"></mat-spinner>
+            </button>
+        </div>
+    </div>
+</form>
+
+<ng-template #erorrSnack>
+    <div #alert class="alert alert-danger" role="alert"> 
+        {{'required-all' | translate }} 
+    </div>
+</ng-template>
+
+<ng-template #successfullSave>
+    <div #alert class="alert alert-success" role="alert"> 
+        <span> {{ 'save-successfull' | translate }} </span>
+    </div>
+</ng-template>

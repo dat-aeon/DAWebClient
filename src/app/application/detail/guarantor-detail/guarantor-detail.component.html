@@ -1,0 +1,187 @@
+
+<div class="row" id="row">
+    <div class="container">
+        <span class="circle circle-top"></span>
+        <span class="circle circle-right"></span>
+
+        <div class="row content-wrapper">
+            <div class="col-md-12">
+                <ul class="sub-nav-wrapper">
+                    <li><a routerLink="/application-detail" [state]="{ orderId: id }" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                    <li><a routerLink="/occupation-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.occupation' | translate }}</a></li>
+                    <li><a routerLink="/emergency-contact-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.emergency' | translate }} </a></li>
+                    <li><a routerLink="/guarantor-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.guarantor' | translate }} </a></li>
+                    <li><a routerLink="/loan-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.loan' | translate }} </a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-12">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title class="form-title"> 
+                            <label class="page-number"> 4  </label> 
+                            <span class="page-text"> {{'app.form.guarantor' | translate }}  </span>
+                            <span class="page-pager"> 4/5 </span>
+                        </mat-card-title>
+                    </mat-card-header>  
+
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group row">
+                                    <label for="name" class="col-md-4 col-12 col-form-label">{{'app.form.name' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.name }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="dob" class="col-md-4 col-12 col-form-label"> {{'app.form.dob' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.dob | date:"y-mm-dd" }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="nrcType" class="col-12 col-md-4 col-form-label"> {{ 'app.form.nrcList' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.nrcNo }} </div>
+                                </div> 
+
+                                <div class="form-group row">
+                                    <label for="nationality" class="col-12 col-md-4 col-form-label">{{ 'app.form.nationality' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.nationality | nationality: appInfo.nationalityOther}} </div>
+                                </div>  
+
+                                <div class="form-group row">
+                                    <label for="phone_no" class="col-md-4 col-12 col-form-label"> {{'app.form.phone' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.mobileNo }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="residentTelNo" class="col-md-4 col-12 col-form-label"> {{'app.form.residentTelNo' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.residentTelNo }} </div>
+                                </div>   
+
+                                <div class="form-group row" *ngIf="appInfo.relationship !== 5">
+                                    <label class="col-md-4 col-12 col-form-label"> {{'app.form.relationship' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.relationship | relationship }} </div>
+                                </div>   
+                                
+                                <div class="form-group row" *ngIf="appInfo.relationship === 5">
+                                    <label class="col-md-4 col-12 col-form-label"> {{'app.form.relationship' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.relationshipOther }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.currentAddress' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.currentAddress }} </div>
+                                </div>  
+
+                                <div class="form-group row">
+                                    <label for="type_of_residence" class="col-12 col-md-4 col-form-label"> {{ 'app.form.typeOfResidence' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.typeOfResidence |  residenceType: appInfo.typeOfResidenceOther }} </div>
+                                </div>         
+
+                                <div class="form-group row">
+                                    <label for="living_with" class="col-12 col-md-4 col-form-label"> {{ 'app.form.livingWith' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.livingWith | livingType  }} </div>
+                                </div>         
+                            </div>
+
+                            <div class="col-lg-6 col-12">                 
+                                <div class="form-group row">
+                                    <label for="gender" class="col-md-4 col-12 col-form-label"> {{ 'app.form.gender' | translate }} </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.gender | gender }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="gender" class="col-md-4 col-12 col-form-label"> Marital Status </label>
+                                    <div class="col-12 col-md-8"> {{ appInfo.maritalStatus | maritalStatus }} </div>
+                                </div>         
+
+                                <div class="form-group row">
+                                    <label for="year_of_stay" class="col-12 col-md-4 col-form-label"> {{ 'app.form.yearOfStay' | translate }} </label>
+                                    <div class="col-12 col-md-4"> 
+                                        {{ appInfo.yearOfStayMonth }} 
+                                        <span *ngIf="appInfo.yearOfStayMonth > 0"> Months </span> 
+                                         <span *ngIf="appInfo.yearOfStayMonth === 1 || appInfo.yearOfStayMonth === 0"> Month </span> 
+                                    </div>
+
+                                    <div class="col-12 col-md-4"> 
+                                        {{ appInfo.yearOfStayYear }}  
+                                        <span *ngIf="appInfo.yearOfStayYear > 0"> Years </span> 
+                                        <span *ngIf="appInfo.yearOfStayYear === 1 || appInfo.yearOfStayYear === 0"> Year </span> 
+                                    </div>
+                                </div> 
+
+                                <div class="form-group row">
+                                    <label for="companyName" class="col-md-4 col-12 col-form-label"> {{'app.form.companyName' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.companyName }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="companyTelNo" class="col-md-4 col-12 col-form-label"> {{'app.form.companyTelNo' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.companyTelNo }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="companyAddress" class="col-md-4 col-12 col-form-label"> {{'app.form.companyAddress' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.companyAddress }} </div>
+                                </div>   
+
+                                <div class="form-group row">
+                                    <label for="department" class="col-md-4 col-12 col-form-label"> {{'app.form.department' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.department }} </div>
+                                </div>                            
+
+                                <div class="form-group row">
+                                    <label for="position" class="col-md-4 col-12 col-form-label"> {{'app.form.position' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.position }} </div>
+                                </div>        
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{'app.form.yearOfService' | translate }} </label>
+                                    <div class="col-md-4 col-12"> 
+                                        {{ appInfo.yearOfServiceMonth }}
+                                        <span *ngIf="appInfo.yearOfServiceMonth > 0"> Months</span> 
+                                        <span *ngIf="appInfo.yearOfServiceMonth === 1 || appInfo.yearOfServiceMonth === 0"> Month</span> 
+                                    </div>
+                                     <div class="col-md-4 col-12"> 
+                                         {{ appInfo.yearOfServiceYear }} 
+                                         <span *ngIf="appInfo.yearOfServiceYear > 0"> Years </span> 
+                                         <span *ngIf="appInfo.yearOfServiceYear === 1 || appInfo.yearOfServiceYear === 0"> Year </span> 
+                                          
+                                    </div>
+                                </div> 
+
+                                <div class="form-group row">
+                                    <label for="monthlyBasicIncome" class="col-md-4 col-12 col-form-label"> {{'app.form.monthlyBasicIncome' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.monthlyBasicIncome }} Ks </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="totalIncome" class="col-md-4 col-12 col-form-label"> {{'app.form.totalIncome' | translate }} </label>
+                                    <div class="col-md-8 col-12"> {{ appInfo.totalIncome }} Ks </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                    <mat-card-actions>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button mat-button routerLink="/emergency-contact-detail/{{ id }}" class="back"> 
+                                    <mat-icon> keyboard_arrow_left </mat-icon>
+                                    <span> {{'btn.back' | translate }}  </span>
+                                </button>
+    
+                                <div class="btn-group-align-right">
+                                    <button mat-button  routerLink="/loan-detail/{{ id }}">
+                                        <span> {{ 'btn.next' | translate }} </span> 
+                                        <mat-icon>keyboard_arrow_right</mat-icon> 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

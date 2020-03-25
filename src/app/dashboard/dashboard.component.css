@@ -1,0 +1,7 @@
+.dashboard-card {
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 1px rgba(140, 79, 202, 0.4);
+}
+
+.dashboard-card > p { color: #9B51E0; }
+#row { min-height: calc(100vh - 192px); }

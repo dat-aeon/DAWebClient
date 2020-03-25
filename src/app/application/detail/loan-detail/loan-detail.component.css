@@ -1,0 +1,16 @@
+.personal-loan-link { box-shadow: 1px 1px 5px 1px rgba(140, 79, 202, 0.4); border-radius: 5px; }
+.application-form .cmn-btn { padding: 10px 40px; }
+.col-form-label { font-family: "Roboto","myanmar-unicode"!important; }
+/** .border-bottom { border-bottom: 1px solid #4F4F4F!important;} **/
+.application-form .cmn-btn { padding: 7px 20px; border-radius: 5px; }
+.upload-wrapper { margin-top: 20px; }
+a.cmn-btn, a.cmn-btn:hover { color: #fff; cursor: pointer; }
+.form-group > div { line-height: 40px; }
+.application-btn > div > button { margin-left: 20px; }
+.form-group[_ngcontent-xsy-c4] > div[_ngcontent-xsy-c4] {
+    line-height: 0px!important;
+}
+
+input[type="file"] { display: none; }
+#row { min-height: calc(100vh - 192px); }
+
