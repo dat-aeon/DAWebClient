@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { languageValidator, errorMessage, numOnlyValidator, phoneNumValidator } from 'src/app/cores/helper/validators';
+import { languageValidator, errorMessage, numOnlyValidator, phoneNumValidator, minLength } from 'src/app/cores/helper/validators';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-user-emergency',
@@ -30,6 +31,9 @@ export class NewUserEmergencyComponent implements OnInit {
   errorMsg: any;
   id: any;
   modalOptions: NgbModalOptions;
+  
+  @ViewChild('erorrSnack', { static: false })
+  erorrSnack: any = TemplateRef;
 
   constructor(
     private fb: FormBuilder,
@@ -37,16 +41,26 @@ export class NewUserEmergencyComponent implements OnInit {
     private authService: AuthService,
     private dataService: DataService,
     private activeRouter: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private snackBar: MatSnackBar
   ) {
 
     this.modalOptions = { backdrop:'static', backdropClass:'customBackdrop' }
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
       console.log(this.newRegister);
-      if(!('applicantCompanyInfoDto' in this.newRegister)){
+      console.log(this.newRegister);
+      if(!('applicantCompanyInfoDto' in this.newRegister)||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError){
+        this.dataService.formError=true;
         this.router.navigate(['/new-user-occupation/']);
+        
       }
+      if(this.dataService.formError){
+        this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.dataService.formError=false;
+      }
+  
+    
 
     } else {
       this.router.navigate(['login']);
@@ -93,7 +107,7 @@ export class NewUserEmergencyComponent implements OnInit {
       currentQtr: [this.emergencyContactInfoDto.currentAddressQtr,[ Validators.required]],
       currentTownship: [ ,[Validators.required]],
       currentCity: [2,[ Validators.required]],
-      mobileNo: [this.emergencyContactInfoDto.mobileNo , [Validators.required,numOnlyValidator,phoneNumValidator]],
+      mobileNo: [this.emergencyContactInfoDto.mobileNo , [Validators.required,numOnlyValidator,phoneNumValidator,minLength(9)] ],
       residentTelNo: [this.emergencyContactInfoDto.residentTelNo ,[  numOnlyValidator]],
       otherPhoneNo: [this.emergencyContactInfoDto.otherPhoneNo, [numOnlyValidator]]
     });
@@ -180,6 +194,11 @@ export class NewUserEmergencyComponent implements OnInit {
 
     }
     this.newRegister.emergencyContactInfoDto = emergencyContactInfoDto;
+    if(this.emergencyContactForm.invalid){
+    this.newRegister.emergencyContactInfoDto.emergencyFormError=true;}
+    else{
+    this.newRegister.emergencyContactInfoDto.emergencyFormError=false;
+    }
     localStorage.setItem('newRegister', JSON.stringify(this.newRegister));
   }
 
@@ -197,7 +216,9 @@ export class NewUserEmergencyComponent implements OnInit {
    clickLink($event: any){
     this.submitted = true;
     this.nextLoading = true;
-    if (this.emergencyContactForm.invalid) { this.nextLoading = false; return; }
+    if (this.emergencyContactForm.invalid) {
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.nextLoading = false; return; }
     this.saveDraft();
     console.log('Next');
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
@@ -208,7 +229,9 @@ export class NewUserEmergencyComponent implements OnInit {
     this.saveDraft();
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
   }
-  
+  back(){
+    this.saveDraft(); this.router.navigate(['/new-user-occupation/'], { queryParams:  filter, skipLocationChange: true});
+  }
 
 
 }

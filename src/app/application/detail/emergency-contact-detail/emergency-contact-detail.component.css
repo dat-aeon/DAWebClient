@@ -3,3 +3,6 @@
 .col-form-label { font-family: "Roboto","myanmar-unicode"!important; }
 #row { min-height: calc(100vh - 192px); }
 .form-group > div { line-height: 40px; }
+
+.sub-nav-wrapper > li > a:hover { color: #000; }
+a:hover { color: #fff; }

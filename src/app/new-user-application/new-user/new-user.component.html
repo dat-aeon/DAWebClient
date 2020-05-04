@@ -38,7 +38,7 @@
                               placeholder="{{ 'app.form.name' | translate }}">
                               <mat-hint align="end">{{ f.name.value?.length || 0 }}/50</mat-hint>
                             <mat-error *ngIf="errorHandling('name', 'required')">
-                              {{ errorMsg.blank }}  {{ 'app.form.name' | translate }} </mat-error>
+                              {{ 'required-name'|translate }} </mat-error>
 
                           </mat-form-field>
 
@@ -65,7 +65,7 @@
                             </mat-hint>
 
                             <mat-error *ngIf="errorHandling('fatherName', 'required')">
-                              {{ errorMsg.blank }}{{ 'app.form.fatherName' | translate }}  </mat-error>
+                              {{'required-fatherName' | translate }}  </mat-error>
 
                           </mat-form-field>
                           <mat-form-field  class="col-12">
@@ -102,7 +102,7 @@
                               {{ f.nationalityOther.value?.length || 0 }}/50 </mat-hint>
 
                             <mat-error *ngIf="errorHandling('nationalityOther', 'required')">
-                              {{ errorMsg.blank }} </mat-error>
+                              {{ 'required-otherNationality' | translate }}</mat-error>
 
                           </mat-form-field>
 
@@ -158,7 +158,7 @@
                             </mat-hint>
 
                             <mat-error *ngIf="errorHandling('typeOfResidenceOther', 'required')">
-                              {{ errorMsg.blank }} </mat-error>
+                              {{ 'required-typeOfResidenceOther' | translate }} </mat-error>
 
                           </mat-form-field>
                           <div class="col-12 mat-form-field-wrapper">
@@ -250,7 +250,7 @@
                               <mat-hint align="end">
                                 {{ f.currentStreet.value?.length || 0 }}/100 </mat-hint>
                                 <mat-error *ngIf="errorHandling('currentStreet', 'required')">
-                                  {{ errorMsg.blank }}  {{ 'app.form.street' | translate }} </mat-error>
+                                  {{'required-currentAddressStreet'| translate}} </mat-error>
                             </mat-form-field>
 
                             <mat-form-field hintLabel="Max 100 characters" class="col-12">
@@ -260,7 +260,7 @@
                               <mat-hint align="end">
                                 {{ f.currentQtr.value?.length || 0 }}/100 </mat-hint>
                                 <mat-error *ngIf="errorHandling('currentQtr', 'required')">
-                                  {{ errorMsg.blank }}  {{ 'app.form.qtr' | translate }} </mat-error>
+                                  {{'required-currentAddressQtr'|translate}} </mat-error>
 
                             </mat-form-field>
 
@@ -272,7 +272,7 @@
                                   {{ city.name }} </mat-option>
                               </mat-select>
                               <mat-error *ngIf="errorHandling('currentCity', 'required')">
-                                {{ errorMsg.blank }}  {{ 'app.form.city' | translate }} </mat-error>
+                                {{'required-currentAddressCity'| translate}} </mat-error>
                             </mat-form-field>
                             <mat-form-field  class="col-12">
                               <mat-label> {{ 'app.form.township' | translate }} <strong class="red-color">*</strong>
@@ -282,7 +282,7 @@
                                   {{ township.name }} </mat-option>
                               </mat-select>
                               <mat-error *ngIf="errorHandling('currentTownship', 'required')">
-                                {{ errorMsg.blank }}  {{ 'app.form.township' | translate }} </mat-error>
+                                {{'required-currentAddressTownship'| translate}} </mat-error>
                             </mat-form-field>
 
 
@@ -339,24 +339,22 @@
                             </mat-form-field>
 
                             <mat-form-field class="col-12">
-                              <mat-label> {{ 'app.form.city' | translate }} <strong class="red-color">*</strong>
+                              <mat-label> {{ 'app.form.city' | translate }}
                               </mat-label>
                               <mat-select formControlName="permanentCity" (selectionChange)="changeCity($event,'permanent')">
                                 <mat-option *ngFor="let city of cityTownship; let i=index" [value]="cityTownship[i].cityId">
                                   {{ city.name }} </mat-option>
                               </mat-select>
-                              <mat-error *ngIf="errorHandling('permanentCity', 'required')">
-                                {{ errorMsg.blank }}  {{ 'app.form.city' | translate }} </mat-error>
+              
                             </mat-form-field>
                             <mat-form-field  class="col-12">
-                              <mat-label> {{ 'app.form.township' | translate }} <strong class="red-color">*</strong>
+                              <mat-label> {{ 'app.form.township' | translate }} 
                               </mat-label>
                               <mat-select   formControlName="permanentTownship" >
                                 <mat-option *ngFor="let township of permanentTownshipList; let i=index" [value]="permanentTownshipList[i].townshipId">
                                   {{ township.name }} </mat-option>
                               </mat-select>
-                              <mat-error *ngIf="errorHandling('permanentTownship', 'required')">
-                                {{ errorMsg.blank }}  {{ 'app.form.township' | translate }} </mat-error>
+                    
                             </mat-form-field>
                           </mat-card>
 
@@ -385,7 +383,7 @@
                               <mat-option *ngFor="let item of yearAndMonth(100); let i = index;" value="{{ i }}">
                                 {{ i }} </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="errorHandling('yearOfStayYear', 'required')"> *{{ 'required-yearOfStay' | translate }} </mat-error>
+                            <mat-error *ngIf="errorHandling('yearOfStayYear', 'required')"> {{ 'required-yearOfStay' | translate }} </mat-error>
                           </mat-form-field>
 
                           <mat-form-field class="col-6">
@@ -395,7 +393,7 @@
                                 <mat-option *ngFor="let item of yearAndMonth(12); let i = index;"  value="{{ i }}">
                                   {{ i }} </mat-option>
                               </mat-select>
-                              <mat-error *ngIf="errorHandling('yearOfStayYear', 'required')"> *{{ 'required-monthOfStay' | translate }} </mat-error>
+                              <mat-error *ngIf="errorHandling('yearOfStayYear', 'required')"> {{ 'required-monthOfStay' | translate }}  </mat-error>
                           </mat-form-field>
                       
                         </mat-card>
@@ -431,3 +429,8 @@
     </div>
   </div>
 </div>
+<ng-template #erorrSnack>
+  <div #alert class="alert alert-danger" role="alert"> 
+      {{'required-all' | translate }} 
+  </div>
+</ng-template>

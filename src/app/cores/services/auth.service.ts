@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
 import { environment } from 'src/environments/environment';
-import { MatSnackBar } from '@angular/material';  
+import { MatSnackBar } from '@angular/material';
 
 import { ServiceNotFoundComponent } from '../notification/service-not-found/service-not-found.component';
 
@@ -17,16 +17,16 @@ export class AuthService {
   public currentUser: Observable<any>;
   public userinfo: any = {};
 
-  constructor( 
+  constructor(
     private http: HttpClient,
     private snackBarCtrl: MatSnackBar
-    ) { 
+    ) {
 
     this.currentUserObject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user_info')));
     this.currentUser = this.currentUserObject.asObservable();
 
   }
-  
+
   private basicAuthHeader() {
     let httpHeader: any = {
       'content-type': 'application/x-www-form-urlencoded',
@@ -46,7 +46,7 @@ export class AuthService {
 
   //   const body = new HttpParams().set('username', data.username).set('password', data.password) .set('grant_type', 'password');
 
-  //   return this.http.post (config.api + '/oauth/token', body, { headers: BasicAuthHeader }).pipe( 
+  //   return this.http.post (config.api + '/oauth/token', body, { headers: BasicAuthHeader }).pipe(
   //     map( (user: any) => {
 
   //       if(user.status === 'FAILED') {
@@ -62,18 +62,18 @@ export class AuthService {
   //       }
   //     }));
   // }
-  
+
   public loginFromService(data: any): Observable<any> {
 
     const body = new HttpParams().set('username', data.username).set('password', data.password) .set('grant_type', 'password');
 
-    return this.http.post (config.api + '/oauth/token', body, { headers: this.basicAuthHeader() }).pipe( 
+    return this.http.post (config.api + '/oauth/token', body, { headers: this.basicAuthHeader() }).pipe(
       map((response: any) => {
 
         if(response) {
           return response;
         }
-        
+
       },(serverError: any) => {
 
         if(serverError) {
@@ -119,7 +119,7 @@ export class AuthService {
   checkAccountLock(body: any) {
     return this.http.post(config.api + '/reset-password/check-account-lock', body, { headers: JSONHeader });
   }
-  
+
   confirmSecurityQuestionAnswer(access_token: any, body: any) {
     return this.http.post(config.api + '/reset-password/confirm-security-question-answer?access_token=' + access_token, body, { headers: JSONHeader });
   }
@@ -132,27 +132,46 @@ export class AuthService {
    return this.http.post(config.api + '/reset-password/reset-password', body);
  }
 
-  refreshToken() {
-    if(localStorage.getItem('user_info')) {
-      this.userinfo = JSON.parse(localStorage.getItem('user_info'));
-      this.getUserInformation(this.userinfo.data.access_token, this.userinfo.data.userInformationResDto.phoneNo).subscribe( 
-        (res: any) => {
-        },
+ refreshToken() {
+  if(localStorage.getItem('user_info')) {
+    this.userinfo = JSON.parse(localStorage.getItem('user_info'));
+    this.getUserInformation(this.userinfo.data.access_token, this.userinfo.data.userInformationResDto.phoneNo).subscribe(
+      (res: any) => {
+      },
 
-        (error: any) => {
-          if(error.status === 401) {
-            const requestObject = new HttpParams().set('grant_type', 'refresh_token').set('refresh_token', this.userinfo.data.refresh_token);
-            this.http.post(config.api + '/oauth/token', requestObject, { headers: BasicAuthHeader }).subscribe(
-              (res: any) => {
-                this.userinfo.data.refresh_token = res.data.refresh_token;
-                this.userinfo.data.access_token = res.data.access_token;
-                localStorage.setItem('user_info', JSON.stringify(this.userinfo));
-                location.reload();
-              });
-          }
-          
+      (error: any) => {
+        if(error.status === 401) {
+          localStorage.removeItem('user_info');
+          location.reload();
         }
-      );
-    }
+
+      }
+    );
   }
+}
+
+
+  // refreshToken() {
+  //   if(localStorage.getItem('user_info')) {
+  //     this.userinfo = JSON.parse(localStorage.getItem('user_info'));
+  //     this.getUserInformation(this.userinfo.data.access_token, this.userinfo.data.userInformationResDto.phoneNo).subscribe(
+  //       (res: any) => {
+  //       },
+
+  //       (error: any) => {
+  //         if(error.status === 401) {
+  //           const requestObject = new HttpParams().set('grant_type', 'refresh_token').set('refresh_token', this.userinfo.data.refresh_token);
+  //           this.http.post(config.api + '/oauth/token', requestObject, { headers: BasicAuthHeader }).subscribe(
+  //             (res: any) => {
+  //               this.userinfo.data.refresh_token = res.data.refresh_token;
+  //               this.userinfo.data.access_token = res.data.access_token;
+  //               localStorage.setItem('user_info', JSON.stringify(this.userinfo));
+  //               location.reload();
+  //             });
+  //         }
+
+  //       }
+  //     );
+  //   }
+  // }
 }

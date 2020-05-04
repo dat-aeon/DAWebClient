@@ -106,7 +106,7 @@
                             <button mat-button *ngIf="(editStatus &&  hidePreviewButton )|| (editStatus && hideUpdateButton)" (click)="editProfileStatus()" class="edit">
                                 <mat-icon>create</mat-icon> <span> {{ 'btn.request' | translate }}  </span> 
                             </button>
-                            <button mat-button *ngIf="!hidePreviewButton && editStatus" (click)=" this.router.navigate(['profile-edit-preview']);" class="edit">
+                            <button mat-button *ngIf="!hidePreviewButton && editStatus" (click)="previewEdit()" class="edit">
                  <span>Preview Edit Request  </span> 
                             </button>
                             <button mat-button *ngIf="!editStatus " (click)="onSubmit()" [disabled]="loading" class="edit">

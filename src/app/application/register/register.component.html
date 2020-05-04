@@ -1,22 +1,22 @@
 <div class="row" id="row">
-    <mat-horizontal-stepper [linear]="isLinear" #stepper class="mat-stapper-wrapper">
-        <mat-step [stepControl]="1" label="1/5">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper class="mat-stapper-wrapper" (selectionChange)="getData($event)">
+        <mat-step [stepControl]="step.state1" label="1/5">
           <app-applicaton-registration-form></app-applicaton-registration-form>
         </mat-step>
-    
-        <mat-step [stepControl]="2" label="2/5">
+
+        <mat-step [stepControl]="step.state2" label="2/5">
             <app-application-occupation-form></app-application-occupation-form>
         </mat-step>
 
-        <mat-step [stepControl]="3" label="3/5">
+        <mat-step [stepControl]="step.state3" label="3/5">
             <app-applicationem-ergency-contact-form></app-applicationem-ergency-contact-form>
         </mat-step>
 
-        <mat-step [stepControl]="4" label="4/5">
+        <mat-step [stepControl]="step.state4" label="4/5">
             <app-applicationemguarantor-formm></app-applicationemguarantor-formm>
         </mat-step>
-    
-        <mat-step [stepControl]="5" label="5/5">
+
+        <mat-step [stepControl]="step.state5" label="5/5">
             <app-application-loan-form></app-application-loan-form>
         </mat-step>
     </mat-horizontal-stepper>

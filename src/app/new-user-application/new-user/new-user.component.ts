@@ -1,5 +1,5 @@
 
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { numOnlyValidator, languageValidator, errorMessage, stayPeriodValidator } from 'src/app/cores/helper/validators';
@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 
 
@@ -46,6 +47,8 @@ export class NewUserComponent implements OnInit {
   typeOfResidenceSelected: any;
   selectedNrcList: any = null;
 
+  @ViewChild('erorrSnack', { static: false })
+  erorrSnack: any = TemplateRef;
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +57,8 @@ export class NewUserComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private modalService: NgbModal,
+    private snackBar: MatSnackBar,
+    
 
   
   ) {
@@ -61,6 +66,12 @@ export class NewUserComponent implements OnInit {
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
       console.log(this.newRegister);
+    if(this.dataService.formError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.dataService.formError=false;
+    }
+    
+
 
 
     } else {
@@ -264,11 +275,11 @@ export class NewUserComponent implements OnInit {
 
 
 
-changeCity($event: any, $current: any) {
+changeCity($event: any, current: any) {
  console.log($event.value);
  this.cityTownship.find( (key: any) => {
   if (Number($event.value) === key.cityId) {
-    if($current.value==="current"){
+    if(current==="current"){
       this.currentTownshipList = key.townshipInfoList;
     }
  else{
@@ -343,14 +354,21 @@ changeCity($event: any, $current: any) {
     this.newRegister.highestEducationTypeId = this.f.education.value;
     this.newRegister.yearOfStayYear = this.f.yearOfStayYear.value;
     this.newRegister.yearOfStayMonth = this.f.yearOfStayMonth.value;
-
+    if(this.newUserForm.invalid){
+    this.newRegister.applicantFormError=true;
+  }
+  else{
+this.newRegister.applicantFormError=false;
+  }
     localStorage.setItem('newRegister', JSON.stringify(this.newRegister));
   }
 
   clickLink($event: any){
     this.submitted = true;
     this.nextLoading = true;
-    if (this.newUserForm.invalid) { this.nextLoading = false; return; }
+    if (this.newUserForm.invalid) { 
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.nextLoading = false; return; }
     this.saveDraft();
     console.log('Next');
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});

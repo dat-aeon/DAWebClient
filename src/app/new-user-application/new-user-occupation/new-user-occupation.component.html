@@ -38,7 +38,7 @@
                             <input matInput type="text" autocomplete="off" maxLength="100" formControlName="companyName" oninput="this.value = this.value.toUpperCase()">
                             <mat-hint align="end">{{ f.companyName.value?.length || 0 }}/100 </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('companyName', 'required')">{{ errorMsg.blank }} {{'app.form.companyName'| translate}}
+                            <mat-error *ngIf="errorHandling('companyName', 'required')">{{ 'required-company' | translate }} 
                             </mat-error>
 
                           </mat-form-field>
@@ -51,7 +51,7 @@
                             <input matInput type="text" autocomplete="off" maxLength="11" formControlName="companyTelNo" numbersOnly>
                             <mat-hint align="end">{{ f.companyTelNo.value?.length || 0 }}/11 </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('companyTelNo', 'required')">{{ errorMsg.blank }}  {{'app.form.companyTelNo' | translate }}
+                            <mat-error *ngIf="errorHandling('companyTelNo', 'required')">{{ 'required-companyPhone' | translate }} 
                             </mat-error>
 
                             <mat-error *ngIf="errorHandling('companyTelNo', 'onlyNumber')"> {{ errorMsg.number }}
@@ -80,7 +80,7 @@
                             <input matInput autocomplete="off" type="text" maxLength="100" formControlName="department" oninput="this.value = this.value.toUpperCase()">
                             <mat-hint align="end">{{ f.department.value?.length || 0 }}/100 </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('department', 'required')">{{ errorMsg.blank }} {{'app.form.department' | translate }} </mat-error>
+                            <mat-error *ngIf="errorHandling('department', 'required')">{{ 'required-department' | translate }} </mat-error>
 
                           </mat-form-field>
 
@@ -90,7 +90,7 @@
                             <input matInput autocomplete="off" type="text" maxLegth="50" formControlName="position" oninput="this.value = this.value.toUpperCase()">
                             <mat-hint align="end">{{ f.department.value?.length || 0 }}/50 </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('position', 'required')">{{ errorMsg.blank }} {{'app.form.position' | translate }} </mat-error>
+                            <mat-error *ngIf="errorHandling('position', 'required')">{{ 'required-position' | translate }} </mat-error>
                             <mat-error *ngIf="errorHandling('position', 'langError')"> {{ errorMsg.language }}
                             </mat-error>
                           </mat-form-field>
@@ -102,7 +102,7 @@
                               <mat-option *ngFor="let item of yearAndMonth(100); let i = index;" value="{{ i }}">
                                 {{ i }} </mat-option>
                               </mat-select>
-                              <mat-error *ngIf="errorHandling('yearOfServiceYear', 'required')"> *{{ 'required-serviceYear' | translate }} </mat-error>
+                              <mat-error *ngIf="errorHandling('yearOfServiceYear', 'required')">{{ 'required-serviceYear' | translate }}  </mat-error>
                           </mat-form-field>
 
                           <mat-form-field class="col-6">
@@ -112,7 +112,7 @@
                               <mat-option *ngFor="let item of yearAndMonth(12); let i = index;" value="{{ i }}"  >
                                 {{ i }} </mat-option>
                               </mat-select>
-                              <mat-error *ngIf="errorHandling('yearOfServiceYear', 'required')"> *{{ 'required-serviceMonth' | translate }} </mat-error>
+                              <mat-error *ngIf="errorHandling('yearOfServiceYear', 'required')"> {{ 'required-serviceMonth' | translate }} </mat-error>
                           </mat-form-field>
                         
 
@@ -142,7 +142,7 @@
                             <input matInput autocomplete="off" type="text" maxlength="50" formControlName="companyStatusOther" oninput="this.value = this.value.toUpperCase()">
                             <mat-hint align="end">{{ f.companyStatusOther.value?.length || 0 }}/50 </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('companyStatusOther', 'required')">{{ errorMsg.blank }} {{'app.form.companyStatusOther' | translate }}
+                            <mat-error *ngIf="errorHandling('companyStatusOther', 'required')">{{ 'required-otherCompany' | translate }} 
                             </mat-error>
 
                           </mat-form-field>
@@ -195,7 +195,7 @@
                                 {{ f.companyStreet.value?.length || 0 }}/100 </mat-hint>
 
                               <mat-error *ngIf="errorHandling('companyStreet', 'required')">
-                                {{ errorMsg.blank }} {{ 'app.form.street' | translate }} </mat-error>
+                                {{ 'required-companyAddressStreet'|translate }}  </mat-error>
                             </mat-form-field>
 
                             <mat-form-field hintLabel="Max 100 characters" class="col-12">
@@ -206,7 +206,7 @@
                                 {{ f.companyQtr.value?.length || 0 }}/100 </mat-hint>
 
                               <mat-error *ngIf="errorHandling('companyQtr', 'required')">
-                                {{ errorMsg.blank }} {{ 'app.form.qtr' | translate }} </mat-error>
+                                {{ 'required-companyAddressQtr'| translate }} </mat-error>
                             </mat-form-field>
 
 
@@ -218,7 +218,7 @@
                                   {{ city.name }} </mat-option>
                               </mat-select>
                               <mat-error *ngIf="errorHandling('companyCity', 'required')">
-                                {{ errorMsg.blank }}  {{ 'app.form.city' | translate }} </mat-error>
+                                {{'required-companyAddressCity'| translate}}</mat-error>
                             </mat-form-field>
                             <mat-form-field  class="col-12">
                               <mat-label> {{ 'app.form.township' | translate }} <strong class="red-color">*</strong>
@@ -228,16 +228,16 @@
                                   {{ township.name }} </mat-option>
                               </mat-select>
                               <mat-error *ngIf="errorHandling('companyTownship', 'required')">
-                                {{ errorMsg.blank }}  {{ 'app.form.township' | translate }} </mat-error>
+                                {{'required-companyAddressTownship' | translate}} </mat-error>
                             </mat-form-field>
                           </mat-card>
                           <mat-card class="col-12 mt-2" >
                           <mat-form-field class="col-6"  (change)="calculate($event,'monthly')" hintLabel="{{ 'required-digit10' | translate }}"> 
                             <mat-label> {{'app.form.monthlyBasicIncome' | translate }} <strong
                                 class="red-color">*</strong> </mat-label>
-                            <input matInput type="text" formControlName="monthlyBasicIncome" autocomplete="off" [ngAutonumeric]="currencyOption" >
+                               <input matInput type="text" formControlName="monthlyBasicIncome" autocomplete="off" [ngAutonumeric]="currencyOption" >
 
-                            <mat-error *ngIf="errorHandling('monthlyBasicIncome', 'required')">{{ errorMsg.blank }}  {{'app.form.monthlyBasicIncome' | translate }}
+                            <mat-error *ngIf="errorHandling('monthlyBasicIncome', 'required')">{{ 'required-monthlyBasicIncome' | translate }}
                             </mat-error>
                             
                           </mat-form-field>
@@ -278,7 +278,7 @@
                     <mat-card-actions>
                       <div class="row">
                         <div class="col-md-12">
-                          <button mat-button (click)="saveDraft();  this.router.navigate(['/new-user/'], { queryParams:  filter, skipLocationChange: true});" class="back">
+                          <button mat-button (click)="back()" class="back">
                             <mat-icon> keyboard_arrow_left </mat-icon>
                             <span> {{'btn.back' | translate }} </span>
                           </button>
@@ -305,3 +305,8 @@
     </div>
   </div>
 </div>
+<ng-template #erorrSnack>
+  <div #alert class="alert alert-danger" role="alert"> 
+      {{'required-all' | translate }} 
+  </div>
+</ng-template>

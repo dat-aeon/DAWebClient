@@ -1,5 +1,5 @@
  export class NewRegisterForm {
-   name: string;
+   name: any;
     dob: Date;
     mobileNo: number;
     nrcNo: string ;

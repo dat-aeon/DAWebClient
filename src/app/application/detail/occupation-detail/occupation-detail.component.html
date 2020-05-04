@@ -29,74 +29,105 @@
                             <div class="col-lg-6 col-12">
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{'app.form.companyName' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.companyName }} </div>
+                                    <div id="occupationName" class="col-md-8 col-12"> {{ appInfo.companyName?appInfo.companyName:'-' }} </div>
                                 </div>
+                                <mat-card-header>
+                                    <mat-card-title>
+                                      <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.companyAddress'| translate}}
+                                      </h4>
+                                    </mat-card-title>
+                                  </mat-card-header>
 
                                 <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.companyAddress' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.companyAddress }}</div>
+                                    <label for="companyAddressBuildingNo" class="col-md-4 col-12 col-form-label">{{ 'app.form.buildingNo' | translate }} </label>
+                                    <div id="occupationCompAddBuildingNo" class="col-md-8 col-12"> {{ appInfo.companyAddressBuildingNo?appInfo.companyAddressBuildingNo:'-' }}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="companyAddressRoomNo" class="col-md-4 col-12 col-form-label">{{ 'app.form.roomNo' | translate }} </label>
+                                    <div id="occupationCompAddRoomNo" class="col-md-8 col-12"> {{ appInfo.companyAddressRoomNo?appInfo.companyAddressRoomNo:'-' }}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="companyAddressFloor" class="col-md-4 col-12 col-form-label">{{ 'app.form.floor' | translate }} </label>
+                                    <div id="occuaptionCompAddFloor" class="col-md-8 col-12"> {{ appInfo.companyAddressFloor?appInfo.companyAddressFloor:'-' }}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="companyAddressStreet" class="col-md-4 col-12 col-form-label">{{ 'app.form.street' | translate }} </label>
+                                    <div id="occupationCompAddStreet" class="col-md-8 col-12"> {{ appInfo.companyAddressStreet?appInfo.companyAddressStreet:'-' }}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="companyAddressQtr" class="col-md-4 col-12 col-form-label">{{ 'app.form.qtr' | translate }} </label>
+                                    <div id="occupationCompAddQtr" class="col-md-8 col-12"> {{ appInfo.companyAddressQtr?appInfo.companyAddressQtr:'-' }}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="companyAddressTownship" class="col-md-4 col-12 col-form-label">{{ 'app.form.township' | translate }} </label>
+                                    <div id="occuaptionCompAddTownship" class="col-md-8 col-12"> {{ appInfo.companyAddressTownship?appInfo.companyAddressTownship:'-' }}</div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="companyAddressCity" class="col-md-4 col-12 col-form-label">{{ 'app.form.city' | translate }} </label>
+                                    <div id="occuaptionCompAddCity" class="col-md-8 col-12"> {{ appInfo.companyAddressCity?appInfo.companyAddressCity:'-' }}</div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.companyTelNo' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.companyTelNo }}</div>
+                                    <div id="occupationCompanyTelNo" class="col-md-8 col-12"> {{ appInfo.companyTelNo?appInfo.companyTelNo:'-' }}</div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label">{{ 'app.form.contactTime' | translate }} </label>
-                                    <div class="col-md-4 col-12"> {{ appInfo.contactTimeFrom }} </div>
-                                    <div class="col-md-4 col-12"> {{ appInfo.contactTimeTo }} </div>
+                                    <div id="occuaptionContactTimeFrom" class="col-md-4 col-12"> {{ appInfo.contactTimeFrom?appInfo.contactTimeFrom:'-' }} </div>
+                                    <div id="occupationContactTimeTo" class="col-md-4 col-12"> {{ appInfo.contactTimeTo?appInfo.contactTimeTo:'-' }} </div>
                                 </div>       
 
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.department' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.department }} </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.position' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.position }} </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.yearOfService' | translate }} </label>
-                                    <div class="col-md-4 col-12">
-                                        {{ appInfo.yearOfServiceYear }}
-                                        <span *ngIf="appInfo.yearOfServiceYear > 1"> Years </span> 
-                                        <span *ngIf="appInfo.yearOfServiceYear === 1 || appInfo.yearOfServiceYear === 0"> Year </span> 
-                                    </div>
-                                     <div class="col-md-4 col-12"> 
-                                         {{ appInfo.yearOfServiceMonth }}
-                                         <span *ngIf="appInfo.yearOfServiceMonth > 1"> Months </span> 
-                                         <span *ngIf="appInfo.yearOfServiceMonth === 1 || appInfo.yearOfServiceMonth === 0"> Month </span>  
-                                    </div>
-                                </div>       
+                                   
                             </div>
 
                             <div class="col-lg-6 col-12"> 
                                 <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.department' | translate }} </label>
+                                    <div id="occupationDepartment" class="col-md-8 col-12"> {{ appInfo.department?appInfo.department:'-' }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label">{{ 'app.form.position' | translate }} </label>
+                                    <div id="occupationPostion" class="col-md-8 col-12"> {{ appInfo.position?appInfo.position:'-' }} </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.yearOfService' | translate }} </label>
+                                    <div id="occupationYOService" class="col-md-4 col-12">
+                                        {{ appInfo.yearOfServiceYear }}
+                                        <span *ngIf="appInfo.yearOfServiceYear > 1"> Years </span> 
+                                        <span *ngIf="appInfo.yearOfServiceYear === 1 || appInfo.yearOfServiceYear === 0"> Year </span> 
+                                    </div>
+                                     <div id="occupationMOService" class="col-md-4 col-12"> 
+                                         {{ appInfo.yearOfServiceMonth }}
+                                         <span *ngIf="appInfo.yearOfServiceMonth > 1"> Months </span> 
+                                         <span *ngIf="appInfo.yearOfServiceMonth === 1 || appInfo.yearOfServiceMonth === 0"> Month </span>  
+                                    </div>
+                                </div>    
+                                <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.companyStatus' | translate }} </label>
-                                    <div class="col-12 col-md-8"> {{ appInfo.companyStatus | companyStatus: appInfo.companyStatusOther }} </div>
+                                    <div id="occupationCompanyStatus" class="col-12 col-md-8"> {{ appInfo.companyStatus | companyStatus: appInfo.companyStatusOther }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label">{{ 'app.form.monthlyBasicIncome' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.monthlyBasicIncome }} Ks </div>
+                                    <div id="occupationBasicIncome" class="col-md-8 col-12"> {{ appInfo.monthlyBasicIncome?appInfo.monthlyBasicIncome:'-' }} Ks </div>
                                 </div>
     
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label">  {{ 'app.form.otherIncome' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.otherIncome }} Ks </div>
+                                    <div id="occuaptionOtherIncome" class="col-md-8 col-12"> {{ appInfo.otherIncome?appInfo.otherIncome:'-' }} Ks </div>
                                 </div>
     
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.totalIncome' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.totalIncome }} Ks </div>
+                                    <div id="occupationTotalIncome" class="col-md-8 col-12"> {{ appInfo.totalIncome?appInfo.totalIncome:'-' }} Ks </div>
                                 </div> 
     
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.salaryDay' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.salaryDay }}  Days </div>
+                                    <div id="occupationSalaryDay" class="col-md-8 col-12"> {{ appInfo.salaryDay }}  Days </div>
                                 </div>                            
                             </div>
                         </div>
@@ -105,16 +136,16 @@
                     <mat-card-actions>
                         <div class="row">
                             <div class="col-md-12">
-                                <button mat-button routerLink="/application-detail/{{ id }}" class="back"> 
+                                <a mat-button routerLink="/application-detail" [state]="{ orderId: id }" class="back"> 
                                     <mat-icon> keyboard_arrow_left </mat-icon>
                                     <span> {{'btn.back' | translate }}  </span>
-                                </button>
+                                </a>
     
                                 <div class="btn-group-align-right">
-                                    <button mat-button routerLink="/emergency-contact-detail/{{ id }}">
+                                    <a mat-button routerLink="/emergency-contact-detail" [state]="{ orderId: id }">
                                         <span> {{ 'btn.next' | translate }} </span> 
                                         <mat-icon>keyboard_arrow_right</mat-icon> 
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

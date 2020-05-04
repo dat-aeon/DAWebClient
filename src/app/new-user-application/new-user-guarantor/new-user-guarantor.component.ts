@@ -1,9 +1,9 @@
 import { NationalityPipe } from './../../pipes/nationality.pipe';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import {  errorMessage, numOnlyValidator, phoneNumValidator, guarantorPeriodValidator, servicePeriodValidator } from 'src/app/cores/helper/validators';
+import {  errorMessage, numOnlyValidator, phoneNumValidator, guarantorPeriodValidator, servicePeriodValidator, minLength } from 'src/app/cores/helper/validators';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { nrcFormat } from 'src/app/cores/configuration';
@@ -11,6 +11,7 @@ import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NumeralPipe } from 'ngx-numeral';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-user-guarantor',
@@ -62,6 +63,10 @@ export class NewUserGuarantorComponent implements OnInit {
     maximumValue: '99999999',
     selectNumberOnly: true
   }
+  
+  @ViewChild('erorrSnack', { static: false })
+  erorrSnack: any = TemplateRef;
+
 
   constructor(
     private router: Router,
@@ -69,15 +74,22 @@ export class NewUserGuarantorComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
     private modalService: NgbModal,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     console.log('Constructor');
     this.modalOptions = { backdrop: 'static', backdropClass: 'customBackdrop' };   if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
       console.log(this.newRegister);
-      if(!('emergencyContactInfoDto' in this.newRegister)){
+      if(!('emergencyContactInfoDto' in this.newRegister) ||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError || this.newRegister.emergencyContactInfoDto.emergencyFormError){
+        this.dataService.formError=true;
         this.router.navigate(['/new-user-emergency/']);
       }
+      if(this.dataService.formError){
+        this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.dataService.formError=false;
+      }
+  
 
     } else {
       this.router.navigate(['login']);
@@ -125,7 +137,7 @@ export class NewUserGuarantorComponent implements OnInit {
       nrcNo: [, [Validators.required, numOnlyValidator]],
       nationality: [1, [Validators.required]],
       nationalityOther: [this.guarantorInfoDto.nationalityOther, [Validators.required]],
-      mobileNo: [this.guarantorInfoDto.mobileNo, [Validators.required,phoneNumValidator]],
+      mobileNo: [this.guarantorInfoDto.mobileNo, [Validators.required, numOnlyValidator, phoneNumValidator, minLength(9)]],
       residentTelNo: [this.guarantorInfoDto.residentTelNo],
       relationship: [1],
       relationshipOther: [this.guarantorInfoDto.relationshipOther, [Validators.required]],
@@ -423,6 +435,14 @@ export class NewUserGuarantorComponent implements OnInit {
     };
 
    this.newRegister.guarantorInfoDto=guarantorInfoDto;
+
+   if(this.guarantorForm.invalid){
+     this.newRegister.guarantorInfoDto.guarantorFormError=true;
+
+   }
+   else{
+     this.newRegister.guarantorInfoDto.guarantorFormError=false;
+   }
     localStorage.setItem('newRegister', JSON.stringify(this.newRegister));
   }
 
@@ -496,7 +516,9 @@ export class NewUserGuarantorComponent implements OnInit {
        clickLink($event: any){
         this.submitted = true;
         this.nextLoading = true;
-        if (this.guarantorForm.invalid) { this.nextLoading = false; return; }
+        if (this.guarantorForm.invalid) { 
+          this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+          this.nextLoading = false; return; }
         this.saveDraft();
         console.log('Next');
         this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
@@ -506,6 +528,9 @@ export class NewUserGuarantorComponent implements OnInit {
   clickBackLink($event: any){
     this.saveDraft();
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
+  }
+  back(){
+    this.saveDraft(); this.router.navigate(['/new-user-emergency'], { queryParams:  filter, skipLocationChange: true});
   }
 
 }

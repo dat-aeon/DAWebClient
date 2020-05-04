@@ -36,7 +36,7 @@
                               </mat-label>
                               <input matInput autocomplete="off" type="text" formControlName="name"  oninput="this.value = this.value.toUpperCase()" >
 
-                              <mat-error *ngIf="errorHandling('name', 'required')">{{ errorMsg.blank }}  {{ 'app.form.name' | translate }} </mat-error>
+                              <mat-error *ngIf="errorHandling('name', 'required')">{{ 'required-name' | translate }}  </mat-error>
 
                             </mat-form-field>
 
@@ -58,22 +58,22 @@
                               <input matInput autocomplete="off" type="text" maxLength="50" formControlName="relationshipOther" oninput="this.value = this.value.toUpperCase()" />
                               <mat-hint align="end">{{ f.relationshipOther.value?.length || 0 }}/50 </mat-hint>
 
-                              <mat-error *ngIf="errorHandling('relationshipOther', 'required')">{{ errorMsg.blank }}  {{ 'app.form.relationshipOther' | translate }}
+                              <mat-error *ngIf="errorHandling('relationshipOther', 'required')"> {{ 'required-otherRelationship' | translate }}
                               </mat-error>
 
                             </mat-form-field>
                             <mat-form-field class="col-12">
                               <mat-label> {{ 'app.form.mobileNo' | translate }} <strong class="red-color">*</strong>
                               </mat-label>
-                              <input matInput autocomplete="off" type="text" maxLength="11" formControlName="mobileNo" numbersOnly>
+                              <input matInput autocomplete="off" type="text" maxLength="11" minLength="9"  formControlName="mobileNo" numbersOnly>
                               <mat-hint align="end"> {{ f.mobileNo.value?.length || 0 }}/11 </mat-hint>
 
-                              <mat-error *ngIf="errorHandling('mobileNo', 'required')">{{ errorMsg.blank }} {{ 'app.form.mobileNo' | translate }}
+                              <mat-error *ngIf="errorHandling('mobileNo', 'required')"> {{ 'required-phone' | translate }}
                               </mat-error>
-                              <mat-error *ngIf="errorHandling('mobileNo', 'onlyNumber')"> {{ errorMsg.number }}
+
+                              <mat-error *ngIf="errorHandling('mobileNo', 'validPhone')">{{ 'required-mobile' | translate }}
                               </mat-error>
-                              <mat-error *ngIf="errorHandling('mobileNo', 'validPhone')"> {{ errorMsg.validPhone }}
-                              </mat-error>
+                              <mat-error *ngIf="errorHandling('mobileNo', 'minDigit')"> {{ 'required-digit9Phone' | translate }} </mat-error>
                             </mat-form-field>
 
                             <mat-form-field class="col-12">
@@ -151,7 +151,7 @@
                                   {{ f.currentStreet.value?.length || 0 }}/100 </mat-hint>
 
                                 <mat-error *ngIf="errorHandling('currentStreet', 'required')">
-                                  {{ errorMsg.blank }} {{ 'app.form.street' | translate }} </mat-error>
+                                  {{'required-currentAddressStreet'| translate}}</mat-error>
                               </mat-form-field>
 
                               <mat-form-field hintLabel="Max 100 characters" class="col-12">
@@ -163,7 +163,7 @@
                                   {{ f.currentQtr.value?.length || 0 }}/100 </mat-hint>
 
                                 <mat-error *ngIf="errorHandling('currentQtr', 'required')">
-                                  {{ errorMsg.blank }} {{ 'app.form.qtr' | translate }} </mat-error>
+                                  {{'required-currentAddressQtr'|translate}} </mat-error>
                               </mat-form-field>
 
                               <mat-form-field class="col-12">
@@ -174,7 +174,7 @@
                                     {{ city.name }} </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="errorHandling('currentCity', 'required')">
-                                  {{ errorMsg.blank }}  {{ 'app.form.city' | translate }} </mat-error>
+                                  {{'required-currentAddressCity'| translate}}</mat-error>
                               </mat-form-field>
                               <mat-form-field  class="col-12">
                                 <mat-label> {{ 'app.form.township' | translate }} <strong class="red-color">*</strong>
@@ -184,7 +184,7 @@
                                     {{ township.name }} </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="errorHandling('currentTownship', 'required')">
-                                  {{ errorMsg.blank }}  {{ 'app.form.township' | translate }} </mat-error>
+                                  {{'required-currentAddressTownship'| translate}} </mat-error>
                               </mat-form-field>
                             </mat-card>
 
@@ -196,7 +196,7 @@
                       <mat-card-actions>
                         <div class="row">
                           <div class="col-md-12">
-                            <button mat-button (click)="saveDraft(); this.router.navigate(['/new-user-occupation/'], { queryParams:  filter, skipLocationChange: true});" class="back">
+                            <button mat-button (click)="back()" class="back">
                               <mat-icon> keyboard_arrow_left </mat-icon>
                               <span> {{'btn.back' | translate }} </span>
                             </button>
@@ -224,3 +224,8 @@
     </div>
   </div>
 </div>
+<ng-template #erorrSnack>
+  <div #alert class="alert alert-danger" role="alert"> 
+      {{'required-all' | translate }} 
+  </div>
+</ng-template>

@@ -43,6 +43,7 @@ export class ApplicationDataComponent implements OnInit {
 
       if(res.status === 'SUCCESS' && res.data !== null ) { 
         this.appInfo = res.data;
+        console.log(this.appInfo);
       }
     });
   }

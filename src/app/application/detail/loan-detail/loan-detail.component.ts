@@ -39,6 +39,7 @@ export class LoanDetailComponent implements OnInit {
   hccaObject: any = {};
   appPhotoObject: any = {};
   csmSignObject: any = {};
+  guarantorSignObject:any={};
   loanInfo: any = {};
   responseMessage: any;
   loanCalculateInfo: any = {};
@@ -78,7 +79,6 @@ export class LoanDetailComponent implements OnInit {
 
   private loadLoanInfo() {
     this.dataService.getApplicationInfoDetail(this.currentUser.access_token, this.id).subscribe( (res: any) => {
-      console.log(res);
       if(Number(res.data.status) === 5) {
         this.loanEdit = true;
       }
@@ -105,10 +105,6 @@ export class LoanDetailComponent implements OnInit {
         });
       });
 
-      // this.dataService.getLoanCalculate(this.currentUser.access_token, body).subscribe( (res: any) => {
-      //   this.loanCalculateInfo = res.data;
-      // });
-
       this.appInfo = res.data;
       this.appInfo.financeAmount = new NumeralPipe(res.data.financeAmount).format('0,0');
       this.appInfo.processingFees = new NumeralPipe(res.data.processingFees).format('0,0');
@@ -129,6 +125,7 @@ export class LoanDetailComponent implements OnInit {
       this.hccaObject = res.data.applicationInfoAttachmentDtoList[6];
       this.appPhotoObject = res.data.applicationInfoAttachmentDtoList[7];
       this.csmSignObject = res.data.applicationInfoAttachmentDtoList[8];
+      this.guarantorSignObject= res.data.applicationInfoAttachmentDtoList[9];
 
     });
   }
@@ -177,7 +174,8 @@ export class LoanDetailComponent implements OnInit {
         this.gnrcbObject,
         this.hccaObject, 
         this.appPhotoObject,
-        this.csmSignObject
+        this.csmSignObject,
+        this.guarantorSignObject,
       ]
     }
 

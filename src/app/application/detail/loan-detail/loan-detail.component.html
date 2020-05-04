@@ -29,64 +29,50 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group row">
                                     <label for="status" class="col-md-6 col-12 col-form-label">{{ 'loan.status' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.status | status }} </div>
+                                    <div id="applicationStatus" class="col-md-6 col-12"> {{ appInfo.status | status }} </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="loan_type" class="col-md-6 col-12 col-form-label"> {{ 'app.loantype' | translate }}  </label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.daLoanTypeTitle }} </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="product_category" class="col-md-6 col-12 col-form-label"> {{ 'app.productCategories' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.productType }} </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="product_category" class="col-md-6 col-12 col-form-label"> {{ 'app.productDescription' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.productDescription }} </div>
-                                </div>
-
+                           
                                 <div class="form-group row">
                                     <label for="finance_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.financeAmount' | translate }} </label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.financeAmount }} </div>
+                                    <div id="financeAmount" class="col-md-6 col-12"> {{ appInfo.financeAmount?appInfo.financeAmount:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="term_of_finance" class="col-md-6 col-12 col-form-label">Term of Finance</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.financeTerm }} </div>
+                                    <div id="financeTerm" class="col-md-6 col-12"> {{ appInfo.financeTerm?appInfo.financeTerm:'-' }} </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group row">
                                     <label for="processing_fees" class="col-md-6 col-12 col-form-label"> {{ 'app.processingFees' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.processingFees }} </div>
+                                    <div id="processingFees" class="col-md-6 col-12"> {{ appInfo.processingFees?appInfo.processingFees:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="compuslory_saving" class="col-md-6 col-12 col-form-label"> {{ 'app.conSaving' | translate }} </label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.conSaving }} </div>
+                                    <div id="conpuslorySaving" class="col-md-6 col-12"> {{ appInfo.conSaving?appInfo.conSaving:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="total_repayment_amount" class="col-md-6 col-12 col-form-label"> {{'app.totalRepayment' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.totalRepayment }}  </div>
+                                    <div id="totalRepayment" class="col-md-6 col-12"> {{ appInfo.totalRepayment?appInfo.totalRepayment:'-' }}  </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="first_repayment_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.firstPayment' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.firstPayment }} </div>
+                                    <div id="firstRepayment" class="col-md-6 col-12"> {{ appInfo.firstPayment?appInfo.firstPayment:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="monthly_repayment_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.monthlyPayment' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.firstPayment }} </div>
+                                    <div id="monthlyRepayment" class="col-md-6 col-12"> {{ appInfo.monthlyInstallment?appInfo.monthlyInstallment:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="last_payment" class="col-md-6 col-12 col-form-label"> {{ 'app.lastPayment' | translate }}</label>
-                                    <div class="col-md-6 col-12"> {{ appInfo.firstPayment }} </div>
+                                    <div id="lastRepayment" class="col-md-6 col-12"> {{ appInfo.lastPayment?appInfo.lastPayment:'-' }} </div>
                                 </div>
                             </div>
 
@@ -224,16 +210,28 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{'app.guarantorSign' | translate }}  </label>
+                                    <div class="col-8 col-md-8 flex-main">
+                                        <img class="img-fluid" *ngIf="guarantorSignObject.filePath && guarantorSignObject.photoByte  === null" class="img-fluid" [src]="imagePath + guarantorSignObject.filePath" alt="{{'app.guarantorSign' | translate }}" title="{{'app.guarantorSign' | translate }}" />
+                                        <img class="img-fluid" *ngIf="guarantorSignObject.photoByte" class="img-fluid" [src]="imageType + guarantorSignObject.photoByte" alt="{{'app.guarantorSign' | translate }}" title="{{'app.guarantorSign' | translate }}"  />    
+                                    </div>
+                                    
+                                 
+                                </div>
+                            </div>
                         </div>
                     </mat-card-content>
 
                     <mat-card-actions>
                         <div class="row">
                             <div class="col-md-12">
-                                <button mat-button routerLink="/guarantor-detail/{{ id }}" class="back"> 
+                                <a mat-button routerLink="/guarantor-detail" [state]="{ orderId: id }" class="back"> 
                                     <mat-icon> keyboard_arrow_left </mat-icon>
                                     <span> {{'btn.back' | translate }}  </span>
-                                </button>
+                                </a>
     
                                 <div class="btn-group-align-right">
                                     <button mat-button (click)="editPhoto()" *ngIf="loanEdit">

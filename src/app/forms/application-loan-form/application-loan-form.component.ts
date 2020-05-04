@@ -7,6 +7,11 @@ import { DataService } from 'src/app/cores/helper/data.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NumeralPipe } from 'ngx-numeral';
 import { Router } from '@angular/router';
+import { ApplicationFormService } from 'src/app/cores/services/application-form.service';
+import { appForm } from 'src/app/cores/helper/app-form';
+import { combineAll } from 'rxjs/operators';
+import { RegisterComponent } from 'src/app/application/register/register.component';
+
 
 @Component({
   selector: 'app-application-loan-form',
@@ -17,6 +22,7 @@ import { Router } from '@angular/router';
 export class ApplicationLoanFormComponent implements OnInit {
 
   loanForm: FormGroup;
+  form: appForm;
   passwordConfirmForm: any = FormGroup;
 
   maxDate: any = new Date(Date.now());
@@ -39,7 +45,8 @@ export class ApplicationLoanFormComponent implements OnInit {
     decimalPlaces: '0',
     digitGroupSeparator: ',',
     digitalGroupSpacing: '3',
-    maximumValue: '10000000000',
+    maximumValue: '2000000',
+    minimumValue: '0',
     selectNumberOnly: true
   }
 
@@ -52,7 +59,7 @@ export class ApplicationLoanFormComponent implements OnInit {
   householdCriminalClearanceObject: any = { fileType: 7 };
   applicationPhotoObject: any = { fileType: 8 };
   customerSignObject: any = { fileType: 9 };
-  guarantorSignObject: any ={fileType:11};
+  guarantorSignObject: any = {fileType: 11 };
 
   applicationInfoAttachmentDtoList: any = [
     this.nrcFrontObject,
@@ -64,7 +71,7 @@ export class ApplicationLoanFormComponent implements OnInit {
     this.householdCriminalClearanceObject,
     this.applicationPhotoObject,
     this.customerSignObject,
-    this.guarantorSignObject
+    this.guarantorSignObject,
   ];
 
   loanCalculateObject: any = {};
@@ -74,7 +81,7 @@ export class ApplicationLoanFormComponent implements OnInit {
   loading: boolean = false;
 
   @ViewChild('erorrSnack', { static: false })
-  erorrSnack: any = TemplateRef; 
+  erorrSnack: any = TemplateRef;
 
   @ViewChild('successfullSave', { static: false })
   saveSnackBar: any = TemplateRef;
@@ -88,6 +95,8 @@ export class ApplicationLoanFormComponent implements OnInit {
   @ViewChild('applicationFail', { static: false })
   applicationFail: any = TemplateRef;
 
+  @ViewChild('stepper', { static: false }) stepper:any = TemplateRef;
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -95,29 +104,47 @@ export class ApplicationLoanFormComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
     private translateService: TranslateService,
+    private applicationFormService: ApplicationFormService,
+    private registerForm: RegisterComponent,
     private router: Router
-  ) { 
+  ) {
 
     this.maxDate.setDate( this.maxDate.getDate() );
     this.maxDate.setFullYear( this.maxDate.getFullYear() - 18);
 
-    this.authService.currentUser.subscribe( (user: any) => { 
-      this.currentUser = user.data; 
+    this.authService.currentUser.subscribe( (user: any) => {
+      this.currentUser = user.data;
     });
   }
 
+  get getLoan() {
+    return this.loanForm.controls;
+  }
+
+  get confirmAccount() {
+    return this.passwordConfirmForm.controls;
+  }
+
   private lastApplicationInfo() {
-    this.authService.currentUser.subscribe( (user: any) => { 
-      this.currentUser = user.data; 
+
+
+    setTimeout(() => {
+      this.prepareRegister();
+    },0);
+
+    this.authService.currentUser.subscribe( (user: any) => {
+      this.currentUser = user.data;
     });
-    
-    this.saveObject.daApplicationTypeId = 1;
-    this.saveObject.channelType = 2;
-    this.saveObject.customerId = this.currentUser.userInformationResDto.customerId;
 
     this.dataService.getLastApplicationInfo(this.currentUser.access_token, this.currentUser.userInformationResDto.customerId).subscribe((result: any) => {
-      if(result.status === 'SUCCESS' && result.data !== null) {
+     console.log(result);
+      if(result.status === 'SUCCESS' && result.data === null) {
+        this.saveObject.name = this.currentUser.userInformationResDto.name
+        this.saveObject.dob =  new Date(this.currentUser.userInformationResDto.dateOfBirth);
+      }
 
+      if(result.status === 'SUCCESS' && result.data !== null) {
+  
         this.saveObject = result.data;
         this.daApplicationTypeId = result.data.daApplicationTypeId;
         this.id = result.data.daApplicationTypeId;
@@ -164,19 +191,11 @@ export class ApplicationLoanFormComponent implements OnInit {
     });
   }
 
-  get getLoan() {
-    return this.loanForm.controls;
-  }
-
-  get confirmAccount() {
-    return this.passwordConfirmForm.controls;
-  }
-
   private loanFormBuilder() {
     this.loanForm = this.fb.group({
       daLoanTypeId: ['1'],
       daProductTypeId:[1],
-      productDescription: ['', [Validators.required, languageValidator]],
+      productDescription: [''],
       financeAmount: ['', [Validators.required, maxAmountOfFinance(2000000,50000)]],
       financeTerm: ['6'],
       processingFees: [''],
@@ -194,7 +213,7 @@ export class ApplicationLoanFormComponent implements OnInit {
       nrcGuarantorBack: [null, [Validators.required]],
       applicationPhoto: [null, [Validators.required]],
       customerSign: [null, [Validators.required]],
-      guarantorSign:[null,[Validators.required]]
+      guarantorSign: [null, [Validators.required]]
     }, { validators: imageValidator });
   }
 
@@ -203,7 +222,7 @@ export class ApplicationLoanFormComponent implements OnInit {
       if(res.status === 'SUCCESS' && res.data) {
         this.responseMessage.termsAndConditions = res.data;
       }
-      
+
       if(this.translateService.store.currentLang === 'mm') {
         this.responseMessage.termsAndConditions = res.data.descriptionMyn;
       }
@@ -278,6 +297,15 @@ export class ApplicationLoanFormComponent implements OnInit {
     });
   }
 
+  private prepareRegister() {
+    this.applicationFormService.finalData.subscribe((res: any) => {
+      this.saveObject = res;
+      console.log('start');
+      console.log(this.saveObject);
+      console.log('end');
+    });
+  }
+
   errorHandling = (control: string, error: string) => {
     return this.loanForm.controls[control].hasError(error);
   }
@@ -309,8 +337,8 @@ export class ApplicationLoanFormComponent implements OnInit {
   imageUploader($event: any) {
     let reader = new FileReader();
     reader.readAsDataURL($event.target.files[0]);
-      
-    reader.onload = (_event) => { 
+
+    reader.onload = (_event) => {
       this[$event.target.id + 'Object'].photoByte = (<string>reader.result).split(',')[1];
     }
 
@@ -326,7 +354,8 @@ export class ApplicationLoanFormComponent implements OnInit {
       value.errors = { required: true };
     }
   }
-  financeTermCalculate($event: any){   
+
+  financeTermCalculate($event: any){
     if(this.getLoan.financeAmount.value !== '' || this.getLoan.financeAmount.value !== null) {
       const financeAmount = new NumeralPipe(this.getLoan.financeAmount.value).value();
 
@@ -340,8 +369,34 @@ export class ApplicationLoanFormComponent implements OnInit {
   }
 
   loanSave() {
+
     this.loading = true;
     this.submitted = true;
+  
+    if(this.saveObject.applicationFormError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.loading = false;
+    this.registerForm.change(0);
+      return;
+    }
+    if(this.saveObject.applicantCompanyInfoDto === null || this.saveObject.applicantCompanyInfoDto.occupationFormError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.loading = false;
+    this.registerForm.change(1);
+      return;
+    }
+    if(this.saveObject.emergencyContactInfoDto === null || this.saveObject.emergencyContactInfoDto.emergencyFormError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.loading = false;
+    this.registerForm.change(2);
+      return;
+    }
+    if(this.saveObject.guarantorInfoDto === null || this.saveObject.guarantorInfoDto.guarantorFormError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.loading = false;
+    this.registerForm.change(3);
+      return;
+    }
 
     if(this.loanForm.invalid) {
       this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
@@ -356,14 +411,15 @@ export class ApplicationLoanFormComponent implements OnInit {
     this.saveObject.financeTerm = Number(this.getLoan.financeTerm.value);
     this.saveObject.daProductTypeId = Number(this.getLoan.daProductTypeId.value);
     this.saveObject.productDescription = this.getLoan.productDescription.value;
+    this.saveObject.customerId = this.currentUser.userInformationResDto.customerId;
+    this.saveObject.channelType = 2;
+    this.saveObject.daApplicationTypeId = 1;
+    console.log(this.saveObject);
+    
 
-    this.dataService.saveDraft(this.currentUser.access_token, this.saveObject).subscribe((result: any) => {
-      if(result.status === 'SUCCESS') {
-        this.snackBar.openFromTemplate(this.saveSnackBar, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
-        this.confirmModel = this.dialog.open(this.passwordForm);
-      }
-     
-    }); 
+
+   //this.snackBar.openFromTemplate(this.saveSnackBar, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.confirmModel = this.dialog.open(this.passwordForm);
 
     this.loading = false;
     this.submitted = false;
@@ -376,19 +432,27 @@ export class ApplicationLoanFormComponent implements OnInit {
       password: this.passwordConfirmForm.controls.password.value,
       username: this.currentUser.userInformationResDto.phoneNo
     }
+    delete this.saveObject['applicationFormError'];
+    delete this.saveObject.applicantCompanyInfoDto['occupationFormError'];
+    delete this.saveObject.emergencyContactInfoDto['emergencyFormError'];
+    delete this.saveObject.guarantorInfoDto['guarantorFormError'];
+    console.log('Hello123');
+    console.log(this.saveObject);
+    console.log('Hello123');
 
     this.dataService.checkAppliantUser(authRequset).subscribe((auth: any) => {
       if(auth.status === 'FAILED') {
         this.passwordConfirmForm.controls.password.setErrors({loginFail: true});
+        this.passwordLoading = false;
       }
 
       if(auth.status === 'SUCCESS') {
         this.confirmModel.close();
-        this.saveObject.highestEducationTypeId = 1;
+
+
         this.dataService.registration(this.currentUser.access_token, this.saveObject).subscribe((res: any) => {
-          console.log(res)
+          console.log(res);
           if(res.status === 'FAILED') {
-            console.log(res.message);
             this.responseMessage = res.message;
             this.snackBar.openFromTemplate(this.applicationFail, { duration: 3000, verticalPosition: 'top', horizontalPosition: 'center'})
             this.passwordLoading = false;
@@ -396,21 +460,23 @@ export class ApplicationLoanFormComponent implements OnInit {
 
           if(res.status === 'SUCCESS') {
             this.router.navigateByUrl('/inquery');
+            this.passwordLoading = false;
           }
         });
       }
     });
 
-    this.passwordLoading = false;
-
   }
 
   ngOnInit() {
+    this.authService.refreshToken();
     this.loanFormBuilder();
     this.getProductTypeList();
     this.getTermsAndConditions();
     this.ConfirmFormBuilder();
-    this.lastApplicationInfo();
+    setTimeout(() => {
+      this.prepareRegister();
+    },0);
   }
 
 

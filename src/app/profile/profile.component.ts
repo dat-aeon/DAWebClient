@@ -264,5 +264,8 @@ export class ProfileComponent implements OnInit {
      }
    }); 
   }
+  previewEdit(){
+    this.router.navigate(['profile-edit-preview']);
+  }
 
 }

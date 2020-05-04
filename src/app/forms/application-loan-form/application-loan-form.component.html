@@ -6,82 +6,61 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12 col-sm-12">
-            <div class="mat-form-field-wrapper">
-                <mat-label class="col-4">  {{ 'app.loantype' | translate }} </mat-label>
-                <mat-radio-group formControlName="daLoanTypeId" class="col-8">
-                    <mat-radio-button value="1">  Mobile-Loan </mat-radio-button>
-                    <mat-radio-button value="2">  Non-Mobile </mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </div>
+        
 
         <div class="col-md-6 col-sm-12">
-            <mat-form-field hintLabel="{{ 'required-productTypeChoose' | translate }}" class="col-md-12">
-                <mat-label>  {{'app.productCategories' | translate }}  <strong class="red-color">*</strong> </mat-label>
-                <mat-select formControlName="daProductTypeId">
-                    <mat-option *ngFor="let productType of productTypeList"  [value]="productType.productTypeId"> {{ productType.name }} </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field hintLabel="{{ 'required-max100' | translate }}" class="col-12">
-                <mat-label>  {{'app.productDescription' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" maxlength="100" formControlName="productDescription">
-                <mat-hint align="end">{{ getLoan.productDescription.value?.length || 0 }}/100 </mat-hint>
-
-                <mat-error *ngIf="errorHandling('productDescription', 'required')"> *{{ 'required-productDescription' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('productDescription', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-            </mat-form-field>
+          
 
             <mat-form-field hintLabel="{{ 'required-onlyNumber' | translate }}" class="col-12">
                 <mat-label> {{'app.financeAmount' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="financeAmount" [ngAutonumeric]="currencyOption" (change)="changeFinanceAmount($event)">
+                <input matInput id="financeAmount" type="text" formControlName="financeAmount" [ngAutonumeric]="currencyOption" (change)="changeFinanceAmount($event)">
 
-                <mat-error *ngIf="errorHandling('financeAmount', 'required')"> *{{ 'required-financeAmount' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('financeAmount', 'maxAmount')"> *{{ 'required-maxminFinanceAmount' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('financeAmount', 'required')"> {{ 'required-financeAmount' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('financeAmount', 'maxAmount')"> {{ 'required-maxminFinanceAmount' | translate }} </mat-error>
             </mat-form-field>
-        </div>
-
-        <div class="col-md-6 col-sm-12">
-            <mat-form-field class="col-md-4 col-sm-12">
-                <mat-label> {{'app.processingFees' | translate }}  <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="processingFees" readonly>
-            </mat-form-field>
-
-            <mat-form-field class="col-md-4 col-sm-12">
-                <mat-label>  {{'app.conSaving' | translate }}  <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="conSaving" readonly>
-            </mat-form-field>
-
-            <mat-form-field class="col-md-4 col-sm-12">
-                <mat-label>  {{'app.totalRepayment' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="totalRepayment" readonly>
-            </mat-form-field>
-
-            <mat-form-field class="col-md-4 col-sm-12">
-                <mat-label> {{'app.firstPayment' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="firstPayment" readonly>
-            </mat-form-field>
-
-            <mat-form-field class="col-md-4 col-sm-12">
-                <mat-label> {{'app.monthlyPayment' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="monthlyPayment" readonly />
-            </mat-form-field>
-
-            <mat-form-field class="col-md-4 col-sm-12">
-                <mat-label> {{'app.lastPayment' | translate }}  <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="lastPayment" readonly>
-            </mat-form-field>
-
+            
             <div class="col-12 mat-form-field-wrapper">
                 <mat-label class="col-4"> {{ 'required-finaceTerm' | translate }} </mat-label>
-                <mat-radio-group formControlName="financeTerm" class="col-8">
+                <mat-radio-group id="financeTerm" formControlName="financeTerm" class="col-8">
                     <mat-radio-button value="6" (change)="financeTermCalculate($event)" *ngIf="termOfFinance.type1 || termOfFinance.type2"> 6 </mat-radio-button>
                     <mat-radio-button value="9" (change)="financeTermCalculate($event)" *ngIf="termOfFinance.type2 || termOfFinance.type3"> 9 </mat-radio-button>
                     <mat-radio-button value="12" (change)="financeTermCalculate($event)" *ngIf="termOfFinance.type2 || termOfFinance.type3"> 12 </mat-radio-button>
                     <mat-radio-button value="18" (change)="financeTermCalculate($event)" *ngIf="termOfFinance.type2 || termOfFinance.type3"> 18 </mat-radio-button>
                 </mat-radio-group>
             </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <mat-form-field class="col-md-4 col-sm-12">
+                <mat-label> {{'app.processingFees' | translate }}  <strong class="red-color">*</strong> </mat-label>
+                <input matInput id="processingFees" type="text" formControlName="processingFees" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-12">
+                <mat-label>  {{'app.conSaving' | translate }}  <strong class="red-color">*</strong> </mat-label>
+                <input matInput id="compulsorySaving" type="text" formControlName="conSaving" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-12">
+                <mat-label>  {{'app.totalRepayment' | translate }} <strong class="red-color">*</strong> </mat-label>
+                <input matInput id="totalRepayment" type="text" formControlName="totalRepayment" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-12">
+                <mat-label> {{'app.firstPayment' | translate }} <strong class="red-color">*</strong> </mat-label>
+                <input matInput type="text" id="firstPayment" formControlName="firstPayment" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-12">
+                <mat-label> {{'app.monthlyPayment' | translate }} <strong class="red-color">*</strong> </mat-label>
+                <input matInput type="text" id="monthlyPayment" formControlName="monthlyPayment" readonly />
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-12">
+                <mat-label> {{'app.lastPayment' | translate }}  <strong class="red-color">*</strong> </mat-label>
+                <input matInput type="text" id="lastPayment" formControlName="lastPayment" readonly>
+            </mat-form-field>
+
         </div>
 
         <div class="col-md-6 col-sm-12">
@@ -318,10 +297,9 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-6 col-sm-12">
             <div class="form-group row">
-                <label class="col-md-5 col-sm-12 col-form-label"> Guarantor Sign </label>
+                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.guarantorSign' | translate }} </label>
                 <div class="col-md-7 col-sm-12">
                     <div class="row">
                         <img id="guarantor_sign" class="img-fluid" *ngIf="guarantorSignObject.photoByte" [src]="imageType + guarantorSignObject.photoByte" alt="your image"/>
@@ -337,7 +315,7 @@
                             {{ 'btn.remove' | translate }} 
                             <i class="material-icons"> delete </i> 
                         </button>
-                        <div *ngIf="getLoan.customerSign.errors">
+                        <div *ngIf="getLoan.guarantorSign.errors">
                             <p class="errorsMessage" *ngIf="submitted && getLoan.guarantorSign.errors.required"> {{ 'errorMsg.blank' | translate }} </p>
                         </div>
                     </div>

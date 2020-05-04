@@ -30,35 +30,64 @@
                             <div class="col-lg-6 col-12">
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label">{{'app.form.name' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.name }} </div>
+                                    <div id="emergencyName" class="col-md-8 col-12"> {{ appInfo.name?appInfo.name:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label">{{'app.form.relationship' | translate }} </label>
-                                    <div class="col-md-8 col-12" *ngIf="appInfo.relationship !== 5"> {{ appInfo.relationship | relationship  }} </div>
-                                    <div class="col-md-8 col-12" *ngIf="appInfo.relationship === 5"> {{ appInfo.relationshipOther }} </div>
+                                    <div id="emergencyRWA" class="col-md-8 col-12" *ngIf="appInfo.relationship !== 5"> {{ appInfo.relationship | relationship  }} </div>
+                                    <div id="emergencyRWAOther" class="col-md-8 col-12" *ngIf="appInfo.relationship === 5"> {{ appInfo.relationshipOther }} </div>
                                 </div>
-                                                          
+                                <mat-card-header>
+                                    <mat-card-title>
+                                      <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.currentAddress'| translate}}
+                                      </h4>
+                                    </mat-card-title>
+                                  </mat-card-header>                      
                                 <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.currentAddress' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.currentAddress }} </div>
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.buildingNo' | translate }} </label>
+                                    <div id="emergencyCurAddBuildingNo" class="col-md-8 col-12"> {{ appInfo.currentAddressBuildingNo?appInfo.currentAddressBuildingNo:'-' }} </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.roomNo' | translate }} </label>
+                                    <div id="emergencyCurAddRoomNo" class="col-md-8 col-12"> {{ appInfo.currentAddressRoomNo?appInfo.currentAddressRoomNo:'-' }} </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.floor' | translate }} </label>
+                                    <div id="emergencyCurAddFloor" class="col-md-8 col-12"> {{ appInfo.currentAddressFloor?appInfo.currentAddressFloor:'-' }} </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.street' | translate }} </label>
+                                    <div id="emergencyCurAddStreet" class="col-md-8 col-12"> {{ appInfo.currentAddressStreet?appInfo.currentAddressStreet:'-' }} </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.qtr' | translate }} </label>
+                                    <div id="emergencyCurAddQtr" class="col-md-8 col-12"> {{ appInfo.currentAddressQtr?appInfo.currentAddressQtr:'-' }} </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.township' | translate }} </label>
+                                    <div id="emergencyCurAddTownship" class="col-md-8 col-12"> {{ appInfo.currentAddresTownship?appInfo.currentAddresTownship:'-' }} </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.city' | translate }} </label>
+                                    <div id="emergencyCurAddCity" class="col-md-8 col-12"> {{ appInfo.currentAddressCity?appInfo.currentAddressCity:'-' }} </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-12">                            
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.mobileNo' | translate }} </label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.mobileNo }} </div>
+                                    <div id="emergencyMobileNo" class="col-md-8 col-12"> {{ appInfo.mobileNo? appInfo.mobileNo:'-'}} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{'app.form.residentTelNo' | translate }}</label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.residentTelNo }} </div>
+                                    <div id="emergencyResidentTelNo" class="col-md-8 col-12"> {{ appInfo.residentTelNo?appInfo.residentTelNo:'-' }} </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{'app.form.otherPhoneNo' | translate }}</label>
-                                    <div class="col-md-8 col-12"> {{ appInfo.otherPhoneNo }}  </div>
+                                    <div id="emergencyOtherPhoneNo" class="col-md-8 col-12"> {{ appInfo.otherPhoneNo?appInfo.otherPhoneNo:'-' }}  </div>
                                 </div>                            
                             </div>
                         </div>
@@ -67,16 +96,16 @@
                     <mat-card-actions>
                         <div class="row">
                             <div class="col-md-12">
-                                <button mat-button routerLink="/occupation-detail/{{ id }}" class="back"> 
+                                <a mat-button routerLink="/occupation-detail" [state]="{ orderId: id }" class="back"> 
                                     <mat-icon> keyboard_arrow_left </mat-icon>
                                     <span> {{'btn.back' | translate }}  </span>
-                                </button>
+                                </a>
     
                                 <div class="btn-group-align-right">
-                                    <button mat-button routerLink="/guarantor-detail/{{ id }}">
+                                    <a mat-button routerLink="/guarantor-detail"  [state]="{ orderId: id }">
                                         <span> {{ 'btn.next' | translate }} </span> 
                                         <mat-icon>keyboard_arrow_right</mat-icon> 
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

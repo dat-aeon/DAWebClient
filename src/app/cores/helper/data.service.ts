@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { config, JSONHeader, BasicAuthHeader} from '../configuration';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Data } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 
 export class DataService {
 
   convertDate: any;
+  private dataSource = new BehaviorSubject({});
+  applicationForm = this.dataSource.asObservable();
+  private errorForm:boolean= false;
+
+
 
   constructor(
     private http: HttpClient
@@ -86,5 +92,20 @@ export class DataService {
 
     return this.http.post(config.api + '/free-application/register' , data, {headers: JSONHeader});
   }
+  confirmSecurityQuestionAnswer(access_token: any, body: any) {
+    return this.http.post(config.api + '/reset-password/confirm-security-question-answer?access_token=' + access_token, body, { headers: JSONHeader });
+  }
 
+  updatedDataSelection(data: any){
+    this.dataSource.next(data);
+  }
+  getValue(){
+    return this.dataSource.getValue();
+  }
+  get formError():boolean{
+    return this.errorForm;
+  }
+  set formError(val: boolean){
+    this.errorForm = val;
+  }
 }

@@ -38,8 +38,9 @@
                               </mat-label>
                               <input matInput type="text" autocomplete="off" maxlength="7" formControlName="financeAmount" [ngAutonumeric]="currencyOption" >
                               <mat-hint align="end">{{ f.financeAmount.value?.length || 0 }}/7 </mat-hint>
-                              <mat-error *ngIf="errorHandling('financeAmount', 'required')">{{ errorMsg.blank }}
-                              </mat-error>
+
+                              <mat-error *ngIf="errorHandling('financeAmount', 'required')"> {{ 'required-financeAmount' | translate }} </mat-error>
+                              <mat-error *ngIf="errorHandling('financeAmount', 'maxAmount')"> {{ 'required-maxminFinanceAmount' | translate }} </mat-error>
   
                             </mat-form-field>
 
@@ -353,7 +354,7 @@
                       <mat-card-actions>
                         <div class="row">
                           <div class="col-md-12">
-                            <button mat-button (click)="saveDraft(); this.router.navigate(['/new-user-guarantor/'], { queryParams:  filter, skipLocationChange: true});" class="back">
+                            <button mat-button (click)="back()" class="back">
                               <mat-icon> keyboard_arrow_left </mat-icon>
                               <span> {{'btn.back' | translate }} </span>
                             </button>
@@ -382,4 +383,9 @@
       </div>
     </div>
   </div>
+  <ng-template #erorrSnack>
+    <div #alert class="alert alert-danger" role="alert"> 
+        {{'required-all' | translate }} 
+    </div>
+  </ng-template>
 

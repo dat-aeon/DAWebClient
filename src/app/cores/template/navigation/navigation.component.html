@@ -10,7 +10,7 @@
   
         <div class="nav-toolbar-top-align-right" *ngIf="activeProfile">
             <button mat-button [matMenuTriggerFor]="menu" class="profile-btn">
-              <mat-icon>person</mat-icon> {{ currentUser.data.userInformationResDto.name }}  <mat-icon>arrow_drop_down</mat-icon>
+              <mat-icon>person</mat-icon> {{ currentUser.data.userInformationResDto.name }}  
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item routerLink="/profile"> <mat-icon>person</mat-icon> {{'app.profile' | translate }}  </button>

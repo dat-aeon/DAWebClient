@@ -6,7 +6,7 @@
 
         <div class="row content-wrapper justify-content-md-center">
             <div class="col-md-6 col-sm-12">
-                <form [formGroup]="questionForm">
+                <form [formGroup]="dynamicForm">
                     <mat-card>
                         <mat-card-header>
                             <mat-card-title class="form-title"> 
@@ -19,21 +19,14 @@
                                 <div class="col-md-12 col-12" *ngFor="let question of q.controls; let i = index">
                                     <div [formGroup]="question">
                                         <div class="col-12 form-wrapper">
-                                            <mat-form-field hintLabel="Q. {{ i + 1 }}">
-                                                <mat-select formControlName="secQuesId" placeholder=" {{ 'sq.select' | translate }}">
-                                                    <mat-option [value]="sqid.secQuestionId" *ngFor="let sq of securityQuestion; let sqid = index"> {{ sq.selected }} </mat-option>
-                                                </mat-select>
-                                                <mat-error *ngIf="question.controls.secQuesId.hasError('required')"> *{{ 'required-question' | translate }} </mat-error>
-                                                <mat-error *ngIf="question.controls.secQuesId.hasError('duplicated')"> *{{'duplicatedQuestion' | translate }} </mat-error>
-                                            </mat-form-field>
-            
                                             <mat-form-field hintLabel="A. {{ i + 1 }}">
+                                                <mat-label> {{ getQuestion(i) }} </mat-label>
                                                 <input matInput formControlName="answer" maxlength="{{ numOfAnsChar }}">
                                                 <mat-hint align="end">{{ q.value[i].answer?.length || 0 }}/{{ numOfAnsChar }} </mat-hint>
                                                 
-                                                <mat-error *ngIf="AnswersControlErrorHandling(i, 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-                                                <mat-error *ngIf="AnswersControlErrorHandling(i, 'required')"> *{{ 'required-answer' | translate }} </mat-error>
-                                                <mat-error *ngIf="AnswersControlErrorHandling(i,'specialchar')"> *{{ 'required-specialchar' | translate }} </mat-error>
+                                                <mat-error *ngIf="AnswersControlErrorHandling(i, 'langError')"> {{ 'required-language' | translate }} </mat-error>
+                                                <mat-error *ngIf="AnswersControlErrorHandling(i, 'required')"> {{ 'required-answer' | translate }} </mat-error>
+                                                <mat-error *ngIf="AnswersControlErrorHandling(i,'specialchar')"> {{ 'required-specialchar' | translate }} </mat-error>
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -64,7 +57,6 @@
 
 <ng-template #erorrSnack>
     <div #alert class="alert alert-danger" role="alert"> 
-        <i class="material-icons"> block </i>
         {{'required-sometingWrong' | translate }} 
     </div>
 </ng-template>
@@ -74,4 +66,12 @@
         <i class="material-icons"> block </i>
         {{'required-invalidAnswer' | translate }} 
     </div>
+</ng-template>
+
+<ng-template #success>
+    <div #alert class="alert alert-success" role="alert">  {{ 'security-question-edit' | translate }} </div>
+</ng-template>
+
+<ng-template #editFail>
+    <div #alert class="alert alert-danger" role="alert">  {{ responseMessage }} </div>
 </ng-template>

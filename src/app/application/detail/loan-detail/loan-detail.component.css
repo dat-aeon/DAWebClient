@@ -14,3 +14,6 @@ a.cmn-btn, a.cmn-btn:hover { color: #fff; cursor: pointer; }
 input[type="file"] { display: none; }
 #row { min-height: calc(100vh - 192px); }
 
+.sub-nav-wrapper > li > a:hover { color: #000; }
+a:hover { color: #fff; }
+

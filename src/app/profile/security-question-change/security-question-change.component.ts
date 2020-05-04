@@ -6,6 +6,7 @@ import { languageValidator, specialchar } from 'src/app/cores/helper/validators'
 import { DataService } from 'src/app/cores/helper/data.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-security-question-change',
@@ -15,13 +16,15 @@ import { MatSnackBar } from '@angular/material';
 
 export class SecurityQuestionChangeComponent implements OnInit {
 
+  dynamicForm: FormGroup;
   questionForm: FormGroup;
   currentUser: any;
-  errorMsg: any = {};
-  regObj: any = {};
   securityQuestion: any = [];
   numOfAnsChar: number;
   numOfSecQues: number;
+  responseMessage: string;
+  snackBarOption: any = { duration: 3000, verticalPosition: 'top', horizontalPosition: 'center' }
+  securityQuestionAnswerReqDtoList: any = [];
   loading: boolean = false;
 
   @ViewChild('erorrSnack', { static: false })
@@ -29,6 +32,9 @@ export class SecurityQuestionChangeComponent implements OnInit {
 
   @ViewChild('invalidAnswer', { static: false })
   private invalidAnswer: any = TemplateRef;
+
+  @ViewChild('success', { static: false})
+  private success: any = TemplateRef
 
   constructor(
     private authService: AuthService,
@@ -45,133 +51,119 @@ export class SecurityQuestionChangeComponent implements OnInit {
     
   }
 
-  get f () { return this.questionForm.controls; }
-  get q () { return this.f.question as FormArray; }
-
-  private securityQuestionValidatosrs() {
-    let resultArray = [];
-    let errorstatus = [];
-
-    for (let i=0; i<this.questionForm.value.question.length; i++) {
-      resultArray.push(Number(this.questionForm.value.question[i].secQuesId));
-    }
-
-    resultArray.filter( (item: any, index) => {
-      if(resultArray.indexOf(item) !== index) {
-        let getGroup = <FormGroup>this.q.controls[index];
-        getGroup.controls.secQuesId.setErrors({ duplicated: true});
-        errorstatus.push(index);
-      }
-    });
-
-    if(errorstatus.length !== 0) {
-      this.loading = false;
-    }
-
-    if(errorstatus.length === 0) {
-      this.loading = true;
-      this.regObj.customerSecurityQuestionDtoList = this.questionForm.value.question;
-
-      for(let x=0; x<this.questionForm.value.question.length; x++) {
-        this.questionForm.value.question[x].secQuesId = Number(this.questionForm.value.question[x].secQuesId);
-      }
-
-      this.regObj.phoneNo = this.currentUser.data.userInformationResDto.phoneNo;
-      this.regObj.nrcNo = this.currentUser.data.userInformationResDto.nrcNo;
-      this.regObj.securityQuestionAnswerReqDtoList = this.questionForm.value.question;
-
-      this.authService.confirmSecurityQuestionAnswer(this.currentUser.data.access_token, this.regObj).subscribe((res: any) => {
-
-        if(res.status === 'FAILED' && res.messageCode === 'INVALID_CUSTOMER_ANSWER') {
-          this.loading = false;
-          this.snackBar.openFromTemplate(this.invalidAnswer, { duration: 3000, verticalPosition: 'top', horizontalPosition: 'center' });
-        }
-
-        if(res.status === 'SUCCESS') {
-          this.loading = false;
-          this.router.navigate(['profile']);
-        }
-      });
-    }
-
-    return;
-  }
-
+  get f() { return this.dynamicForm.controls; }
+  get q() { return this.f.questions as FormArray; }
+  
   private buildForm() {
-    this.questionForm = this.fb.group({ question: new FormArray([]) });
-    this.dataLoad();
+    this.dataService.getCustomerSecurityQuestionList(this.currentUser.data.access_token, this.currentUser.data.userInformationResDto.customerId).subscribe((res: any) => {
+
+      this.securityQuestion = res.data.customerSecurityQuestionDtoList;
+      this.numOfAnsChar = res.data.numOfAnsChar;
+      this.numOfSecQues = res.data.numOfSecQues;
+
+      if(this.translateService.store.currentLang === 'mm') {
+        for (let x=0; x < this.securityQuestion.length; x++) {
+          this.securityQuestion[x].selected = this.securityQuestion[x].questionMyan;
+        }
+      }
+
+      if(this.translateService.store.currentLang === 'en') {
+        for (let x=0; x < this.securityQuestion.length; x++) {
+          this.securityQuestion[x].selected = this.securityQuestion[x].questionEng;
+        }
+      }
+
+      for (let i = 0;i < this.numOfSecQues; i++) {
+        this.q.push(this.fb.group({
+          answer: ['', [Validators.required, languageValidator, specialchar]]
+      }));
+      }
+
+    });
   }
 
-  private dataLoad() {
-    this.dataService.securityQuestion().subscribe((res: any) => {
-        this.securityQuestion = res.data.securityQuestionDtoList;
-        this.numOfAnsChar = res.data.numOfAnsChar;
-        this.numOfSecQues = res.data.numOfSecQues;
+  AnswersControlErrorHandling (index: number, error: string) {
+    let QuestionFormArray = <FormArray>this.dynamicForm.get('questions');
+    let QuestionFormGroup = <FormGroup>QuestionFormArray.controls[index];
+    return QuestionFormGroup.controls.answer.hasError(error);
+  }
 
-        if(this.translateService.store.currentLang === 'mm') {
-          for (let x=0; x < this.securityQuestion.length; x++) {
-            this.securityQuestion[x].selected = this.securityQuestion[x].questionMM;
-          }
-        }
-
-        if(this.translateService.store.currentLang === 'en') {
-          for (let x=0; x < this.securityQuestion.length; x++) {
-            this.securityQuestion[x].selected = this.securityQuestion[x].questionEN;
-          }
-        }
-
-        for(let i = 1; i <= this.numOfSecQues; i++) {
-          this.q.push(this.fb.group({
-            secQuesId: ['',[ Validators.required]],
-            answer: ['', [Validators.required, languageValidator, Validators.maxLength(this.numOfAnsChar), specialchar]]
-          }));
-        }
-
-      });
+  getQuestion(index: any) {
+    return this.securityQuestion[index].selected;
   }
 
   languageChanged() {
     this.translateService.onLangChange.subscribe( (res: any) => {
       if(res.lang === 'mm') {
         for (let x=0; x < this.securityQuestion.length; x++) {
-          this.securityQuestion[x].selected = this.securityQuestion[x].questionMM;
+          this.securityQuestion[x].selected = this.securityQuestion[x].questionMyan;
         }
       }
 
       if(res.lang === 'en') {
         for (let x=0; x < this.securityQuestion.length; x++) {
-          this.securityQuestion[x].selected = this.securityQuestion[x].questionEN;
+          this.securityQuestion[x].selected = this.securityQuestion[x].questionEng;
         }
       }
     });
   }
 
-  errorHandling = (control: string, error: string) => {
-    return this.questionForm.controls[control].hasError(error);
-  }
-
-  AnswersControlErrorHandling (index: number, error: string) {
-    let QuestionFormArray = <FormArray>this.questionForm.get('question');
-    let QuestionFormGroup = <FormGroup>QuestionFormArray.controls[index];
-    return QuestionFormGroup.controls.answer.hasError(error);
-  }
-  
-  ngOnInit() {
-    this.authService.refreshToken();
-    this.buildForm();
-    this.languageChanged();
-  }
 
   onSubmit() {
     this.loading = true;
 
-    if(this.questionForm.invalid) { 
-      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition: 'top', horizontalPosition: 'center' });
-      this.loading = false;
-      return; 
+    if (this.dynamicForm.invalid) {
+        this.loading = false;
+        this.snackBar.openFromTemplate(this.erorrSnack, this.snackBarOption);
+        return;
     }
 
-    this.securityQuestionValidatosrs();
+
+    let editObject: any = null;
+
+    for (let i=0; i<this.q.controls.length; i++) {
+      let answer: any = this.q.controls[i];
+
+      let questionObject = {
+        secQuesId: this.securityQuestion[i].secQuesId,
+        answer : answer.controls.answer.values
+      }
+
+      this.securityQuestionAnswerReqDtoList.push(questionObject);
+    }
+
+    editObject  = {
+      securityQuestionAnswerReqDtoList: this.securityQuestionAnswerReqDtoList,
+      nrcNo: this.currentUser.data.userInformationResDto.nrcNo,
+      phoneNo: this.currentUser.data.userInformationResDto.phoneNo
+    }
+
+    this.dataService.confirmSecurityQuestionAnswer(this.currentUser.data.access_token, editObject).subscribe((res: any) => {
+
+      if(res.status === 'SUCCESS') {
+        this.snackBar.openFromTemplate(this.success, this.snackBarOption);
+      }
+
+      if(res.status === 'FAILED') {
+        this.snackBar.openFromTemplate(this.invalidAnswer, this.snackBarOption);
+      }
+    });
+
+    this.loading = false;
+    
+}
+
+  ngOnInit() {
+    this.authService.refreshToken();
+
+    this.dynamicForm = this.fb.group({
+      questions: new FormArray([])
+    });
+
+    this.buildForm();
+
+    this.languageChanged();
   }
+
 
 }

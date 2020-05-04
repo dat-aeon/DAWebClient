@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole, TemplateRef } from '@angular/core';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NumeralPipe } from 'ngx-numeral';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-user-loan',
@@ -70,7 +71,8 @@ export class NewUserLoanComponent implements OnInit {
     minimumValue: '0',
     selectNumberOnly: true
   }
-
+  @ViewChild('erorrSnack', { static: false })
+  erorrSnack: any = TemplateRef;
   
 
   applicationInfoAttachmentDtoList: any = [
@@ -89,7 +91,7 @@ export class NewUserLoanComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private authService: AuthService,
-
+    private snackBar: MatSnackBar,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private translateService: TranslateService,
@@ -99,10 +101,14 @@ export class NewUserLoanComponent implements OnInit {
       if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
       console.log(this.newRegister);
-      if(!('guarantorInfoDto' in this.newRegister)){
+      if(!('guarantorInfoDto' in this.newRegister)||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError || this.newRegister.emergencyContactInfoDto.emergencyFormError||this.newRegister.guarantorInfoDto.guarantorFormError){
+        this.dataService.formError=true;
         this.router.navigate(['/new-user-guarantor/']);
       }
-    
+      if(this.dataService.formError){
+        this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.dataService.formError=false;
+      }
 
     
     } else {
@@ -137,7 +143,7 @@ export class NewUserLoanComponent implements OnInit {
   loanFormBuilder() {
     this.loanForm = this.fb.group({
 
-      financeAmount: ['', [Validators.required,  maxAmountOfFinance]],
+      financeAmount: ['', [Validators.required,  maxAmountOfFinance(2000000,50000)]],
       financeTerm: [null, [Validators.required]],
 
       residentProofAttachment: [null],
@@ -315,6 +321,11 @@ export class NewUserLoanComponent implements OnInit {
     this.newRegister.applicationInfoAttachmentDtoList = this.applicationInfoAttachmentDtoList;
     this.newRegister.financeAmount= this.f.financeAmount.value;
     this.newRegister.financeTerm= this.f.financeTerm.value;
+    if(this.loanForm.invalid){    this.newRegister.loanFormError=true;
+    }
+    else{
+      this.newRegister.loanFormError=false;
+    }
     localStorage.setItem('newRegister', JSON.stringify(this.newRegister));
 
   }
@@ -352,7 +363,9 @@ export class NewUserLoanComponent implements OnInit {
     this.submitted = true;
     this.nextLoading = true;
     this.checkError();
-    if (this.loanForm.invalid) { this.nextLoading = false; return; }
+    if (this.loanForm.invalid) {
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.nextLoading = false; return; }
     this.saveDraft();
     console.log('Next');
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
@@ -396,6 +409,9 @@ export class NewUserLoanComponent implements OnInit {
     }
  
 
+  }
+  back(){
+    this.saveDraft(); this.router.navigate(['/new-user-guarantor/'], { queryParams:  filter, skipLocationChange: true});
   }
 
 }

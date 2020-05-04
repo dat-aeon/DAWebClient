@@ -143,9 +143,9 @@ public errorHandling = (control: string, error: string) => {
   inquerySearchFormBuilder() {
     this.inquerySearchForm = this.fb.group( {
       appNo: ['', [languageValidator, numOnlyValidator]],
-      category: ['1'],
+
       appDate: [],
-      status: ['0']
+
     });
   }
 
@@ -162,10 +162,10 @@ public errorHandling = (control: string, error: string) => {
   inquerySearch() {
     const requestObject = {
       customerId: this.currentUser.userInformationResDto.customerId,
-      daLoanTypeId: this.f.category.value,
+
       appliedDate: this.f.appDate.value,
       applicationNo: this.f.appNo.value,
-      status: this.f.status.value,
+
       offset: 0,
       limit: 10
     };

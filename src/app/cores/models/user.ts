@@ -6,4 +6,5 @@ export class User {
     scope: any;
     userInformationResDto: any;
     jti: any;
+    
 }

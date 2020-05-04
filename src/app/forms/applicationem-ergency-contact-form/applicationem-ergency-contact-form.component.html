@@ -6,76 +6,143 @@
     </div>
 
     <div class="row">
-    <div class="col-md-6 col-sm-12">
-        <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
-            <input matInput formControlName="name" maxlength="50" placeholder="{{ 'app.form.name' | translate }}"/>
-            <mat-hint align="end">{{ getEmergencyContact.name.value?.length || 0 }}/50 </mat-hint>
+        <div class="col-md-6 col-sm-12">
+            <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
+                <mat-label> {{ 'app.form.name' | translate }} <strong class="red-color">*</strong> </mat-label>
+                <input matInput id="emergencyName" autocomplete="off" formControlName="name" maxlength="50" oninput="this.value=this.value.toUpperCase()" />
+                <mat-hint align="end">{{ getEmergencyContact.name.value?.length || 0 }}/50 </mat-hint>
 
-            <mat-error *ngIf="errorHandling('name', 'required')">  *{{ 'required-name' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('name', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('name', 'maxlength')"> *{{ 'required-max50' | translate }} </mat-error>
-        </mat-form-field>
+                <mat-error *ngIf="errorHandling('name', 'required')">  {{ 'required-name' | translate }} </mat-error>
+              
+                
+            </mat-form-field>
 
 
-        <mat-form-field  hintLabel="{{ 'required-relationship' | translate }}" class="col-12">
-            <mat-label> {{ 'app.form.relationship' | translate }} <strong class="red-color">*</strong> </mat-label>
-            <mat-select formControlName="relationship" (selectionChange)="relationshipChange($event)">    
-                <mat-option value="1"> Parent </mat-option>
-                <mat-option value="2"> Spouse </mat-option>
-                <mat-option value="3"> Relative </mat-option>
-                <mat-option value="4"> Friend </mat-option>
-                <mat-option value="5"> Other </mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field  hintLabel="{{ 'required-relationship' | translate }}" class="col-12">
+                <mat-label> {{ 'app.form.relationship' | translate }} <strong class="red-color">*</strong> </mat-label>
+                <mat-select id="occupationRWA" formControlName="relationship" (selectionChange)="relationshipChange($event)">    
+                    <mat-option value="1"> Parent </mat-option>
+                    <mat-option value="2"> Spouse </mat-option>
+                    <mat-option value="3"> Relative </mat-option>
+                    <mat-option value="4"> Friend </mat-option>
+                    <mat-option value="5"> Other </mat-option>
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
-            <mat-label> {{ 'app.form.relationshipOther' | translate }} <strong class="red-color">*</strong></mat-label>
-            <input matInput type="text" formControlName="relationshipOther" maxlength="50">
-            <mat-hint align="end">{{ getEmergencyContact.relationshipOther.value?.length || 0 }}/50 </mat-hint>
+            <mat-form-field hintLabel="{{ 'required-max50' | translate }}" [hidden]="hideRWA" class="col-12">
+                <mat-label> {{ 'app.form.relationshipOther' | translate }} <strong class="red-color">*</strong></mat-label>
+                <input matInput id="occupationRWAOther" autocomplete="off" type="text" formControlName="relationshipOther" maxlength="50" oninput="this.value=this.value.toUpperCase()">
+                <mat-hint align="end">{{ getEmergencyContact.relationshipOther.value?.length || 0 }}/50 </mat-hint>
 
-            <mat-error *ngIf="errorHandling('relationshipOther', 'required')"> *{{ 'required-otherRelationship' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('relationshipOther', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-        </mat-form-field>
+                <mat-error *ngIf="errorHandling('relationshipOther', 'required')"> {{ 'required-otherRelationship' | translate }} </mat-error>
+      
+            </mat-form-field>
 
-        <mat-form-field hintLabel="{{ 'required-max100' | translate }}" class="col-12">
-            <mat-label> {{ 'app.form.currentAddress' | translate }} <strong class="red-color">*</strong> </mat-label>
-            <input matInput type="text" maxlength="100" formControlName="currentAddress" />
-            <mat-hint align="end">{{ getEmergencyContact.currentAddress.value?.length || 0 }}/100 </mat-hint>
+            <mat-card-header>
+                <mat-card-title>
+                  <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.currentAddress'| translate}}
+                  </h4>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.buildingNo' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput id="emergencyCurAddBildingNo" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressBuildingNo">
+                <mat-hint align="end">
+                  {{ getEmergencyContact.currentAddressBuildingNo.value?.length || 0 }}/100 </mat-hint>
 
-            <mat-error *ngIf="errorHandling('currentAddress', 'required')"> *{{ 'required-currentAddress' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('currentAddress', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-        </mat-form-field>
-    </div>
+              </mat-form-field>
 
-    <div class="col-md-6 col-sm-12">
-        <mat-form-field hintLabel="{{ 'required-digit11' | translate }}" class="col-12">
-            <mat-label> {{ 'app.form.mobileNo' | translate }} <strong class="red-color">*</strong></mat-label>
-            <input matInput type="text" maxLength="11" minLength="11" formControlName="mobileNo">
-            <mat-hint align="end">{{ getEmergencyContact.mobileNo.value?.length || 0 }}/11 </mat-hint>
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.roomNo' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput id="emergencyCurAddRoomNo" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressRoomNo">
+                <mat-hint align="end">
+                  {{ getEmergencyContact.currentAddressRoomNo.value?.length || 0 }}/100 </mat-hint>
 
-            <mat-error *ngIf="errorHandling('mobileNo', 'required')"> *{{ 'required-phone' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('mobileNo', 'validPhone')"> *{{ 'required-mobile' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('mobileNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
-            <mat-error *ngIf="errorHandling('mobileNo', 'minDigit')"> *{{ 'required-digit11Phone' | translate }} </mat-error>
-        </mat-form-field>
-        
-        <mat-form-field hintLabel="{{ 'required-digit11' | translate }}" class="col-12">
-            <mat-label> {{ 'app.form.residentTelNo' | translate }} </mat-label>
-            <input matInput type="text" maxlength="11" minLength="11" formControlName="residentTelNo" />
-            <mat-hint align="end">{{ getEmergencyContact.residentTelNo.value?.length || 0 }}/11 </mat-hint>
+              </mat-form-field>
 
-            <mat-error *ngIf="errorHandling('residentTelNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
-        </mat-form-field>
-        
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.floor' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="emergenycCurAddFloor" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressFloor">
+                <mat-hint align="end">
+                  {{ getEmergencyContact.currentAddressFloor.value?.length || 0 }}/100 </mat-hint>
 
-        <mat-form-field hintLabel="{{ 'required-digit14' | translate }}"  class="col-12">
-            <mat-label> {{ 'app.form.otherPhoneNo' | translate }} </mat-label>
-            <input matInput type="text" maxlength="14" formControlName="otherPhoneNo" />
-            <mat-hint align="end"> {{ getEmergencyContact.otherPhoneNo.value?.length || 0 }}/14 </mat-hint>
+              </mat-form-field>
 
-            <mat-error *ngIf="errorHandling('otherPhoneNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
-        </mat-form-field>
-    </div>  
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.street' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="emergencyCurAddStreet" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressStreet">
+                <mat-hint align="end">
+                  {{ getEmergencyContact.currentAddressStreet.value?.length || 0 }}/100 </mat-hint>
+                  <mat-error *ngIf="errorHandling('currentAddressStreet', 'required')">{{'required-currentAddressStreet'| translate}}
+                  </mat-error>
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-12">
+                <mat-label> {{ 'app.form.qtr' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="emergencyCurAddQtr" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressQtr">
+                <mat-hint align="end">
+                  {{ getEmergencyContact.currentAddressQtr.value?.length || 0 }}/100 </mat-hint>
+                  <mat-error *ngIf="errorHandling('currentAddressQtr', 'required')">{{'required-currentAddressQtr'|translate}}
+                    </mat-error>
+
+              </mat-form-field>
+
+              <mat-form-field class="col-12">
+                <mat-label> {{ 'app.form.city' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <mat-select id="emergencyCurAddCity" formControlName="currentAddressCity" (selectionChange)="changeCity($event)">
+                  <mat-option *ngFor="let city of cityTownship; let i=index" [value]="cityTownship[i].cityId">
+                    {{ city.name }} </mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandling('currentAddressCity', 'required')">{{'required-currentAddressCity'| translate}}
+                 </mat-error>
+              </mat-form-field>
+              <mat-form-field  class="col-12">
+                <mat-label> {{ 'app.form.township' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <mat-select id="emergencyCurAddTownship" formControlName="currentAddressTownship" >
+                  <mat-option *ngFor="let township of currentTownshipList; let i=index" [value]="currentTownshipList[i].townshipId">
+                    {{ township.name }} </mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandling('currentAddressTownship', 'required')">{{'required-currentAddressTownship'| translate}}
+                 </mat-error>
+              </mat-form-field>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <mat-form-field class="col-12">
+                <mat-label> {{ 'app.form.mobileNo' | translate }} <strong class="red-color">*</strong></mat-label>
+                <input matInput id="emergencyMobileNo" autocomplete="off" type="text" maxLength="11" minLength="9" formControlName="mobileNo" numbersOnly>
+                <mat-hint align="end">{{ getEmergencyContact.mobileNo.value?.length || 0 }}/11 </mat-hint>
+
+                <mat-error *ngIf="errorHandling('mobileNo', 'required')"> {{ 'required-phone' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('mobileNo', 'validPhone')">{{ 'required-mobile' | translate }} </mat-error>
+              
+                <mat-error *ngIf="errorHandling('mobileNo', 'minDigit')"> {{ 'required-digit9Phone' | translate }} </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field  class="col-12">
+                <mat-label> {{ 'app.form.residentTelNo' | translate }} </mat-label>
+                <input matInput type="text" id="emergencyResidentTelNo" autocomplete="off" maxlength="11" minLength="7" formControlName="residentTelNo" numbersOnly />
+                <mat-hint align="end">{{ getEmergencyContact.residentTelNo.value?.length || 0 }}/11 </mat-hint>
+
+
+            </mat-form-field>
+            
+
+            <mat-form-field  class="col-12">
+                <mat-label> {{ 'app.form.otherPhoneNo' | translate }} </mat-label>
+                <input matInput type="text" id="emergencyOtherPhoneNo" autocomplete="off" maxlength="11" formControlName="otherPhoneNo" numbersOnly />
+                <mat-hint align="end"> {{ getEmergencyContact.otherPhoneNo.value?.length || 0 }}/11 </mat-hint>
+
+              
+            </mat-form-field>
+        </div>  
     </div>
 
     <div class="row">

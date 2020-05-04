@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as $ from 'jquery';
+
 import { languageValidator, errorMessage, numOnlyValidator, servicePeriodValidator } from 'src/app/cores/helper/validators';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
-import { emptyScheduled } from 'rxjs/internal/observable/empty';
+
 import { NumeralPipe } from 'ngx-numeral';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-user-occupation',
@@ -49,11 +50,15 @@ export class NewUserOccupationComponent implements OnInit {
     minimumValue:'0',
     selectNumberOnly: true
   }
+  
+  @ViewChild('erorrSnack', { static: false })
+  erorrSnack: any = TemplateRef;
 
 
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
+    private snackBar: MatSnackBar,
     private authService: AuthService,
     private activeRouter: ActivatedRoute,
     private modalService: NgbModal,
@@ -62,11 +67,16 @@ export class NewUserOccupationComponent implements OnInit {
     this.modalOptions = { backdrop: 'static', backdropClass: 'customBackdrop' };
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-      console.log(this.newRegister);
-      if(!('name' in this.newRegister)){
+
+      if(!('name' in this.newRegister) || this.newRegister.applicantFormError){
+        this.dataService.formError=true;
         this.router.navigate(['/new-user/']);
       }
 
+    if(this.dataService.formError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.dataService.formError=false;
+    }
 
     } else {
       this.router.navigate(['login']);
@@ -218,9 +228,15 @@ export class NewUserOccupationComponent implements OnInit {
       salaryDay : this.f.salaryDay.value,
 
     }
+   
     this.newRegister.applicantCompanyInfoDto = applicantCompanyInfoDto;
 
-
+    if (this.occupationForm.invalid){
+      this.newRegister.applicantCompanyInfoDto.occupationFormError=true;
+    }
+    else{
+      this.newRegister.applicantCompanyInfoDto.occupationFormError=false;
+    }
    localStorage.setItem('newRegister', JSON.stringify(this.newRegister));
   }
 
@@ -266,7 +282,9 @@ changeContactTime($event: any, type: any){
 clickLink($event: any){
   this.submitted = true;
   this.nextLoading = true;
-  if (this.occupationForm.invalid) { this.nextLoading = false; return; }
+  if (this.occupationForm.invalid) { 
+    this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.nextLoading = false; return; }
   this.saveDraft();
   console.log('Next');
   this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
@@ -275,6 +293,9 @@ clickLink($event: any){
 clickBackLink($event: any){
   this.saveDraft();
   this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
+}
+back(){
+  this.saveDraft();  this.router.navigate(['/new-user/'], { queryParams:  filter, skipLocationChange: true});
 }
 
 

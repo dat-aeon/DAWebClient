@@ -98,15 +98,23 @@ export function passwordMatchValidator(control: AbstractControl) {
 
 // check phone number start 09;
 export function phoneNumValidator(control: AbstractControl) {
+ 
 
+  
   if(control.value === null || control.value === undefined) {
     return null;
   }
+  
 
   if(control.value !== null) {
+    const numOnly = control.value.toString().replace(/[^0-9]*/g, '');
     const str = control.value.substring(0, 2);
-    if (str !== '09' ) {
+    if (str !== '09' && str !== '' && numOnly === control.value) {
       return { validPhone: true };
+    }
+
+    if(str === '09' && control.value.length < 9 && numOnly === control.value) {
+      return { phoneLength: true }
     }
   }
 
@@ -233,24 +241,24 @@ export function dateValidation (control: AbstractControl) {
 }
 // Error Message;
 export const errorMessage = {
-  blank: '* Must not blank',
-  whitespace: '* Must not only spaces',
-  language: '* Must input only ASCII characters.',
+  blank: 'Must not blank',
+  whitespace: 'Must not only spaces',
+  language: 'Must input only ASCII characters.',
   password: 'Length is from 6 to 16.',
-  nrc: '* Registration Code | Must have only 6 digits.',
-  number: '* Must input only 0-9 characters.',
-  phoneNo: '* Length is from 9 to 11.',
-  date: '* Invalid Date',
-  passwordMatch: '* Must equal with Password field.',
-  validPhone: '* Must be started with "09"',
-  questionAnswer: '* The selected question must not be duplicated.',
-  questionChoose: '* Choose security question',
-  answerLength: '* Max number of length is ',
-  usrMisMatch: '* Username and password does not match',
-  unknown: '* Unknown Error!',
-  email: '* Invalid Email Address',
-  maxAmount: " Max Finance Amount is ",
-  loanCalculateError: " Finance Amount is required and Finance Amount must be value.",
-  selectedError: " Select One Category",
+  nrc: 'Registration Code | Must have only 6 digits.',
+  number: 'Must input only 0-9 characters.',
+  phoneNo: 'Length is from 9 to 11.',
+  date: 'Invalid Date',
+  passwordMatch: 'Must equal with Password field.',
+  validPhone: 'Must be started with "09"',
+  questionAnswer: 'The selected question must not be duplicated.',
+  questionChoose: 'Choose security question',
+  answerLength: 'Max number of length is ',
+  usrMisMatch: 'Username and password does not match',
+  unknown: 'Unknown Error!',
+  email: 'Invalid Email Address',
+  maxAmount: "Max Finance Amount is ",
+  loanCalculateError: "Finance Amount is required and Finance Amount must be value.",
+  selectedError: "Select One Category",
   maxName: 'max length of characters is 50'
 };

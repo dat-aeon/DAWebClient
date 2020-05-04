@@ -149,14 +149,20 @@ import { PurchaseTypePipe } from '../pipes/purchase-type.pipe';
   exports: [ 
     TranslateModule,
     MyAccountComponent,
+    NewUserOccupationComponent,
+    NewUserEmergencyComponent,
+    NewUserGuarantorComponent,
+    NewUserLoanComponent,
+    NewUserComponent,
     SecurityQuestionComponent,
     ApplicatonRegistrationFormComponent,
     ApplicationemErgencyContactFormComponent,
     ApplicationemguarantorFormmComponent,
-    ApplicationLoanFormComponent
+    ApplicationLoanFormComponent,
+
   ],
   entryComponents: [
-    ModalComponent,
+    ModalComponent,    
     ServiceNotFoundComponent
   ],
   providers: [ CookieService ]

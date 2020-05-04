@@ -98,12 +98,28 @@ console.log(this.attachmentEditForm);
   if (this.attachmentEditForm.invalid) { this.nextLoading = false; return; }
 
   for(const data of this.attachmentEditDtoList){
-    this.applicationInfoAttachmentDtoList.push(
-      
+    this.applicationInfoAttachmentDtoList.push({
+      daApplicationInfoAttachmentId : data.daApplicationInfoAttachmentId,
+      filePath : data.filePath,
+      fileType: data.fileType,
+      photoByte: data.photoByte,
 
-    );
+  });
   }
-
+  const attachmentEdit ={
+    daApplicationInfoId : this.id,
+    applicationInfoAttachmentDtoList: this.applicationInfoAttachmentDtoList,
+  }
+   
+  
+  this.dataService.attachmentEdit(this.currentUser.access_token, attachmentEdit).subscribe((res:any)=>{ 
+    console.log(res);
+    if (res.status === 'SUCCESS' && res.data === null) {
+    this.router.navigate(['/inquery']);
+  
+  
+  }
+});
 }
   
 

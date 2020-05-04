@@ -70,9 +70,11 @@ securityFail: any = TemplateRef;
   ) {
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-      if(!('applicationInfoAttachmentDtoList' in this.newRegister)){
+      if(!('applicationInfoAttachmentDtoList' in this.newRegister)||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError || this.newRegister.emergencyContactInfoDto.emergencyFormError||this.newRegister.guarantorInfoDto.guarantorFormError||this.newRegister.loanFormError){
+        this.dataService.formError=true;
         this.router.navigate(['/new-user-loan/']);
       }
+      this.dataService.formError=false;
 
     }
      else {
@@ -237,9 +239,11 @@ private securityQuestionValidatosrs() {
 }
   submit(){
     this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-    console.log("Submit Data");
-    console.log(this.newRegister);
-console.log('Submit');
+    delete this.newRegister['loanFormError'];
+    delete this.newRegister['applicantFormError'];
+    delete this.newRegister.applicantCompanyInfoDto['occupationFormError'];
+    delete this.newRegister.emergencyContactInfoDto['emergencyFormError'];
+    delete this.newRegister.guarantorInfoDto['guarantorFormError'];
     this.dataService.freeRegistration( this.newRegister).subscribe( (res: any) => {
       console.log(res.status);
 
@@ -284,5 +288,8 @@ console.log('Submit');
   clickBackLink($event: any){
 
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
+  }
+  back(){
+    this.router.navigate(['/new-user-loan/'], { queryParams:  filter, skipLocationChange: true});
   }
 }

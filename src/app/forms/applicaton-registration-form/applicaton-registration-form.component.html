@@ -1,4 +1,4 @@
-<form [formGroup]="applicationRegistrationForm" (ngSubmit)="applicationDataSave()">
+<form [formGroup]="applicationRegistrationForm">
     <div class="row">
         <div class="col-md-12 form-title">
             <span class="page-text"> {{ 'application.title' | translate }} </span>
@@ -7,86 +7,80 @@
 
     <div class="row">
         <div class="col-md-6 col-sm-12">
-            <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
-                <mat-label> {{ 'app.form.name' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="name" maxLength="50" placeholder="{{ 'app.form.name' | translate }}">
-                <mat-hint align="end">{{ f.name.value?.length || 0 }}/50 </mat-hint>
+            <div class="col-12 mat-form-field-wrapper">
+                <div class="form-group row">
+                  <label for="dob" class="col-12 col-md-3 col-form-label">{{ 'app.form.name' | translate }}<strong class="red-color">*</strong> </label>
+                  <span class="col-12 col-md-2 outputData"><b>:</b></span>
+                  <div id="applicantName" class="col-12 col-md-7 outputData">{{ currentUser.userInformationResDto.name}}  </div>
+              </div>
+              </div>
 
-                <mat-error *ngIf="errorHandling('name', 'required')"> *{{ 'required-appName' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('name', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-            </mat-form-field>
+              <div class="col-12 mat-form-field-wrapper">
+                <div class="form-group row">
+                  <label for="dob" class="col-12 col-md-3 col-form-label">{{ 'app.form.dob' | translate }}<strong class="red-color">*</strong> </label>
+                  <span class="col-12 col-md-2 outputData"><b>:</b></span>
+                  <div id="applicantDOB" class="col-12 col-md-7 outputData">{{ currentUser.userInformationResDto.dateOfBirth | date:'yyyy-MM-dd'}}  </div>
+              </div>
+              </div>
 
-            <mat-form-field hintLabel="{{ 'required-18+' | translate }}" class="col-12">
-                <mat-label> {{ 'app.form.dob' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput [matDatepicker]="picker" [max]="maxDate" formControlName="dob" placeholder="{{ 'app.form.dob' | translate }}">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-
-                <mat-error *ngIf="errorHandling('dob', 'required')">  *{{ 'required-dob' | translate }} </mat-error>
-            </mat-form-field>
-
-            <mat-form-field hintLabel="{{ 'input-label-nrcNo' | translate }}" class="col-6">
-                <mat-label>  {{ 'app.form.nrc' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <mat-select formControlName="nrcCode" (selectionChange)="changeNrcState($event)">
-                    <mat-option *ngFor="let steid of stateIdList; let i = index" [value]="stateIdList[i]"> {{ steid }} </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field hintLabel="{{ 'input-label-township' | translate }}" class="col-6">
-                <mat-select formControlName="nrcList">
-                    <mat-option *ngFor="let townshipCodeList of matchTownShip;" [value]="townshipCodeList"> {{ townshipCodeList }} </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field hintLabel="{{ 'input-label-nrcType' | translate }}" class="col-6">
-                <mat-select formControlName="nrcType">
-                    <mat-option *ngFor="let types of nrcTypeList" [value]="types"> {{ types }} </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field hintLabel="{{ 'input-label-sixDigit' | translate }}" class="col-6">
-                <mat-label>  {{ 'input-label-nrcCode' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" formControlName="nrcNo" minLength="6" maxlength="6" />
-                <mat-hint align="end">{{ f.nrcNo.value?.length || 0 }}/6 </mat-hint>
-
-                <mat-error *ngIf="errorHandling('nrcNo', 'required')"> *{{ 'required-nrc' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('nrcNo', 'onlyNumber') || errorHandling('nrcNo', 'minDigit')"> *{{ 'required-nrcDigit' | translate }} </mat-error>
-            </mat-form-field>
+              <div class="col-12 mat-form-field-wrapper">
+                <div class="form-group row">
+                  <label for="dob" class="col-12 col-md-3 col-form-label">{{ 'app.form.nrc' | translate }}<strong class="red-color">*</strong> </label>
+                  <span class="col-12 col-md-2 outputData"><b>:</b></span>
+                  <div id="applicantNrcNo" class="col-12 col-md-7 outputData">{{ currentUser.userInformationResDto.nrcNo}}  </div>
+              </div>
+              </div>
+              <div class="col-12 mat-form-field-wrapper">
+                <div class="form-group row">
+                  <label for="dob" class="col-12 col-md-3 col-form-label">{{ 'app.form.mobileNo' | translate }}<strong class="red-color">*</strong> </label>
+                  <span class="col-12 col-md-2 outputData"><b>:</b></span>
+                  <div id="applicantMobileNo" class="col-12 col-md-7 outputData">{{ currentUser.userInformationResDto.phoneNo }}  </div>
+              </div>
+              </div>
 
             <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
                 <mat-label> {{ 'app.form.fatherName' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput type="text" maxlength="50" formControlName="fatherName">
+                <input matInput autocomplete="off" id="applicantFatherName" type="text" maxlength="50" formControlName="fatherName"  oninput="this.value = this.value.toUpperCase()" >
                 <mat-hint align="end">{{ f.fatherName.value?.length || 0 }}/50 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('fatherName', 'required')"> *{{ 'required-fatherName' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('fatherName', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('fatherName', 'required')"> {{ 'required-fatherName' | translate }} </mat-error>
+              
             </mat-form-field>
+            <mat-form-field  class="col-12">
+                <mat-label> {{ 'app.form.education' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <mat-select id="applicantEducation" formControlName="highestEducationTypeId" >
+                  <mat-option *ngFor="let data of education; let i=index" [value]="education[i].highestEducationTypeId">
+                    {{ data.name }} </mat-option>
+                    <mat-error *ngIf="errorHandling('highestEducationTypeId', 'required')"> {{ 'required-education' | translate }} </mat-error>
+                </mat-select>
+              
+              </mat-form-field>
 
             <div class="col-12 mat-form-field-wrapper">
                 <div class="row">
                     <mat-label class="col-4"> {{ 'app.form.nationality' | translate }} </mat-label>
-                    <mat-radio-group formControlName="nationality" class="col-8">
-                        <mat-radio-button [value]="1" (change)="enableOtherNationality($event)"> *{{ 'app.form.nationality.myanmar' | translate }}</mat-radio-button>
-                        <mat-radio-button [value]="2" (change)="enableOtherNationality($event)"> *{{ 'app.form.nationality.other' | translate }}</mat-radio-button>
+                    <mat-radio-group id="applicantNationality" formControlName="nationality" class="col-8">
+                        <mat-radio-button [value]="1" (change)="enableOtherNationality($event)"> {{ 'app.form.nationality.myanmar' | translate }}</mat-radio-button>
+                        <mat-radio-button [value]="2" (change)="enableOtherNationality($event)"> {{ 'app.form.nationality.other' | translate }}</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
 
-            <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12">
+            <mat-form-field hintLabel="{{ 'required-max50' | translate }}" class="col-12" [hidden]="hideNationality">
                 <mat-label> {{'app.form.nationalityOther' | translate }} </mat-label>
-                <input matInput type="text" maxlength="50" formControlName="nationalityOther">
+                <input  matInput id="applicantNationalityOther" autocomplete="off" type="text" maxlength="50" formControlName="nationalityOther" oninput="this.value= this.value.toUpperCase()">
                 <mat-hint align="end">{{ f.nationalityOther.value?.length || 0 }}/50 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('nationalityOther', 'required')"> *{{ 'required-otherNationality' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('nationalityOther', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('nationalityOther', 'required')"> {{ 'required-otherNationality' | translate }} </mat-error>
             </mat-form-field>
 
             <div class="col-12 mat-form-field-wrapper">
                 <div class="row">
                     <mat-label class="col-4"> {{ 'app.form.gender' | translate }} </mat-label>
-                    <mat-radio-group formControlName="gander" class="col-8"> 
-                        <mat-radio-button [value]="1"> *{{ 'app.form.male' | translate }} </mat-radio-button>
-                        <mat-radio-button [value]="2">  *{{ 'app.form.female' | translate }} </mat-radio-button>
+                    <mat-radio-group id="applicantGender" formControlName="gander" class="col-8"> 
+                        <mat-radio-button [value]="1"> {{ 'app.form.male' | translate }} </mat-radio-button>
+                        <mat-radio-button [value]="2">  {{ 'app.form.female' | translate }} </mat-radio-button>
                       </mat-radio-group>
                 </div>
             </div>
@@ -94,36 +88,164 @@
             <div class="col-12 mat-form-field-wrapper">
                 <div class="row">
                     <mat-label class="col-4"> {{ 'app.form.maritalStatus' | translate }} </mat-label>
-                    <mat-radio-group formControlName="maritalStatus" class="col-8">
-                        <mat-radio-button [value]="1"> *{{ 'app.form.maritalStatus.single' | translate }} </mat-radio-button>
-                        <mat-radio-button [value]="2">  *{{ 'app.form.maritalStatus.married' | translate }} </mat-radio-button>
+                    <mat-radio-group id="applicantMaritalStatus" formControlName="maritalStatus" class="col-8">
+                        <mat-radio-button [value]="1"> {{ 'app.form.maritalStatus.single' | translate }} </mat-radio-button>
+                        <mat-radio-button [value]="2">  {{ 'app.form.maritalStatus.married' | translate }} </mat-radio-button>
                       </mat-radio-group>
                 </div>
             </div>
 
-            <mat-form-field hintLabel="{{ 'required-max100' | translate }}" class="col-12">
-                <mat-label> {{ 'app.form.currentAddress' | translate }} <strong class="red-color">*</strong></mat-label>
-                <input matInput type="text" maxlength="100" formControlName="currentAddress">
-                <mat-hint align="end">{{ f.currentAddress.value?.length || 0 }}/100 </mat-hint>
+            <mat-card-header>
+                <mat-card-title>
+                  <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.currentAddress'| translate}}
+                  </h4>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.buildingNo' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput id="applicantCurAddBildingNo" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressBuildingNo">
+                <mat-hint align="end">
+                  {{ f.currentAddressBuildingNo.value?.length || 0 }}/100 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('currentAddress', 'required')"> *{{ 'required-currentAddress' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('currentAddress', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-            </mat-form-field>
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.roomNo' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput id="applicantCurAddRoomNo" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressRoomNo">
+                <mat-hint align="end">
+                  {{ f.currentAddressRoomNo.value?.length || 0 }}/100 </mat-hint>
+
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.floor' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="applicantCurAddFloor" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressFloor">
+                <mat-hint align="end">
+                  {{ f.currentAddressFloor.value?.length || 0 }}/100 </mat-hint>
+
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.street' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="applicantCurAddStreet" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressStreet">
+                <mat-hint align="end">
+                  {{ f.currentAddressStreet.value?.length || 0 }}/100 </mat-hint>
+                  <mat-error *ngIf="errorHandling('currentAddressStreet', 'required')">{{'required-currentAddressStreet'| translate}}
+                  </mat-error>
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-12">
+                <mat-label> {{ 'app.form.qtr' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="applicantCurAddQtr" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="currentAddressQtr">
+                <mat-hint align="end">
+                  {{ f.currentAddressQtr.value?.length || 0 }}/100 </mat-hint>
+                  <mat-error *ngIf="errorHandling('currentAddressQtr', 'required')">{{'required-currentAddressQtr'|translate}}
+                    </mat-error>
+
+              </mat-form-field>
+
+              <mat-form-field class="col-12">
+                <mat-label> {{ 'app.form.city' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <mat-select id="applicantCurAddCity" formControlName="currentAddressCity" (selectionChange)="changeCity($event,'current')">
+                  <mat-option *ngFor="let city of cityTownship; let i=index" [value]="cityTownship[i].cityId">
+                    {{ city.name }} </mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandling('currentAddressCity', 'required')">{{'required-currentAddressCity'| translate}}
+                 </mat-error>
+              </mat-form-field>
+              <mat-form-field  class="col-12">
+                <mat-label> {{ 'app.form.township' | translate }} <strong class="red-color">*</strong>
+                </mat-label>
+                <mat-select id="applicantCurAddTownship" formControlName="currentAddressTownship" >
+                  <mat-option *ngFor="let township of currentTownshipList; let i=index" [value]="currentTownshipList[i].townshipId">
+                    {{ township.name }} </mat-option>
+                </mat-select>
+                <mat-error *ngIf="errorHandling('currentAddressTownship', 'required')">{{'required-currentAddressTownship'| translate}}
+                 </mat-error>
+              </mat-form-field>
+
+
         </div>
 
         <div class="col-md-6 col-sm-12">
-            <mat-form-field hintLabel="{{ 'required-max100' | translate }}" class="col-12">
-                <mat-label> {{ 'app.form.permanentAddress' | translate }} <strong class="red-color">*</strong></mat-label>
-                <input matInput type="text" maxLength="100" formControlName="permanentAddress">
-                <mat-hint align="end">{{ f.permanentAddress.value?.length || 0 }}/100 </mat-hint>
+            <mat-card-header>
+                <mat-card-title>
+                  <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.permanentAddress'| translate}}
+                  </h4>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.buildingNo' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput  id="applicantPerAddBuildingNo" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="permanentAddressBuildingNo">
+                <mat-hint align="end">
+                  {{ f.permanentAddressBuildingNo.value?.length || 0 }}/100 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('permanentAddress', 'required')"> *{{ 'required-permentAddress' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('permanentAddress', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-            </mat-form-field>
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.roomNo' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput id="applicantPerAddRoomNo" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="permanentAddressRoomNo">
+                <mat-hint align="end">
+                  {{ f.permanentAddressRoomNo.value?.length || 0 }}/100 </mat-hint>
+
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.floor' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput id="applicantPerAddFloor" type="text" maxlength="100" oninput="this.value = this.value.toUpperCase()"  formControlName="permanentAddressFloor">
+                <mat-hint align="end">
+                  {{ f.permanentAddressFloor.value?.length || 0 }}/100 </mat-hint>
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-md-6 col-12">
+                <mat-label> {{ 'app.form.street' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="applicantPerAddStreet" maxlength="100" oninput="this.value = this.value.toUpperCase()"  formControlName="permanentAddressStreet">
+                <mat-hint align="end">
+                  {{ f.permanentAddressStreet.value?.length || 0 }}/100 </mat-hint>
+
+              </mat-form-field>
+
+              <mat-form-field hintLabel="Max 100 characters" class="col-12">
+                <mat-label> {{ 'app.form.qtr' | translate }}
+                </mat-label>
+                <input autocomplete="off" matInput type="text" id="applicantPerAddQtr" maxlength="100" oninput="this.value = this.value.toUpperCase()" formControlName="permanentAddressQtr">
+                <mat-hint align="end">
+                  {{ f.permanentAddressQtr.value?.length || 0 }}/100 </mat-hint>
+
+              </mat-form-field>
+
+              <mat-form-field class="col-12">
+                <mat-label> {{ 'app.form.city' | translate }}
+                </mat-label>
+                <mat-select formControlName="permanentAddressCity" id="applicantPerAddCity" (selectionChange)="changeCity($event,'permanent')">
+                  <mat-option *ngFor="let city of cityTownship; let i=index" [value]="cityTownship[i].cityId">
+                    {{ city.name }} </mat-option>
+                </mat-select>
+              
+              </mat-form-field>
+              <mat-form-field  class="col-12">
+                <mat-label> {{ 'app.form.township' | translate }} 
+                </mat-label>
+                <mat-select  id="applicantPerAddTownship"  formControlName="permanentAddressTownship" >
+                  <mat-option *ngFor="let township of permanentTownshipList; let i=index" [value]="permanentTownshipList[i].townshipId">
+                    {{ township.name }} </mat-option>
+                </mat-select>
+             
+              </mat-form-field>
 
             <mat-form-field class="col-12">
                 <mat-label> {{ 'app.form.typeOfResidence' | translate }} <strong class="red-color">*</strong></mat-label>
-                <mat-select formControlName="typeOfResidence" (selectionChange)="typeOfResidenceChange($event)">
+                <mat-select formControlName="typeOfResidence" id="applicantTOR" (selectionChange)="typeOfResidenceChange($event)">
                     <mat-option value="1"> Owner </mat-option>
                     <mat-option value="2"> Parental  </mat-option>
                     <mat-option value="3"> Rental </mat-option>
@@ -132,18 +254,18 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field hintLabel="{{ 'required-max256' | translate }}" class="col-12">
+            <mat-form-field hintLabel="{{ 'required-max256' | translate }}" class="col-12" [hidden]="hideTypeOfResident">
                 <mat-label> {{ 'app.form.typeOfResidenceOther' | translate }} <strong class="red-color">*</strong></mat-label>
-                <input matInput type="text" maxLength="256" formControlName="typeOfResidenceOther">
+                <input matInput type="text" id="applicantTOROther" autocomplete="off" maxLength="256" formControlName="typeOfResidenceOther" oninput="this.value=this.value.toUpperCase()">
                 <mat-hint align="end">{{ f.typeOfResidenceOther.value?.length || 0 }}/256 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('typeOfResidenceOther', 'required')"> *{{ 'required-typeOfResidenceOther' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('typeOfResidenceOther', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('typeOfResidenceOther', 'required')"> {{ 'required-typeOfResidenceOther' | translate }} </mat-error>
+                
             </mat-form-field>
 
             <mat-form-field class="col-12">
                 <mat-label> {{ 'app.form.livingWith' | translate }} <strong class="red-color">*</strong></mat-label>
-                <mat-select formControlName="livingWith">
+                <mat-select id="applicantLW" formControlName="livingWith">
                     <mat-option value="1"> Parent </mat-option>
                     <mat-option value="2"> Spouse  </mat-option>
                     <mat-option value="3"> Relative  </mat-option>
@@ -152,81 +274,71 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field hintLabel="{{ 'input-label-livingYear' | translate }}" class="col-6">
+            <mat-form-field class="col-6">
                 <mat-label> {{'app.form.yearOfStay' | translate }} ({{ 'app.form.year' | translate }}) <strong class="red-color">*</strong></mat-label>
-                <mat-select formControlName="yearOfStayYear">
-                    <mat-option *ngFor="let item of arrayOne(99); let i = index;" value="{{ i }}"> {{ i }} </mat-option>
+                <mat-select id="applicantYOStay" formControlName="yearOfStayYear">
+                    <mat-option *ngFor="let item of arrayOne(100); let i = index;" value="{{ i }}"> {{ i }} </mat-option>
                 </mat-select>
 
-                <mat-error *ngIf="errorHandling('yearOfStayYear', 'required')"> *{{ 'required-yearOfStay' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('yearOfStayYear', 'required')"> {{ 'required-yearOfStay' | translate }} </mat-error>
             </mat-form-field>
 
-            <mat-form-field hintLabel="{{ 'input-label-livingYear' | translate }}" class="col-6">
+            <mat-form-field class="col-6">
                 <mat-label> {{'app.form.yearOfStay' | translate }} ({{ 'app.form.month' | translate }}) <strong class="red-color">*</strong></mat-label>
-                <mat-select formControlName="yearOfStayMonth">
-                    <mat-option *ngFor="let item of arrayOne(11); let i = index;" value="{{ i }}"> {{ i }} </mat-option>
+                <mat-select id="applicantMOStay" formControlName="yearOfStayMonth">
+                    <mat-option *ngFor="let item of arrayOne(12); let i = index;" value="{{ i }}"> {{ i }} </mat-option>
                 </mat-select>
 
-                <mat-error *ngIf="errorHandling('yearOfStayMonth', 'required')"> *{{ 'required-monthOfStay' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('yearOfStayMonth', 'required')"> {{ 'required-monthOfStay' | translate }} </mat-error>
             </mat-form-field>
 
-            <mat-form-field hintLabel="{{ 'required-digit11' | translate }}" class="col-12">
-                <mat-label> {{ 'app.form.mobileNo' | translate }} <strong class="red-color">*</strong></mat-label>
-                <input matInput type="text" maxLength="11" minLength="11" formControlName="mobileNo">
-                <mat-hint align="end">{{ f.mobileNo.value?.length || 0 }}/11 </mat-hint>
+           
 
-                <mat-error *ngIf="errorHandling('mobileNo', 'required')"> *{{ 'required-phone' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('mobileNo', 'validPhone')"> *{{ 'required-mobile' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('mobileNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('mobileNo', 'minDigit')"> *{{ 'required-digit11Phone' | translate }} </mat-error>
-            </mat-form-field>
-
-            <mat-form-field hintLabel="{{ 'required-digit11' | translate }}" class="col-12">
-                <mat-label>  {{ 'app.form.residentTelNo' | translate }} <strong class="red-color">*</strong></mat-label>
-                <input matInput type="text" maxLength="11" minLength="11" formControlName="residentTelNo">
+            <mat-form-field class="col-12">
+                <mat-label>  {{ 'app.form.residentTelNo' | translate }} </mat-label>
+                <input matInput type="text" id="applicantresidentTelNo" autocomplete="off" maxLength="11"  formControlName="residentTelNo" numbersOnly>
                 <mat-hint align="end">{{ f.residentTelNo.value?.length || 0 }}/11 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('residentTelNo', 'required')"> *{{ 'required-phone' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('residentTelNo', 'validPhone')"> *{{ 'required-mobile' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('residentTelNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('residentTelNo', 'minDigit')"> *{{ 'required-digit11Phone' | translate }} </mat-error>
+      
             </mat-form-field>
 
-            <mat-form-field hintLabel="{{ 'required-digit14' | translate }}" class="col-12">
+            <mat-form-field  class="col-12">
                 <mat-label>  {{ 'app.form.otherPhoneNo' | translate }} </mat-label>
-                <input matInput type="text" maxLength="14" minLength="14" formControlName="otherPhoneNo">
-                <mat-hint align="end">{{ f.otherPhoneNo.value?.length || 0 }}/14 </mat-hint>
+                <input matInput type="text" id="applicantOtherPhoneNo" autocomplete="off" maxLength="11"  formControlName="otherPhoneNo" numbersOnly>
+                <mat-hint align="end">{{ f.otherPhoneNo.value?.length || 0 }}/11 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('otherPhoneNo', 'onlyNumber')"> *{{ 'required-digit' | translate }} </mat-error>
+                
             </mat-form-field>
 
             <mat-form-field hintLabel="{{ 'input-label-emailcount' | translate }}" class="col-12">
-                <mat-label>  {{ 'app.form.email' | translate }} <strong class="red-color">*</strong></mat-label>
-                <input matInput type="text" maxlength="50" formControlName="email">
+                <mat-label>  {{ 'app.form.email' | translate }} </mat-label>
+                <input matInput id="applicantEmail" type="text" autocomplete="off" maxlength="50" formControlName="email">
                 <mat-hint align="end">{{ f.email.value?.length || 0 }}/50 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('email', 'required')"> *{{ 'required-email' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('email', 'langError')"> *{{ 'required-language' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('email', 'email')"> *{{ 'required-invalidEmail' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('email', 'required')"> {{ 'required-email' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('email', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('email', 'email')"> {{ 'required-invalidEmail' | translate }} </mat-error>
             </mat-form-field>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <button mat-button [disabled]="loading" class="save float-align-left">
+        <div class="col-md-6">
+            <button mat-button [disabled]="loading" (click)="applicationDataSave()" class="save float-align-left">
                 <mat-icon>save</mat-icon> 
                 <span> {{ 'btn.save' | translate }} </span> 
                 <mat-spinner *ngIf="loading"></mat-spinner>
             </button>
+        </div>
 
+        <div class="col-md-6">
             <button mat-button matStepperNext class="btn-group-align-right">
-                 <span> {{ 'btn.next' | translate }} </span> 
-                 <mat-icon>keyboard_arrow_right</mat-icon> 
+                <span> {{ 'btn.next' | translate }} </span> 
+                <mat-icon>keyboard_arrow_right</mat-icon> 
             </button>
         </div>
     </div>
-  </form>
+</form>
 
   <ng-template #erorrSnack>
     <div #alert class="alert alert-danger" role="alert"> 

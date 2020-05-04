@@ -1,14 +1,14 @@
 import { HttpHeaders } from '@angular/common/http';
  
 export const config = {
-  api: 'https://ass.aeoncredit.com.mm/daso',
+  api: 'http://10.1.9.68:8083/daso',
   base_url: 'http://localhost:8080/aeon_web/',
   apiUsername: 'vcs-api-client',
   apiPassword: 'vcs-api-client',
   inputPatten: /[^\x00-\x7F]+/ig,
   imageType: 'data:image/png;base64,',
-  imageUrl: 'https://ass.aeoncredit.com.mm/daso/digital-application-image-files/',
-  purchaseImgUrl: 'https://ass.aeoncredit.com.mm/daso/purchase-image-files/'
+  imageUrl: 'http://10.1.9.68:8083/daso/digital-application-image-files/',
+  purchaseImgUrl: 'http://10.1.9.68:8083/daso/purchase-image-files/'
 };
 
 export const BasicAuthHeader = new HttpHeaders({
