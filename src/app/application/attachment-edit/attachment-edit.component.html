@@ -1,7 +1,7 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
-        <span class="circle circle-right"></span>
+        <!-- <span class="circle circle-top"></span>
+        <span class="circle circle-right"></span> -->
 
         <div class="row content-wrapper">
             <div class="col-md-12">
@@ -52,8 +52,8 @@
 
 
                                         <button mat-button (click)="submit()" [disabled]="nextLoading">
-                                          <span> {{ 'btn.next' | translate }} </span>
-                                          <mat-icon>keyboard_arrow_right</mat-icon>
+                                            <mat-icon>save</mat-icon>
+                                            <span> {{ 'btn.update' | translate }} </span>                                      
                                           <mat-spinner *ngIf="nextLoading"></mat-spinner>
                                         </button>
                                       </div>

@@ -9,8 +9,9 @@
       <div class="left col-md-6 col-xs-6 col-sm-6 col-lg-6 " style="align-self: center;">
         <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 mt-3  mt-md-0" style="margin:auto;" >
           <mat-card >
+            <h6 class="login-title"> {{'login-title-login' | translate }}</h6>
         <mat-card-header>
-          <mat-card-title> <h4 class="form-ttl" style="margin-top: 10%;"> Login </h4> </mat-card-title>
+          <mat-card-title> <h4 class="form-ttl" style="margin-top: 10%; color: black;"> {{'login.title'|translate}} </h4> </mat-card-title>
         </mat-card-header>
 
         <mat-card-content >
@@ -59,9 +60,10 @@
 
         <div  class="right  col-md-6 col-xs-6 col-sm-6 col-lg-6">
           <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8"  style="margin: auto;  margin-top: 5%;margin-bottom: 5%;">
-           <mat-card  style="background-color: #F4EEF9;">
+           <mat-card  style="background-color: #F8ECFF;">
+            <h6 class="login-title"> {{'login-title-new' | translate }}</h6>
           <mat-card-header>
-            <mat-card-title> <h4 class="form-ttl" style="margin-top: 10%;"> New User Application Apply </h4> </mat-card-title>
+            <mat-card-title> <h4 class="form-ttl" style="margin-top: 10%; color: black;">{{'title-new-user-application-apply'| translate}} </h4> </mat-card-title>
           </mat-card-header>
 
           <mat-card-content class="col-12">
@@ -81,7 +83,7 @@
               </mat-form-field>
 
               <mat-form-field class="col-12">
-                <input matInput  placeholder="{{ 'app.form.phone' | translate }}" minlength="9" maxlength="11" autocomplete="off" formControlName="phoneNo"/>
+                <input matInput  placeholder="{{ 'app.form.phone' | translate }}" minlength="9" maxlength="11" autocomplete="off" formControlName="phoneNo" numbersOnly/>
                 <mat-hint align="end">{{ ff.phoneNo.value?.length || 0 }} / 11 </mat-hint>
                 <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'required')"> Phone no is required. </mat-error>
                 <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'onlyNumber')"> {{ errorMsg.number }} </mat-error>
@@ -89,8 +91,9 @@
                 <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'validPhone')"> Phone No is not mobile number. </mat-error>
                 <mat-error *ngIf="errorHandlingForRegister('phoneNo', 'duplicatePhoneNo')"> Your phone no. already exists. </mat-error>
               </mat-form-field>
+              <h6 class="login-title" > {{'login-title-nrc' | translate }}</h6>
+              <div class="col-12 border">
               
-
               <mat-form-field class="col-6">
                 <mat-select formControlName="nrcCode" id="nrcCode" (selectionChange)="changeNrcState($event)">
                   <mat-option  *ngFor="let steid of stateIdList; let i = index" [value]="stateIdList[i]"> {{ steid }}</mat-option>
@@ -122,7 +125,7 @@
               </mat-form-field>
               <mat-error *ngIf="duplicateNRC">Your nrc no. already exists.</mat-error>
 
-
+              </div>
 
               <div class="col-12" style="margin-top: 10%;">
                 <div class="btn-gp">

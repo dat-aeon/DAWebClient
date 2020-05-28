@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -50,9 +50,12 @@ export class NewUserOccupationComponent implements OnInit {
     minimumValue:'0',
     selectNumberOnly: true
   }
+
+  @ViewChild('companyName', { static: false }) companyNameElement: ElementRef;
   
   @ViewChild('erorrSnack', { static: false })
   erorrSnack: any = TemplateRef;
+
 
 
   constructor(
@@ -62,7 +65,8 @@ export class NewUserOccupationComponent implements OnInit {
     private authService: AuthService,
     private activeRouter: ActivatedRoute,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+
   ) {
     this.modalOptions = { backdrop: 'static', backdropClass: 'customBackdrop' };
     if (localStorage.getItem('newRegister')) {
@@ -73,10 +77,7 @@ export class NewUserOccupationComponent implements OnInit {
         this.router.navigate(['/new-user/']);
       }
 
-    if(this.dataService.formError){
-      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
-    this.dataService.formError=false;
-    }
+   
 
     } else {
       this.router.navigate(['login']);
@@ -96,8 +97,18 @@ export class NewUserOccupationComponent implements OnInit {
     this.errorMsg = errorMessage;
     this.authService.refreshToken();
     this.occupationFormBulider();
+   
 
   }
+  
+  ngAfterViewInit() {
+
+ 
+  if(this.dataService.formError){
+    this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+  this.dataService.formError=false;
+  }
+}
 
 
 
@@ -130,7 +141,7 @@ export class NewUserOccupationComponent implements OnInit {
       companyTownship: [ , [Validators.required]],
       companyCity: [2, [ Validators.required]],
       salaryDay: ['1', [ Validators.required]],
-      companyTelNo: [this.applicantCompanyInfoDto.companyTelNo, [Validators.required, numOnlyValidator]],
+      companyTelNo: [this.applicantCompanyInfoDto.companyTelNo, [Validators.required]],
       contactTimeFrom: [this.applicantCompanyInfoDto.contactTimeFrom],
       contactTimeTo: [this.applicantCompanyInfoDto.contactTimeTo],
 
@@ -143,6 +154,7 @@ export class NewUserOccupationComponent implements OnInit {
       monthlyBasicIncome: [this.applicantCompanyInfoDto.monthlyBasicIncome, [Validators.required] ],
       otherIncome: [this.applicantCompanyInfoDto.otherIncome ]
     }, { validators: servicePeriodValidator });
+
     this.totalIncome =this.applicantCompanyInfoDto.totalIncome;
     this.f.companyStatusOther.disable();
     if ('companyStatus' in this.applicantCompanyInfoDto) {
@@ -178,7 +190,6 @@ export class NewUserOccupationComponent implements OnInit {
 
         dataLists.data.find( (key: any) => {
           if (Number(this.applicantCompanyInfoDto.companyAddressCity) === key.cityId) {
-            console.log('Hello');
             this.companyTownshipList = key.townshipInfoList;
             this.f.companyTownship.setValue(this.applicantCompanyInfoDto.companyAddressTownship);
 
@@ -255,7 +266,6 @@ export class NewUserOccupationComponent implements OnInit {
   }
 
     changeCity($event: any) {
-  console.log($event.value);
   this.cityTownship.find( (key: any) => {
    if (Number($event.value) === key.cityId) {
 
@@ -275,8 +285,6 @@ this.totalIncome = new NumeralPipe($event.target.value).value() + new NumeralPip
 
  }
 changeContactTime($event: any, type: any){
-  console.log($event.target.value);
-  console.log(type);
 
 }
 clickLink($event: any){
@@ -286,7 +294,6 @@ clickLink($event: any){
     this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
     this.nextLoading = false; return; }
   this.saveDraft();
-  console.log('Next');
   this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
 
 }

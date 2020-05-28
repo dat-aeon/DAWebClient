@@ -61,7 +61,8 @@ export function minLength (min: number): ValidatorFn {
 
 // Only Support Number Validator;
 export function numOnlyValidator(control: AbstractControl) {
-  if(control.value === null || control.value === undefined) { 
+  
+  if(control.value === null || control.value === undefined || control.value==='') { 
     return null;
   }
 
@@ -138,7 +139,6 @@ export function imageValidator(control: AbstractControl){
 }
 
 export const securityQuestionValidatorsCheck: ValidatorFn = (fg: FormGroup) => {
-  console.log(fg.get(''));
   return null;
 }
 
@@ -230,7 +230,17 @@ export function securityQuestionValidators(questionForm: FormGroup): ValidatorFn
     return null;
   }
 }
+export function emailValidation(control: AbstractControl){
+  if(control.value!=='' && control.value !==null){
+  const str = control.value.substring(control.value.length-4);
 
+  if (str !== '.com' && str !== '') {
+
+return {invalidEmail:true}
+  }}
+  
+  return null;
+}
 export function dateValidation (control: AbstractControl) {
   
   if(control.errors !== null) {

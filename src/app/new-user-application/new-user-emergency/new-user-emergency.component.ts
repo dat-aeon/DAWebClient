@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -31,6 +31,9 @@ export class NewUserEmergencyComponent implements OnInit {
   errorMsg: any;
   id: any;
   modalOptions: NgbModalOptions;
+
+  @ViewChild('emergencyName', { static: false })
+  private emergencyNameElement: ElementRef;
   
   @ViewChild('erorrSnack', { static: false })
   erorrSnack: any = TemplateRef;
@@ -48,17 +51,12 @@ export class NewUserEmergencyComponent implements OnInit {
     this.modalOptions = { backdrop:'static', backdropClass:'customBackdrop' }
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-      console.log(this.newRegister);
-      console.log(this.newRegister);
       if(!('applicantCompanyInfoDto' in this.newRegister)||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError){
         this.dataService.formError=true;
-        this.router.navigate(['/new-user-occupation/']);
+        this.router.navigate(['/new-user-occupation/'], { queryParams:  filter, skipLocationChange: true});
         
       }
-      if(this.dataService.formError){
-        this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
-      this.dataService.formError=false;
-      }
+     
   
     
 
@@ -74,7 +72,20 @@ export class NewUserEmergencyComponent implements OnInit {
     this.errorMsg = errorMessage;
     this.authService.refreshToken();
     this.emergencyContactFormBuilder();
+   
+  }
 
+ 
+ 
+  
+  ngAfterViewInit(){
+ 
+    
+    if(this.dataService.formError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.dataService.formError=false;
+    }
+   
   }
 
   public errorHandling = (control: string, error: string) => {
@@ -107,9 +118,9 @@ export class NewUserEmergencyComponent implements OnInit {
       currentQtr: [this.emergencyContactInfoDto.currentAddressQtr,[ Validators.required]],
       currentTownship: [ ,[Validators.required]],
       currentCity: [2,[ Validators.required]],
-      mobileNo: [this.emergencyContactInfoDto.mobileNo , [Validators.required,numOnlyValidator,phoneNumValidator,minLength(9)] ],
-      residentTelNo: [this.emergencyContactInfoDto.residentTelNo ,[  numOnlyValidator]],
-      otherPhoneNo: [this.emergencyContactInfoDto.otherPhoneNo, [numOnlyValidator]]
+      mobileNo: [this.emergencyContactInfoDto.mobileNo , [Validators.required,phoneNumValidator,minLength(9)] ],
+      residentTelNo: [this.emergencyContactInfoDto.residentTelNo ],
+      otherPhoneNo: [this.emergencyContactInfoDto.otherPhoneNo]
     });
     this.f.relationshipOther.disable();
 
@@ -139,7 +150,6 @@ export class NewUserEmergencyComponent implements OnInit {
 
       dataLists.data.find( (key: any) => {
         if (Number(this.emergencyContactInfoDto.currentAddressCity) === key.cityId) {
-          console.log('Hello');
           this.currentTownshipList = key.townshipInfoList;
           this.f.currentTownship.setValue(this.emergencyContactInfoDto.currentAddressTownship);
 
@@ -203,7 +213,6 @@ export class NewUserEmergencyComponent implements OnInit {
   }
 
   changeCity($event: any) {
-    console.log($event.value);
     this.cityTownship.find( (key: any) => {
      if (Number($event.value) === key.cityId) {
 
@@ -220,7 +229,6 @@ export class NewUserEmergencyComponent implements OnInit {
       this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
       this.nextLoading = false; return; }
     this.saveDraft();
-    console.log('Next');
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
 
   }

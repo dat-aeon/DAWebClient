@@ -7,8 +7,8 @@
                         <div class="row content-wrapper">
                             <div class="col-md-12">
                                 <div class="col-md-12">
-                                    <ul class="sub-nav-wrapper " style="font-family: none;">
-                                        <li><a id="new-user" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                                    <ul class="sub-nav-wrapper " style="padding: 14px; background: none; box-shadow: none;">
+                                        <li><a id="new-user"[routerLink]="" (click)="clickBackLink($event)" >{{ 'application.title' | translate }} </a></li>
                                         <li><a id="new-user-occupation" [routerLink]="" (click)="clickBackLink($event)" > {{ 'app.form.occupation' | translate }}</a></li>
                                         <li><a  id="new-user-emergency" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.emergency' | translate }} </a></li>
                                         <li><a id="new-user-guarantor" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.guarantor' | translate }} </a></li>
@@ -31,13 +31,15 @@
                                                 <div class="col-md-6 col-sm-12">
 
                                                         <mat-form-field class="col-12">
-                                                          <input matInput type="password"  minlength="6" maxlength="16" formControlName="password" placeholder="{{ 'app.new.password' | translate }}" />
+                                                            <mat-label>{{ 'app.new.password' | translate }}<strong class="red-color">*</strong> </mat-label>
+                                                          <input matInput type="password"  minlength="6" maxlength="16" formControlName="password"  autofocus  />
                                                           <mat-error *ngIf="errorHandling('password', 'required')">{{ errorMsg.blank }} </mat-error>
                                                           <mat-error *ngIf="errorHandling('password', 'langError')"> {{ errorMsg.language }} </mat-error>
                                                           <mat-error *ngIf="errorHandling('password', 'minlength')"> {{ errorMsg.password }} </mat-error>
                                                         </mat-form-field>
                                                         <mat-form-field class="col-12">
-                                                        <input matInput type="password"  minlength="6" maxlength="16" formControlName="compwd" placeholder="{{ 'app.comfirm.password' | translate }}" />
+                                                            <mat-label>{{ 'app.comfirm.password' | translate }}<strong class="red-color">*</strong> </mat-label>
+                                                        <input matInput type="password"  minlength="6" maxlength="16" formControlName="compwd"  />
                                                         <mat-error *ngIf="errorHandling('compwd', 'required')">{{ errorMsg.blank }} </mat-error>
                                                         <mat-error *ngIf="errorHandling('compwd', 'langError')"> {{ errorMsg.language }} </mat-error>
                                                         <mat-error *ngIf="errorHandling('compwd', 'minlength')"> {{ errorMsg.password }} </mat-error>
@@ -51,7 +53,8 @@
                                                     <div [formGroup]="question">
                                                       <div class="col-12 form-wrapper">
                                                         <mat-form-field hintLabel="Q. {{ i + 1 }}">
-                                                          <mat-select formControlName="secQuesId" placeholder=" {{ 'sq.select' | translate }}">
+                                                            <mat-label>{{ 'sq.select' | translate }}<strong class="red-color">*</strong> </mat-label>
+                                                          <mat-select formControlName="secQuesId">
                                                             <mat-option [value]="securityQuestion[sqid].secQuestionId" *ngFor="let sq of securityQuestion; let sqid=index"> {{ sq.selected }} </mat-option>
                                                           </mat-select>
                                                           <mat-error *ngIf="question.controls.secQuesId.hasError('required')"> *{{'required-question' | translate }} </mat-error>
@@ -111,17 +114,32 @@
 </div>
 
 
-<div #content class="modal cmn-modal" id="termsAndConditions" [ngStyle]="{'display':display}">
+<div #content class="modal cmn-modal"  id="termsAndConditions" [ngStyle]="{'display':display}">
 
   <div class="modal-dialog modal-dialog-centered">
       
       <div class="modal-content">
           <div class="modal-header">
-              <h3 class="modal-title text-center"> {{ 'app.termsAndConditions' | translate }} </h3>
+              <h3 class="modal-title text-center"> {{ 'terms-and-conditions' | translate }} </h3>
               <button type="button" class="close"  (click)="display='none'">&times;</button>
           </div>
-          <div class="modal-body modal-scrollbar ml-2 mr-3" id="scrollbar">
-              <p class="text-left"> {{ termsAndConditions }} </p>
+          <div class="modal-body  modal-scrollbar ml-2 mr-3"  id="scrollbar"  [style.overflow]="'auto'" [style.height.px]="'350'">
+              <p  class="text-left">{{ 'terms-and-conditions-one'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-two'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-three'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-four'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-five'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-six'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-seven'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-eight'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-nine'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-ten'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-eleven'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-twelve'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-thirteen'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-fourteen'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-fifteen'|translate}} </p>
+              <p class="text-left">{{ 'terms-and-conditions-sixteen'|translate}} </p>
              
              
           </div>
@@ -137,4 +155,7 @@
     <div #alert class="alert alert-danger" role="alert"> 
         {{'required-all' | translate }} 
     </div>
+</ng-template>
+<ng-template #applicationFail>
+    <div #alert class="alert alert-danger" role="alert">  {{ body }} </div>
 </ng-template>

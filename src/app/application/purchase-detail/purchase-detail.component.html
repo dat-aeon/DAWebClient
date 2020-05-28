@@ -1,8 +1,8 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
+        <!-- <span class="circle circle-top"></span>
         <span class="circle circle-right"></span>
-  
+   -->
         <div class="row content-wrapper">
             <div class="col-md-12">
                     <mat-card>
@@ -96,7 +96,7 @@
   
                                 <div class="col-lg-6 col-12" *ngFor="let attImage of purchaseInfo.purchaseInfoAttachmentDtoList">
                                     <div class="form-group row">
-                                        <label for="member_card" class="col-12 col-md-4 col-form-label"> {{ attImage.fileType | attachementType  }} </label>
+                                        <label for="member_card" class="col-12 col-md-4 col-form-label"> {{ attImage.fileType | attachementTypePurchase  }} </label>
                                         <div class="col-12 col-md-8">
                                             <ul class="clearfix no-list-style image-box">
                                                 <li><img  class="img-fluid" [src]="imageUrl + attImage.filePath"></li>

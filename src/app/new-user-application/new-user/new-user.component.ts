@@ -1,8 +1,8 @@
 
-import { Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ElementRef} from '@angular/core';
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { numOnlyValidator, languageValidator, errorMessage, stayPeriodValidator } from 'src/app/cores/helper/validators';
+import { numOnlyValidator, languageValidator, errorMessage, stayPeriodValidator, emailValidation } from 'src/app/cores/helper/validators';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/cores/services/auth.service';
@@ -21,7 +21,7 @@ import { MatSnackBar } from '@angular/material';
 
 export class NewUserComponent implements OnInit {
 
-  education: any = [];
+
   yearOfStayError = true;
   currentTownshipList: any = [];
   permanentTownshipList: any = [];
@@ -47,6 +47,9 @@ export class NewUserComponent implements OnInit {
   typeOfResidenceSelected: any;
   selectedNrcList: any = null;
 
+  @ViewChild('name', { static: false })
+  nameElement: any = ElementRef;
+
   @ViewChild('erorrSnack', { static: false })
   erorrSnack: any = TemplateRef;
 
@@ -65,11 +68,7 @@ export class NewUserComponent implements OnInit {
 
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-      console.log(this.newRegister);
-    if(this.dataService.formError){
-      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
-    this.dataService.formError=false;
-    }
+    
     
 
 
@@ -98,12 +97,20 @@ export class NewUserComponent implements OnInit {
     this.errorMsg = errorMessage;
     this.authService.refreshToken();
     this.appFormBuilder();
-
-
+    
 
   }
 
+  ngAfterViewInit(){
+ 
+    if(this.dataService.formError){
+      
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.dataService.formError=false;
+    
+    }
 
+  }
 
 
   nextSubmit() {
@@ -111,7 +118,6 @@ export class NewUserComponent implements OnInit {
     this.nextLoading = true;
     if (this.newUserForm.invalid) { this.nextLoading = false; return; }
     this.saveDraft();
-    console.log('Next');
     this.router.navigate(['/new-user-occupation/'], { queryParams:  filter, skipLocationChange: true});
   }
 
@@ -145,9 +151,9 @@ export class NewUserComponent implements OnInit {
       livingWith: [1, [Validators.required]],
       yearOfStayYear: ['0'],
       yearOfStayMonth: ['0'],
-      residentTelNo: [this.newRegister.residentTelNo, [ numOnlyValidator]],
-      otherPhoneNo: [this.newRegister.otherPhoneNo, [numOnlyValidator]],
-      email: [this.newRegister.email, [ Validators.email, languageValidator]]
+      residentTelNo: [this.newRegister.residentTelNo],
+      otherPhoneNo: [this.newRegister.otherPhoneNo],
+      email: [this.newRegister.email, [ Validators.email, languageValidator,emailValidation]]
 
     } ,{ validators: stayPeriodValidator });
 
@@ -194,21 +200,11 @@ export class NewUserComponent implements OnInit {
       this.f.livingWith.setValue(this.newRegister.livingWith);
 
     }
-    this.dataService.getEducationList().subscribe((dataLists: any) => {
-      if(dataLists.status === 'SUCCESS' && dataLists.data !== null) {
-      for (const x of dataLists.data) {
-
-        this.education.push(x);
-      }
+    
       if ('highestEducationTypeId' in this.newRegister) {
         this.f.education.setValue(this.newRegister.highestEducationTypeId);
       }
-    }
-      
-  },(error: any) => {
-    console.log('Error : ' + JSON.stringify(error))
-    if(error) { this.modalService.open(ModalComponent); }
-    });
+ 
 
     this.dataService.getCityTownshipCodeList().subscribe((dataLists: any) => {
       if(dataLists.status === 'SUCCESS' && dataLists.data !== null) {
@@ -276,7 +272,6 @@ export class NewUserComponent implements OnInit {
 
 
 changeCity($event: any, current: any) {
- console.log($event.value);
  this.cityTownship.find( (key: any) => {
   if (Number($event.value) === key.cityId) {
     if(current==="current"){
@@ -370,7 +365,6 @@ this.newRegister.applicantFormError=false;
       this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
       this.nextLoading = false; return; }
     this.saveDraft();
-    console.log('Next');
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
 
   }

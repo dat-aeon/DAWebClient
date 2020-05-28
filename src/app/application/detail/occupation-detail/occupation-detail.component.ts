@@ -44,6 +44,7 @@ export class OccupationDetailComponent implements OnInit {
     this.dataService.getApplicationInfoDetail(this.currentUser.access_token, this.id).subscribe( 
       (res: any) => {
         if(res.data.applicantCompanyInfoDto !== null) {
+
           this.appInfo = res.data.applicantCompanyInfoDto; 
           this.appInfo.totalIncome = new NumeralPipe(res.data.applicantCompanyInfoDto.totalIncome).format('0,0'); 
           this.appInfo.monthlyBasicIncome = new NumeralPipe(res.data.applicantCompanyInfoDto.monthlyBasicIncome).format('0,0');

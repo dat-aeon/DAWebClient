@@ -1,8 +1,6 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
-        <span class="circle circle-right"></span>
-        <span class="circle circle-bottom"></span>
+      
 
         <div class="row content-wrapper">
             <div class="col-md-12">
@@ -19,7 +17,7 @@
                         <mat-card-content>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12"> 
-                                    <h6> {{ 'app.form.personalInfo' | translate }} </h6>
+                                    <h4 class="form-ttl-lvl2" style="color: black;"> {{ 'app.form.personalInfo' | translate }} </h4>
                                 </div>
 
                                 <div class="col-md-6 col-sm-12">
@@ -83,7 +81,7 @@
                                 <div class="col-md-6 col-sm-12">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h6> {{ 'sq.title' | translate }} </h6>
+                                            <h4 class="form-ttl-lvl2" style="color: black;"> {{ 'sq.title' | translate }} </h4>
                                         </div>
                                     </div>
 
@@ -110,7 +108,7 @@
                  <span>Preview Edit Request  </span> 
                             </button>
                             <button mat-button *ngIf="!editStatus " (click)="onSubmit()" [disabled]="loading" class="edit">
-                                <mat-icon>create</mat-icon> 
+                                <mat-icon>save</mat-icon> 
                                 <span> {{ 'btn.update' | translate }} </span> 
                                 <mat-spinner *ngIf="loading"></mat-spinner>
                             </button>

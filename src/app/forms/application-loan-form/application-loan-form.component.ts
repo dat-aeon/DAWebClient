@@ -11,6 +11,8 @@ import { ApplicationFormService } from 'src/app/cores/services/application-form.
 import { appForm } from 'src/app/cores/helper/app-form';
 import { combineAll } from 'rxjs/operators';
 import { RegisterComponent } from 'src/app/application/register/register.component';
+import { FileUploader } from 'ng2-file-upload';
+import { Ng2ImgMaxService } from 'ng2-img-max';
 
 
 @Component({
@@ -24,6 +26,7 @@ export class ApplicationLoanFormComponent implements OnInit {
   loanForm: FormGroup;
   form: appForm;
   passwordConfirmForm: any = FormGroup;
+  uploadedImage: Blob;
 
   maxDate: any = new Date(Date.now());
 
@@ -38,6 +41,7 @@ export class ApplicationLoanFormComponent implements OnInit {
   saveObject: any = {};
 
   id: string;
+  uploader: FileUploader;
 
   currencyOption: any = {
     allowDecimalPadding: true,
@@ -98,6 +102,7 @@ export class ApplicationLoanFormComponent implements OnInit {
   @ViewChild('stepper', { static: false }) stepper:any = TemplateRef;
 
   constructor(
+    private ng2ImgMax: Ng2ImgMaxService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
@@ -137,7 +142,6 @@ export class ApplicationLoanFormComponent implements OnInit {
     });
 
     this.dataService.getLastApplicationInfo(this.currentUser.access_token, this.currentUser.userInformationResDto.customerId).subscribe((result: any) => {
-     console.log(result);
       if(result.status === 'SUCCESS' && result.data === null) {
         this.saveObject.name = this.currentUser.userInformationResDto.name
         this.saveObject.dob =  new Date(this.currentUser.userInformationResDto.dateOfBirth);
@@ -300,9 +304,6 @@ export class ApplicationLoanFormComponent implements OnInit {
   private prepareRegister() {
     this.applicationFormService.finalData.subscribe((res: any) => {
       this.saveObject = res;
-      console.log('start');
-      console.log(this.saveObject);
-      console.log('end');
     });
   }
 
@@ -330,19 +331,30 @@ export class ApplicationLoanFormComponent implements OnInit {
   }
 
   termsAndConditionsDialogBoxOpen() {
-    this.getTermsAndConditions();
-    this.dialog.open(this.termsAndConditions, { width: '300px' });
+  
+    this.dialog.open(this.termsAndConditions, { width: '400px' });
   }
 
   imageUploader($event: any) {
     let reader = new FileReader();
-    reader.readAsDataURL($event.target.files[0]);
+    let image = $event.target.files[0];
 
+this.ng2ImgMax.resizeImage(image, 400, 300).subscribe(
+  result => {
+ 
+ 
+    reader.readAsDataURL(  result);
     reader.onload = (_event) => {
       this[$event.target.id + 'Object'].photoByte = (<string>reader.result).split(',')[1];
     }
 
     $event.target.value = null;
+
+  },
+  error => {
+    console.log('😢 Oh no!', error);
+  }
+);
 
   }
 
@@ -413,9 +425,7 @@ export class ApplicationLoanFormComponent implements OnInit {
     this.saveObject.productDescription = this.getLoan.productDescription.value;
     this.saveObject.customerId = this.currentUser.userInformationResDto.customerId;
     this.saveObject.channelType = 2;
-    this.saveObject.daApplicationTypeId = 1;
-    console.log(this.saveObject);
-    
+    this.saveObject.daApplicationTypeId = 1;  
 
 
    //this.snackBar.openFromTemplate(this.saveSnackBar, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
@@ -436,9 +446,6 @@ export class ApplicationLoanFormComponent implements OnInit {
     delete this.saveObject.applicantCompanyInfoDto['occupationFormError'];
     delete this.saveObject.emergencyContactInfoDto['emergencyFormError'];
     delete this.saveObject.guarantorInfoDto['guarantorFormError'];
-    console.log('Hello123');
-    console.log(this.saveObject);
-    console.log('Hello123');
 
     this.dataService.checkAppliantUser(authRequset).subscribe((auth: any) => {
       if(auth.status === 'FAILED') {
@@ -451,7 +458,7 @@ export class ApplicationLoanFormComponent implements OnInit {
 
 
         this.dataService.registration(this.currentUser.access_token, this.saveObject).subscribe((res: any) => {
-          console.log(res);
+
           if(res.status === 'FAILED') {
             this.responseMessage = res.message;
             this.snackBar.openFromTemplate(this.applicationFail, { duration: 3000, verticalPosition: 'top', horizontalPosition: 'center'})
@@ -469,6 +476,7 @@ export class ApplicationLoanFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.authService.refreshToken();
     this.loanFormBuilder();
     this.getProductTypeList();

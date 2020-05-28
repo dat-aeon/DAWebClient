@@ -47,6 +47,7 @@ export class SecurityQuestionChangeComponent implements OnInit {
 
     this.authService.currentUser.subscribe( (res: any) => {
       this.currentUser = res;
+  
     });
     
   }
@@ -56,7 +57,6 @@ export class SecurityQuestionChangeComponent implements OnInit {
   
   private buildForm() {
     this.dataService.getCustomerSecurityQuestionList(this.currentUser.data.access_token, this.currentUser.data.userInformationResDto.customerId).subscribe((res: any) => {
-
       this.securityQuestion = res.data.customerSecurityQuestionDtoList;
       this.numOfAnsChar = res.data.numOfAnsChar;
       this.numOfSecQues = res.data.numOfSecQues;
@@ -72,10 +72,11 @@ export class SecurityQuestionChangeComponent implements OnInit {
           this.securityQuestion[x].selected = this.securityQuestion[x].questionEng;
         }
       }
+      
 
       for (let i = 0;i < this.numOfSecQues; i++) {
         this.q.push(this.fb.group({
-          answer: ['', [Validators.required, languageValidator, specialchar]]
+          answer: [this.securityQuestion[i].answer, [Validators.required, languageValidator, specialchar]]
       }));
       }
 
@@ -114,6 +115,7 @@ export class SecurityQuestionChangeComponent implements OnInit {
 
     if (this.dynamicForm.invalid) {
         this.loading = false;
+
         this.snackBar.openFromTemplate(this.erorrSnack, this.snackBarOption);
         return;
     }
@@ -121,43 +123,50 @@ export class SecurityQuestionChangeComponent implements OnInit {
 
     let editObject: any = null;
 
+
     for (let i=0; i<this.q.controls.length; i++) {
       let answer: any = this.q.controls[i];
+   
 
       let questionObject = {
         secQuesId: this.securityQuestion[i].secQuesId,
-        answer : answer.controls.answer.values
+        answer : answer.value.answer,
       }
 
       this.securityQuestionAnswerReqDtoList.push(questionObject);
     }
 
+
     editObject  = {
       securityQuestionAnswerReqDtoList: this.securityQuestionAnswerReqDtoList,
-      nrcNo: this.currentUser.data.userInformationResDto.nrcNo,
-      phoneNo: this.currentUser.data.userInformationResDto.phoneNo
+      customerId: this.currentUser.data.userInformationResDto.customerId,
+      password:  this.f.password.value,
     }
-
-    this.dataService.confirmSecurityQuestionAnswer(this.currentUser.data.access_token, editObject).subscribe((res: any) => {
-
+    this.dataService.updateSecurityQuestionAnswer(this.currentUser.data.access_token, editObject).subscribe((res: any) => {
       if(res.status === 'SUCCESS') {
         this.snackBar.openFromTemplate(this.success, this.snackBarOption);
       }
 
       if(res.status === 'FAILED') {
+
         this.snackBar.openFromTemplate(this.invalidAnswer, this.snackBarOption);
+        this.f.password.setErrors({wrongPass:true});
       }
     });
 
     this.loading = false;
     
 }
+public errorHandling = (control: string, error: string) => {
+  return this.dynamicForm.controls[control].hasError(error);
+}
 
   ngOnInit() {
     this.authService.refreshToken();
 
     this.dynamicForm = this.fb.group({
-      questions: new FormArray([])
+      questions: new FormArray([]),
+      password:[,[Validators.required, languageValidator, Validators.minLength(6)]],
     });
 
     this.buildForm();

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal',
@@ -12,10 +13,15 @@ export class ModalComponent implements OnInit {
   @Input() my_modal_content: any;
 
   constructor(
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private router: Router,
   ) { }
 
   ngOnInit() {
+    
   }
-
+  click(){
+    this.activeModal.dismiss('Cross click'),
+    this.router.navigate(['/login/']);
+  }
 }

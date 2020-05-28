@@ -49,11 +49,14 @@
             <mat-form-field  class="col-12">
                 <mat-label> {{ 'app.form.education' | translate }} <strong class="red-color">*</strong>
                 </mat-label>
+               
                 <mat-select id="applicantEducation" formControlName="highestEducationTypeId" >
-                  <mat-option *ngFor="let data of education; let i=index" [value]="education[i].highestEducationTypeId">
-                    {{ data.name }} </mat-option>
-                    <mat-error *ngIf="errorHandling('highestEducationTypeId', 'required')"> {{ 'required-education' | translate }} </mat-error>
-                </mat-select>
+                  <mat-option [value]="1"> High School </mat-option>
+                  <mat-option [value]="2"> University  </mat-option>
+                  <mat-option [value]="3"> Graduated </mat-option>
+        
+                  <mat-error *ngIf="errorHandling('highestEducationTypeId', 'required')"> {{ 'required-education' | translate }} </mat-error>
+              </mat-select>
               
               </mat-form-field>
 
@@ -97,7 +100,7 @@
 
             <mat-card-header>
                 <mat-card-title>
-                  <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.currentAddress'| translate}}
+                  <h4 class="form-ttl-lvl2" style="color: #9E9E9E;"> {{'app.form.currentAddress'| translate}}
                   </h4>
                 </mat-card-title>
               </mat-card-header>
@@ -176,7 +179,7 @@
         <div class="col-md-6 col-sm-12">
             <mat-card-header>
                 <mat-card-title>
-                  <h4 class="form-ttl" style="color: #9E9E9E;"> {{'app.form.permanentAddress'| translate}}
+                  <h4 class="form-ttl-lvl2" style="color: #9E9E9E;"> {{'app.form.permanentAddress'| translate}}
                   </h4>
                 </mat-card-title>
               </mat-card-header>
@@ -312,12 +315,12 @@
 
             <mat-form-field hintLabel="{{ 'input-label-emailcount' | translate }}" class="col-12">
                 <mat-label>  {{ 'app.form.email' | translate }} </mat-label>
-                <input matInput id="applicantEmail" type="text" autocomplete="off" maxlength="50" formControlName="email">
+                <input matInput id="applicantEmail" type="email" autocomplete="off" maxlength="50" formControlName="email">
                 <mat-hint align="end">{{ f.email.value?.length || 0 }}/50 </mat-hint>
 
-                <mat-error *ngIf="errorHandling('email', 'required')"> {{ 'required-email' | translate }} </mat-error>
+     
                 <mat-error *ngIf="errorHandling('email', 'langError')"> {{ 'required-language' | translate }} </mat-error>
-                <mat-error *ngIf="errorHandling('email', 'email')"> {{ 'required-invalidEmail' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('email', 'email')||errorHandling('email', 'invalidEmail')"> {{ 'required-invalidEmail' | translate }} </mat-error>
             </mat-form-field>
         </div>
     </div>

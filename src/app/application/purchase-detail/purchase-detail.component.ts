@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/cores/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { config } from '../../cores/configuration';
 
@@ -20,12 +20,21 @@ export class PurchaseDetailComponent implements OnInit {
   imageUrl: string = config.purchaseImgUrl;
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private activeRoute: ActivatedRoute,
     private dataService: DataService
   ) {
 
-    this.id = this.activeRoute.snapshot.paramMap.get('id');
+  
+    const navigation = this.router.getCurrentNavigation();
+
+    if(navigation.extras.state) {
+      this.id = navigation.extras.state.orderId;
+    } else {
+      this.router.navigateByUrl('/inquery');
+    }
+
     this.authService.currentUser.subscribe( (res: any) => { this.currentUser = res.data; });
 
   }
@@ -50,7 +59,6 @@ export class PurchaseDetailComponent implements OnInit {
       (res: any) => {
         if (res.status === 'SUCCESS' && res.data !== null) {
           this.purchaseInfo = res.data;
-          console.log(this.purchaseInfo);
           this.getLoanTypeList();
           for (const purchaseList of res.data.purchaseInfoProductDtoList) {
             this.productType.find( (key: any) => {

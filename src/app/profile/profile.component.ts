@@ -83,7 +83,6 @@ export class ProfileComponent implements OnInit {
 
     this.authService.getCustomerInfoEditReq(this.currentUser.data.access_token, this.currentUser.data.userInformationResDto.customerId).subscribe( 
       (res: any) => {
-        console.log(this.hidePreviewButton);
           if(res.status === 'SUCCESS' && res.data !== null) {
             if(res.data.status===1){
               this.hidePreviewButton=false;

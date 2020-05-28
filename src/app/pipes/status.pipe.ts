@@ -5,23 +5,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StatusPipe implements PipeTransform {
 
 statusArray: any = [
-  'draft', 
-  'new',
-  'index',
-  'upload finish',
-  'document followup waiting',
-  'document follow up applicant updated',
-  'document follow up checked',
-  'cancle',
-  'reject',
-  'approve',
-  'purchase cancel',
-  'purchase initial',
-  'purchase confirm waiting',
-  'purchase confirm',
-  'purchase complete',
-  'settlement upload finish',
-  'settlement pending'
+	'ON PROCESS',						
+  'ON PROCESS',						
+	'ON PROCESS',						
+	'ON PROCESS',							
+  'ON PROCESS',				
+  'ON PROCESS',				
+  'ON PROCESS',						
+	'CANCEL',				
+	'UNSUCCESSFUL',				
+	'APPROVE',			
+	'APPROVE',				
+	'APPROVE',					
+  'APPROVE',						
+  'APPROVE',					
+  'APPROVE',					
+  'APPROVE',					
+  'COMPLETE',				
+  'COMPLETE',								
+  'COMPLETE',				
+  'COMPLETE',
 ];
 
   transform(value: number): any {

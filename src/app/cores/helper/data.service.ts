@@ -95,6 +95,9 @@ export class DataService {
   confirmSecurityQuestionAnswer(access_token: any, body: any) {
     return this.http.post(config.api + '/reset-password/confirm-security-question-answer?access_token=' + access_token, body, { headers: JSONHeader });
   }
+  updateSecurityQuestionAnswer(access_token: any, body: any) {
+    return this.http.post(config.api + '/customer-info-manage/update-customer-security-question-answer?access_token=' + access_token, body, { headers: JSONHeader });
+  }
 
   updatedDataSelection(data: any){
     this.dataSource.next(data);

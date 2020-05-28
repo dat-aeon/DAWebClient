@@ -7,8 +7,8 @@
             <div class="row content-wrapper">
               <div class="col-md-12">
                 <div class="col-md-12">
-                  <ul class="sub-nav-wrapper " style="font-family: none;">
-                    <li><a id="new-user" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                  <ul class="sub-nav-wrapper " style="padding: 14px; background: none; box-shadow: none;">
+                    <li><a id="new-user"  [routerLink]="" (click)="clickBackLink($event)">{{ 'application.title' | translate }} </a></li>
                     <li><a id="new-user-occupation" [routerLink]="" (click)="clickBackLink($event)" > {{ 'app.form.occupation' | translate }}</a></li>
                     <li><a  id="new-user-emergency" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.emergency' | translate }} </a></li>
                     <li><a id="new-user-guarantor" [routerLink]="" (click)="clickBackLink($event)"> {{ 'app.form.guarantor' | translate }} </a></li>
@@ -36,8 +36,8 @@
                             <mat-form-field class="col-12 col-md-6"  (change)="changeFinanceAmount($event)" >
                               <mat-label> {{'app.financeAmount' | translate }} <strong class="red-color">*</strong>
                               </mat-label>
-                              <input matInput type="text" autocomplete="off" maxlength="7" formControlName="financeAmount" [ngAutonumeric]="currencyOption" >
-                              <mat-hint align="end">{{ f.financeAmount.value?.length || 0 }}/7 </mat-hint>
+                              <input matInput type="text" autocomplete="off" maxlength="7" autofocus formControlName="financeAmount" [ngAutonumeric]="currencyOption" >
+                              
 
                               <mat-error *ngIf="errorHandling('financeAmount', 'required')"> {{ 'required-financeAmount' | translate }} </mat-error>
                               <mat-error *ngIf="errorHandling('financeAmount', 'maxAmount')"> {{ 'required-maxminFinanceAmount' | translate }} </mat-error>
@@ -107,11 +107,12 @@
                           </mat-card>
                           </div>
 
-                          <div class="row  ">
+                          <div class="col-md-12 col-sm-12">
 
-
-                            <div class="form-group row col-12 col-md-6 ml-md-1  ml-sm-0" >
-                              <label class="col-md-6 col-12 col-form-label"> {{'app.RPA' | translate }} </label>
+                            
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2  border " >
+                             
+                              <label class="col-md-6 col-12 col-form-label"> {{'app.RPA' | translate }}  <strong class="red-color">*</strong></label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="resident" class="img-fluid" *ngIf="residentProofAttachmentObject.photoByte"
@@ -122,9 +123,9 @@
                                   <label for="residentProofAttachment" class="mat-button custom-file-upload back">
                                     {{ 'btn.browse' | translate }}  </label>
                                   <input id="residentProofAttachment" formControlName='residentProofAttachment'
-                                    accept="image/*" type="file" style="display: none;" (change)="imageUploader($event)">
+                                    accept="image/*" type="file" style="display: none;"   (change)="imageUploader($event)">
                                   <button mat-button class="custom-file-upload" value="residentProofAttachment"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('residentProofAttachment', residentProofAttachmentObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.residentProofAttachment.errors">
                                     <p class="errorsMessage"
                                       *ngIf="submitted && f.residentProofAttachment.errors.required">
@@ -132,9 +133,12 @@
                                   </div>
                                 </div>
                               </div>
+                             
                             </div>
-                            <div class="form-group row col-12 col-md-6" >
-                              <label class="col-md-6 col-12 col-form-label"> {{'app.IPA'| translate }}</label>
+                            
+                       
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{'app.IPA'| translate }}  <strong class="red-color">*</strong></label>
                               <div class="col-md-6 col-12">
                                 <div class="row"  style="display: table-cell;">
                                   <img id="income" class="img-fluid" *ngIf="incomeProofAttachmentObject.photoByte"
@@ -147,7 +151,7 @@
                                   <input id="incomeProofAttachment" formControlName='incomeProofAttachment'
                                     accept="image/*" type="file" style="display: none;" (change)="imageUploader($event)">
                                   <button mat-button class="custom-file-upload" value="incomeProofAttachment"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('incomeProofAttachment',incomeProofAttachmentObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.incomeProofAttachment.errors">
                                     <p class="errorsMessage"
                                       *ngIf="submitted && f.incomeProofAttachment.errors.required"> {{ errorMsg.blank }}
@@ -156,9 +160,9 @@
                                 </div>
                               </div>
                             </div>
-
-                            <div class="form-group row col-12 col-md-6 ml-md-1  ml-sm-0">
-                              <label class="col-md-6 col-12 col-form-label">{{'app.NRCF' | translate }}</label>
+         
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label">{{'app.NRCF' | translate }}  <strong class="red-color">*</strong></label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="nrc_f" class="img-fluid" *ngIf="nrcFrontObject.photoByte"
@@ -171,7 +175,7 @@
                                   <input id="nrcFront" formControlName='nrcFront' style="display: none;" type="file" accept="image/*"
                                     (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="nrcFront"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('nrcFront',nrcFrontObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.nrcFront.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.nrcFront.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -179,9 +183,11 @@
                                 </div>
                               </div>
                             </div>
+                         
 
-                            <div class="form-group row col-12 col-md-6">
-                              <label class="col-md-6 col-12 col-form-label"> {{'app.NRCB' | translate }} </label>
+                            
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{'app.NRCB' | translate }}  <strong class="red-color">*</strong> </label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="nrc_b" class="img-fluid"  *ngIf="nrcBackObject.photoByte"
@@ -194,7 +200,7 @@
                                   <input id="nrcBack" formControlName='nrcBack' style="display: none;" type="file" accept="image/*"
                                     (change)="imageUploader($event)">
                                   <button mat-button class="custom-file-upload" value="nrcBack"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('nrcBack',nrcBackObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.nrcBack.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.nrcBack.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -203,9 +209,9 @@
 
                               </div>
                             </div>
-
-                            <div class="form-group row col-12 col-md-6 ml-sm-0 ml-md-1 ">
-                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.GNRCF' | translate }} </label>
+                
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.GNRCF' | translate }}  <strong class="red-color">*</strong> </label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="guarantor_f" class="img-fluid" *ngIf="nrcGuarantorFrontObject.photoByte"
@@ -218,7 +224,7 @@
                                   <input id="nrcGuarantorFront" style="display: none;" formControlName='nrcGuarantorFront' type="file"
                                     accept="image/*" (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="nrcGuarantorFront"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('nrcGuarantorFront',nrcGuarantorFrontObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.nrcGuarantorFront.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.nrcGuarantorFront.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -226,9 +232,11 @@
                                 </div>
                               </div>
                             </div>
+                       
 
-                            <div class="form-group row col-12 col-md-6">
-                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.GNRCB' | translate }} </label>
+                            
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.GNRCB' | translate }}  <strong class="red-color">*</strong> </label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="guarantor_b" class="img-fluid" *ngIf="nrcGuarantorBackObject.photoByte"
@@ -241,7 +249,7 @@
                                   <input id="nrcGuarantorBack" style="display: none;" formControlName='nrcGuarantorBack' type="file"
                                     accept="image/*" (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="nrcGuarantorBack"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('nrcGuarantorBack',nrcGuarantorBackObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.nrcGuarantorBack.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.nrcGuarantorBack.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -249,8 +257,10 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="form-group row col-12 col-md-6 ml-md-1 ml-0">
-                              <label class="col-md-6 col-12 col-form-label"> {{'app.HCCA' | translate }} </label>
+                       
+
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{'app.HCCA' | translate }}   <strong class="red-color">*</strong></label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="household" class="img-fluid"
@@ -264,7 +274,7 @@
                                   <input id="householdCriminalClearance" style="display: none;" formControlName='householdCriminalClearance'
                                     accept="image/*" type="file" (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="householdCriminalClearance"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('householdCriminalClearance',householdCriminalClearanceObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.householdCriminalClearance.errors">
                                     <p class="errorsMessage"
                                       *ngIf="submitted && f.householdCriminalClearance.errors.required">
@@ -273,9 +283,9 @@
                                 </div>
                               </div>
                             </div>
-
-                            <div class="form-group row col-12 col-md-6">
-                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.AppPhoto' | translate }} </label>
+                           
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.AppPhoto' | translate }}  <strong class="red-color">*</strong> </label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
                                   <img id="applicant" class="img-fluid" *ngIf="applicationPhotoObject.photoByte"
@@ -288,7 +298,7 @@
                                   <input id="applicationPhoto" style="display: none;" formControlName='applicationPhoto' type="file"
                                     accept="image/*" (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="applicationPhoto"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('applicationPhoto',applicationPhotoObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.applicationPhoto.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.applicationPhoto.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -297,9 +307,9 @@
                               </div>
 
                             </div>
-
-                            <div class="form-group row col-12 col-md-6 ml-md-1  ml-sm-0">
-                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.customerSign' | translate }}
+                           
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.customerSign' | translate }}  <strong class="red-color">*</strong>
                               </label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
@@ -313,7 +323,7 @@
                                   <input id="customerSign" style="display: none;" formControlName='customerSign' type="file" accept="image/*"
                                     (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="customerSign"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('customerSign',customerSignObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.customerSign.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.customerSign.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -321,9 +331,9 @@
                                 </div>
                               </div>
                             </div>
-
-                            <div class="form-group row col-12 col-md-6 ">
-                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.guarantorSign' | translate }}
+                           
+                            <div class="form-group row col-12 ml-md-1  ml-sm-0 mt-0 mt-md-2 border" >
+                              <label class="col-md-6 col-12 col-form-label"> {{ 'app.guarantorSign' | translate }}  <strong class="red-color">*</strong>
                               </label>
                               <div class="col-md-6 col-12">
                                 <div class="row" style="display: table-cell;">
@@ -337,7 +347,7 @@
                                   <input id="guarantorSign" style="display: none;" formControlName='guarantorSign' type="file" accept="image/*"
                                     (change)="imageUploader($event)" />
                                   <button mat-button class="custom-file-upload" value="guarantorSign"
-                                    (click)="imageCancle($event)"> {{ 'btn.remove' | translate }} </button>
+                                    (click)="imageCancle('guarantorSign',guarantorSignObject)"> {{ 'btn.remove' | translate }} </button>
                                   <div *ngIf="submitted && f.guarantorSign.errors">
                                     <p class="errorsMessage" *ngIf="submitted && f.guarantorSign.errors.required">
                                       {{ errorMsg.blank }} </p>
@@ -345,10 +355,11 @@
                                 </div>
                               </div>
                             </div>
-
+                    
                           </div>
 
                         </div>
+                   
                       </mat-card-content>
 
                       <mat-card-actions>

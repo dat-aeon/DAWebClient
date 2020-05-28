@@ -1,8 +1,8 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
+        <!-- <span class="circle circle-top"></span>
         <span class="circle circle-right"></span>
-        <span class="circle circle-bottom"></span>
+        <span class="circle circle-bottom"></span> -->
 
         <div class="row content-wrapper justify-content-md-center">
             <div class="col-md-6 col-sm-12">
@@ -32,6 +32,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <mat-form-field class="col-12">
+                                <input matInput type="password" autocomplete="off" formControlName="password"
+                                  placeholder="{{ 'app.form.password' | translate }}" />
+                                <mat-error *ngIf="errorHandling('password', 'required')">  {{ 'required-password' | translate }} </mat-error>
+                                <mat-error *ngIf="errorHandling('password', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+                                <mat-error *ngIf="errorHandling('password', 'loginFail')"> {{ 'applicationApplyPassword' | translate }}
+                                </mat-error>
+                                <mat-error *ngIf="errorHandling('password', 'wrongPass')"> {{ 'required-currentPassMatch' | translate }}
+                                </mat-error>
+
+                                </mat-form-field>
+
                     </mat-card-content>
 
                     <mat-card-actions>
@@ -55,6 +67,8 @@
     </div>
 </div>
 
+
+
 <ng-template #erorrSnack>
     <div #alert class="alert alert-danger" role="alert"> 
         {{'required-sometingWrong' | translate }} 
@@ -64,12 +78,12 @@
 <ng-template #invalidAnswer>
     <div #alert class="alert alert-danger" role="alert"> 
         <i class="material-icons"> block </i>
-        {{'required-invalidAnswer' | translate }} 
+        {{'required-sometingWrongTryAgain' | translate }} 
     </div>
 </ng-template>
 
 <ng-template #success>
-    <div #alert class="alert alert-success" role="alert">  {{ 'security-question-edit' | translate }} </div>
+    <div #alert class="alert alert-success" role="alert">  {{ 'Successfully edit security question' }} </div>
 </ng-template>
 
 <ng-template #editFail>

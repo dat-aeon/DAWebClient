@@ -7,8 +7,8 @@
             <div class="row content-wrapper">
               <div class="col-md-12">
                 <div class="col-md-12">
-                  <ul class="sub-nav-wrapper " style="font-family: none;">
-                    <li><a routerLink="/new-user" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                  <ul class="sub-nav-wrapper " style="padding: 14px; background: none; box-shadow: none;">
+                    <li><a routerLink="/new-user" routerLinkActive="active">{{ 'application.title' | translate }} </a></li>
                     <li><a id="new-user-occupation"  [routerLink]=""  (click)="clickLink($event)"  > {{ 'app.form.occupation' | translate }}</a></li>
                     <li><a  id="new-user-emergency"  [routerLink]="" (click)="clickLink($event)"> {{ 'app.form.emergency' | translate }} </a></li>
                     <li><a id="new-user-guarantor" [routerLink]="" (click)="clickLink($event)"> {{ 'app.form.guarantor' | translate }} </a></li>
@@ -22,7 +22,7 @@
                     <mat-card-header>
                       <mat-card-title class="form-title">
                         <label class="page-number"> 1 </label>
-                        <span class="page-text"> {{ 'application.title' | translate }} </span>
+                        <span class="page-text"  > {{ 'application.title' | translate }} </span>
                         <span class="page-pager-free"> 1/6 </span>
                       </mat-card-title>
                     </mat-card-header>
@@ -34,7 +34,7 @@
                           <mat-form-field class="col-12">
                             <mat-label> {{ 'app.form.name' | translate }} <strong class="red-color">*</strong>
                             </mat-label>
-                            <input  matInput  type="text" maxlength="59" formControlName="name"   autocomplete="off" oninput="this.value = this.value.toUpperCase()"
+                            <input  matInput #name  type="text" maxlength="59" formControlName="name"  autocomplete="off" oninput="this.value = this.value.toUpperCase()"
                               placeholder="{{ 'app.form.name' | translate }}">
                               <mat-hint align="end">{{ f.name.value?.length || 0 }}/50</mat-hint>
                             <mat-error *ngIf="errorHandling('name', 'required')">
@@ -71,23 +71,24 @@
                           <mat-form-field  class="col-12">
                             <mat-label> {{ 'app.form.education' | translate }} <strong class="red-color">*</strong>
                             </mat-label>
-                            <mat-select formControlName="education" >
-                              <mat-option *ngFor="let data of education; let i=index" [value]="education[i].highestEducationTypeId">
-                                {{ data.name }} </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="errorHandling('education', 'required')">
-                              {{ errorMsg.blank }}  {{ 'app.form.education' | translate }} </mat-error>
-                          </mat-form-field>
+                            <mat-select id="applicantEducation" formControlName="education" >
+                              <mat-option [value]="1"> High School </mat-option>
+                              <mat-option [value]="2"> University  </mat-option>
+                              <mat-option [value]="3"> Graduated </mat-option>
+                    
+                              <mat-error *ngIf="errorHandling('education', 'required')"> {{ 'required-education' | translate }} </mat-error>
+                          </mat-select>
+                            </mat-form-field>
 
                           <div class="col-12 mat-form-field-wrapper">
                             <div class="row">
                               <mat-label class="col-4">
                                 {{ 'app.form.nationality' | translate }} </mat-label>
-                              <mat-radio-group formControlName="nationality" class="col-8">
-                                <mat-radio-button [value]="1" (change)="enableOtherNationality($event)">
+                              <mat-radio-group formControlName="nationality" >
+                                <mat-radio-button [value]="1" (change)="enableOtherNationality($event)"class="col-4">
                                   {{ 'app.form.nationality.myanmar' | translate }}
                                 </mat-radio-button>
-                                <mat-radio-button [value]="2" (change)="enableOtherNationality($event)">
+                                <mat-radio-button [value]="2" (change)="enableOtherNationality($event)" class="col-4">
                                   {{ 'app.form.nationality.other' | translate }}
                                 </mat-radio-button>
                               </mat-radio-group>
@@ -110,11 +111,11 @@
                             <div class="row">
                               <mat-label class="col-4">
                                 {{ 'app.form.gender' | translate }} </mat-label>
-                              <mat-radio-group formControlName="gander" class="col-8">
-                                <mat-radio-button [value]="1">
+                              <mat-radio-group formControlName="gander" >
+                                <mat-radio-button [value]="1" class="col-4">
                                   {{ 'app.form.male' | translate }}
                                 </mat-radio-button>
-                                <mat-radio-button [value]="2">
+                                <mat-radio-button [value]="2" class="col-4">
                                   {{ 'app.form.female' | translate }}
                                 </mat-radio-button>
                               </mat-radio-group>
@@ -125,11 +126,11 @@
                             <div class="row">
                               <mat-label class="col-4">
                                 {{ 'app.form.maritalStatus' | translate }} </mat-label>
-                              <mat-radio-group formControlName="maritalStatus" class="col-8">
-                                <mat-radio-button [value]="1">
+                              <mat-radio-group formControlName="maritalStatus" >
+                                <mat-radio-button [value]="1" class="col-4">
                                   {{ 'app.form.maritalStatus.single' | translate }}
                                 </mat-radio-button>
-                                <mat-radio-button [value]="2">
+                                <mat-radio-button [value]="2" class="col-4">
                                   {{ 'app.form.maritalStatus.married' | translate }}
                                 </mat-radio-button>
                               </mat-radio-group>
@@ -176,8 +177,8 @@
                             <mat-hint align="end">
                               {{ f.residentTelNo.value?.length || 0 }}/11 </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('residentTelNo', 'onlyNumber')">
-                              {{ errorMsg.number }} </mat-error>
+                            <!-- <mat-error *ngIf="errorHandling('residentTelNo', 'onlyNumber')">
+                              {{ 'required-number' | translate }} </mat-error> -->
                           </mat-form-field>
 
                           <mat-form-field hintLabel="Max 11 characters" class="col-12">
@@ -188,8 +189,8 @@
                             <mat-hint align="end">{{ f.otherPhoneNo.value?.length || 0 }}/11
                             </mat-hint>
 
-                            <mat-error *ngIf="errorHandling('otherPhoneNo', 'onlyNumber')">
-                              {{ errorMsg.number }} </mat-error>
+                            <!-- <mat-error *ngIf="errorHandling('otherPhoneNo', 'onlyNumber')">
+                              {{ 'required-number' | translate }} </mat-error> -->
                           </mat-form-field>
 
                           <mat-form-field hintLabel="Max 50 characters" class="col-12">
@@ -198,11 +199,8 @@
                             <input matInput type="text" maxLenght="50"  autocomplete="off" formControlName="email"  >
                             <mat-hint align="end">{{ f.email.value?.length || 0 }}/50
                             </mat-hint>
-
-                            <mat-error *ngIf="errorHandling('email', 'langError')">
-                              {{ errorMsg.language }} </mat-error>
-                            <mat-error *ngIf="errorHandling('email', 'email')">
-                              {{ errorMsg.email }} </mat-error>
+                <mat-error *ngIf="errorHandling('email', 'langError')"> {{ 'required-language' | translate }} </mat-error>
+                <mat-error *ngIf="errorHandling('email', 'email')||errorHandling('email', 'invalidEmail')"> {{ 'required-invalidEmail' | translate }} </mat-error>
                           </mat-form-field>
                         </mat-card>
 

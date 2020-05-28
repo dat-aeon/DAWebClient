@@ -13,7 +13,7 @@
 
             <mat-form-field hintLabel="{{ 'required-onlyNumber' | translate }}" class="col-12">
                 <mat-label> {{'app.financeAmount' | translate }} <strong class="red-color">*</strong> </mat-label>
-                <input matInput id="financeAmount" type="text" formControlName="financeAmount" [ngAutonumeric]="currencyOption" (change)="changeFinanceAmount($event)">
+                <input matInput id="financeAmount" type="text" autocomplete="off" formControlName="financeAmount" [ngAutonumeric]="currencyOption" (change)="changeFinanceAmount($event)">
 
                 <mat-error *ngIf="errorHandling('financeAmount', 'required')"> {{ 'required-financeAmount' | translate }} </mat-error>
                 <mat-error *ngIf="errorHandling('financeAmount', 'maxAmount')"> {{ 'required-maxminFinanceAmount' | translate }} </mat-error>
@@ -63,20 +63,20 @@
 
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border">
             <div class="form-group row">
-                <label class="col-md-5 col-12 col-form-label"> {{'app.NRCF' | translate }}</label>
+                <label class="col-md-5 col-12 col-form-label"> {{'app.NRCF' | translate }} <strong class="red-color">*</strong></label>
                 <div class="col-md-7 col-12">
-                    <div class="row">
-                        <img id="nrc_f" class="img-fluid" *ngIf="nrcFrontObject.photoByte" [src]="imageType + nrcFrontObject.photoByte" alt="your image"/>
+                    <div class="row" style="display: table-cell;">
+                        <img id="nrc_f"  class="img-fluid" *ngIf="nrcFrontObject.photoByte" [src]="imageType + nrcFrontObject.photoByte" alt="your image"/>
+                  
                     </div>
-                    
                     <div class="row mt-3">
                         <label for="nrcFront" class="mat-button custom-file-upload back"> 
                             {{ 'btn.browse' | translate }}
                             <i class="material-icons"> attach_file </i>
                         </label>
-                        <input id="nrcFront" formControlName='nrcFront' type="file" accept="image/*" (change)="imageUploader($event)" />
+                        <input  id="nrcFront"  formControlName='nrcFront' type="file" accept="image/*" (change)="imageUploader($event)" />
                         <button mat-button class="custom-file-upload" (click)="imageCancle('nrcFront', nrcFrontObject)"> 
                             {{ 'btn.remove' | translate }} 
                             <i class="material-icons"> delete </i>
@@ -90,11 +90,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-12 col-form-label"> {{'app.NRCB' | translate }} </label>
+                <label class="col-md-5 col-12 col-form-label"> {{'app.NRCB' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="nrc_b" class="img-fluid" *ngIf="nrcBackObject.photoByte" [src]="imageType + nrcBackObject.photoByte" alt="your image"/>
                     </div>
                     
@@ -116,12 +116,11 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.GNRCF' | translate }} </label>
+                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.GNRCF' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-sm-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="guarantor_f" class="img-fluid" *ngIf="nrcGuarantorFrontObject.photoByte" [src]="imageType + nrcGuarantorFrontObject.photoByte" alt="your image" />
                     </div>
 
@@ -143,11 +142,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-12 col-form-label"> {{ 'app.GNRCB' | translate }} </label>
+                <label class="col-md-5 col-12 col-form-label"> {{ 'app.GNRCB' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="guarantor_b" class="img-fluid" *ngIf="nrcGuarantorBackObject.photoByte" [src]="imageType + nrcGuarantorBackObject.photoByte" alt="your image" />
                     </div>
                     
@@ -169,11 +168,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-12 col-form-label"> {{'app.RPA' | translate }} </label>
+                <label class="col-md-5 col-12 col-form-label"> {{'app.RPA' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="residentProofAttachmentObject" class="img-fluid" *ngIf="residentProofAttachmentObject.photoByte" [src]="imageType + residentProofAttachmentObject.photoByte" alt="your image"/>
                     </div>
 
@@ -195,11 +194,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-sm-12 col-form-label"> {{'app.IPA'| translate }}</label>
+                <label class="col-md-5 col-sm-12 col-form-label"> {{'app.IPA'| translate }} <strong class="red-color">*</strong></label>
                 <div class="col-md-7 col-sm-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="income" class="img-fluid" *ngIf="incomeProofAttachmentObject.photoByte" [src]="imageType + incomeProofAttachmentObject.photoByte" alt="your image"/>
                     </div>
                     
@@ -220,11 +219,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-12 col-form-label"> {{'app.HCCA' | translate }} </label>
+                <label class="col-md-5 col-12 col-form-label"> {{'app.HCCA' | translate }} <strong class="red-color">*</strong></label>
                 <div class="col-md-7 col-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="household" class="img-fluid" *ngIf="householdCriminalClearanceObject.photoByte" [src]="imageType + householdCriminalClearanceObject.photoByte" alt="your image" />
                     </div>
                     
@@ -246,11 +245,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+          <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-12 col-form-label"> {{ 'app.AppPhoto' | translate }} </label>
+                <label class="col-md-5 col-12 col-form-label"> {{ 'app.AppPhoto' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-sm-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="applicant" class="img-fluid" *ngIf="applicationPhotoObject.photoByte" [src]="imageType + applicationPhotoObject.photoByte" alt="your image" />
                     </div>
                     
@@ -272,11 +271,11 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.customerSign' | translate }} </label>
+                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.customerSign' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-sm-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="customer_sign" class="img-fluid" *ngIf="customerSignObject.photoByte" [src]="imageType + customerSignObject.photoByte" alt="your image"/>
                     </div>
                     
@@ -297,11 +296,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-12 border mt-2">
             <div class="form-group row">
-                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.guarantorSign' | translate }} </label>
+                <label class="col-md-5 col-sm-12 col-form-label"> {{ 'app.guarantorSign' | translate }} <strong class="red-color">*</strong> </label>
                 <div class="col-md-7 col-sm-12">
-                    <div class="row">
+                    <div class="row" style="display: table-cell;">
                         <img id="guarantor_sign" class="img-fluid" *ngIf="guarantorSignObject.photoByte" [src]="imageType + guarantorSignObject.photoByte" alt="your image"/>
                     </div>
                     
@@ -361,8 +360,28 @@
 </ng-template>
 
 <ng-template #termsAndConditions>
-    <h3 class="password-title">  {{ 'app.termsAndConditions' | translate }} </h3>
-    <p class="text-left"> {{ responseMessage.termsAndConditions }} </p>
+    
+    <h3 class="password-title">  {{ 'terms-and-conditions'| translate }} </h3>
+    <div   id="scrollbar"  [style.overflow]="'auto'" [style.height.px]="'400'">
+        <p  class="text-left">{{ 'terms-and-conditions-one'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-two'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-three'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-four'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-five'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-six'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-seven'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-eight'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-nine'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-ten'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-eleven'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-twelve'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-thirteen'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-fourteen'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-fifteen'|translate}} </p>
+        <p class="text-left">{{ 'terms-and-conditions-sixteen'|translate}} </p>
+       
+       
+    </div>
 </ng-template>
 
 <ng-template #passwordForm>
@@ -382,7 +401,7 @@
         <div class="btn-gp">    
             <button mat-button [disabled]="passwordLoading" class="save" (click)="checkAppliantUser()">
                 <mat-icon> save </mat-icon> 
-                <span> {{ 'app.form.password' | translate }} </span> 
+                <span> {{ 'btn.submit' | translate }} </span> 
                 <mat-spinner *ngIf="passwordLoading"></mat-spinner>
             </button>
         </div>

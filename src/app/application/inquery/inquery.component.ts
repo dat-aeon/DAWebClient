@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -7,7 +7,7 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material';
+import { MatSort, MatDialog } from '@angular/material';
 
 export interface PeriodicElement {
   applicationNo: any,
@@ -46,15 +46,18 @@ export class InqueryComponent implements OnInit, ViewChild {
   loanTypeList: any = {};
   dataSource: MatTableDataSource<PeriodicElement>;
 
-  displayedColumns: string[] = ['applicationNo', 'financeAmount', 'financeTerm', 'daLoanTypeName', 'appliedDate', 'status', 'daApplicationInfoId'];
+  displayedColumns: string[] = ['applicationNo', 'appliedDate', 'loanAmount','approvedAmount', 'loanTerm','approvedTerm', 'status', 'daApplicationInfoId'];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild( MatSort, {static: true}) sort: MatSort;
+  @ViewChild('cancel', { static: false })
+  cancel: any = TemplateRef;
 
   constructor(
     private dataService: DataService,
     private authService: AuthService,
     private fb: FormBuilder,
+    private dialog: MatDialog,
     private modalService: NgbModal
   ) { 
 
@@ -74,7 +77,6 @@ export class InqueryComponent implements OnInit, ViewChild {
     };
 
     this.dataService.getApplicationInquriesList(this.currentUser.access_token, requestObject).subscribe( (res: any) => {
-      console.log(res);
       this.tableShow = true;
 
       this.dataService.getLoanTypeList(this.currentUser.access_token).subscribe( (rest: any) => {
@@ -90,15 +92,15 @@ export class InqueryComponent implements OnInit, ViewChild {
 
         let sources: any = [];
         let source: any;
-
         for(let x=0; x<res.data.applicationInfoDtoList.length; x++) {
           source = {
             applicationNo: res.data.applicationInfoDtoList[x].applicationNo,
-            financeAmount: res.data.applicationInfoDtoList[x].financeAmount,
-            financeTerm: res.data.applicationInfoDtoList[x].financeTerm,
-            daLoanTypeName: res.data.applicationInfoDtoList[x].daLoanTypeName,
+            loanAmount: res.data.applicationInfoDtoList[x].financeAmount,
+            approvedAmount:res.data.applicationInfoDtoList[x].approvedFinanceAmount,
+            loanTerm: res.data.applicationInfoDtoList[x].financeTerm,
+            approvedTerm: res.data.applicationInfoDtoList[x].approvedFinanceTerm,
             appliedDate: res.data.applicationInfoDtoList[x].appliedDate,
-            status: 1,
+            status: res.data.applicationInfoDtoList[x].status,
             daApplicationInfoId: res.data.applicationInfoDtoList[x].daApplicationInfoId
           }
   
@@ -119,7 +121,7 @@ public errorHandling = (control: string, error: string) => {
   }
 
   public date(e: any) {
-    var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
+    var convertDate = new Date(e.target.value);
     this.inquerySearchForm.get('appDate').setValue(convertDate, { onlyself: true });
   }
 
@@ -148,6 +150,12 @@ public errorHandling = (control: string, error: string) => {
 
     });
   }
+  
+  CancelDialogBoxOpen() {
+  
+    this.dialog.open(this.cancel, { width: '400px' });
+  }
+
 
   addLoanTypeName (res: any) {
     for(let x=0; x<res.data.applicationInfoDtoList.length; x++) {
@@ -188,11 +196,13 @@ public errorHandling = (control: string, error: string) => {
           for(let x=0; x<res.data.applicationInfoDtoList.length; x++) {
             source = {
               applicationNo: res.data.applicationInfoDtoList[x].applicationNo,
-              financeAmount: res.data.applicationInfoDtoList[x].financeAmount,
-              financeTerm: res.data.applicationInfoDtoList[x].financeTerm,
+              loanAmount: res.data.applicationInfoDtoList[x].financeAmount,
+              approvedAmount:res.data.applicationInfoDtoList[x].approvedFinanceAmount,
+              loanTerm: res.data.applicationInfoDtoList[x].financeTerm,
+              approvedTerm: res.data.applicationInfoDtoList[x].approvedFinanceTerm,
               daLoanTypeName: res.data.applicationInfoDtoList[x].daLoanTypeName,
               appliedDate: res.data.applicationInfoDtoList[x].appliedDate,
-              status: 1,
+              status:  res.data.applicationInfoDtoList[x].status,
               daApplicationInfoId: res.data.applicationInfoDtoList[x].daApplicationInfoId
             }
 

@@ -5,6 +5,7 @@ import { TranslateCacheService } from 'ngx-translate-cache';
 import { AuthService } from './cores/services/auth.service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { filter, map } from 'rxjs/operators';
 })
 
 export class AppComponent implements OnInit {
+
 
   currentUser: any = {};
   cookie: any = { access_token: null, phone: null, refresh_token: null };
@@ -38,6 +40,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
     const appTitle = this.titleService.getTitle();
 
     this.router.events.pipe(

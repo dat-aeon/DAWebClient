@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { config } from '../../cores/configuration';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { Ng2ImgMaxService } from 'ng2-img-max';
 
 @Component({
   selector: 'app-attachment-edit',
@@ -26,6 +27,7 @@ export class AttachmentEditComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private activeRoute: ActivatedRoute,
+    private ng2ImgMax: Ng2ImgMaxService,
     private dataService: DataService
   ) {
 
@@ -75,26 +77,31 @@ export class AttachmentEditComponent implements OnInit {
   }
 
   imageUploader($event: any) {
-    console.log($event);
     let reader = new FileReader();
-    reader.readAsDataURL($event.target.files[0]);
-    console.log($event.target.files[0]);
-      
-    reader.onload = (_event) => { 
+    let image = $event.target.files[0];
+
+this.ng2ImgMax.resizeImage(image, 400, 300).subscribe(
+  result => {
+ 
+ 
+    reader.readAsDataURL(  result);
+    reader.onload = (_event) => {
       this.attachmentEditDtoList[$event.target.id].photoByte = (<string>reader.result).split(',')[1];
     }
 
     $event.target.value = null;
-    console.log(this.attachmentEditDtoList);
-  
 
-
+  },
+  error => {
+    console.log('😢 Oh no!', error);
+  }
+);
+ 
   }
 
 submit(){
   this.submitted = true;
   this.nextLoading = true;
-console.log(this.attachmentEditForm);
   if (this.attachmentEditForm.invalid) { this.nextLoading = false; return; }
 
   for(const data of this.attachmentEditDtoList){
@@ -113,7 +120,6 @@ console.log(this.attachmentEditForm);
    
   
   this.dataService.attachmentEdit(this.currentUser.access_token, attachmentEdit).subscribe((res:any)=>{ 
-    console.log(res);
     if (res.status === 'SUCCESS' && res.data === null) {
     this.router.navigate(['/inquery']);
   

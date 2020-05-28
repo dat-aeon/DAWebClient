@@ -111,8 +111,6 @@ securityFail: any = TemplateRef;
           this.regObj.securityQuestionAnswerReqDtoList = this.questionForm.value.question;
 
           this.api.confirmSecurityQuestionAnswer(this.regObj).subscribe((res: any) => {
-            console.log(this.regObj);
-            console.log(res);
             if(res.status === 'FAILED') {
               this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, horizontalPosition: 'center', verticalPosition: 'top' });
               this.loading = false;

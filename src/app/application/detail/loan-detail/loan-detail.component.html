@@ -1,9 +1,8 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
-        <span class="circle circle-right"></span>
+    
 
-        <div class="row content-wrapper">
+        <div class="row content-wrapper" style="font-family: Roboto;">
             <div class="col-md-12">
                 <ul class="sub-nav-wrapper">
                     <li><a routerLink="/application-detail" [state]="{ orderId: id }" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
@@ -20,7 +19,7 @@
                         <mat-card-title class="form-title"> 
                             <label class="page-number"> 5  </label> 
                             <span class="page-text"> {{ 'app.loan.title' | translate }}</span>
-                            <span class="page-pager"> 5/5 </span>
+                            <span class="page-pager-free"> 5/5 </span>
                         </mat-card-title>
                     </mat-card-header>  
 
@@ -35,194 +34,67 @@
                            
                                 <div class="form-group row">
                                     <label for="finance_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.financeAmount' | translate }} </label>
-                                    <div id="financeAmount" class="col-md-6 col-12"> {{ appInfo.financeAmount?appInfo.financeAmount:'-' }} </div>
+                                    <div id="financeAmount" class="col-md-6 col-12"> {{ appInfo.financeAmount?appInfo.financeAmount:'-' }} Ks </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="approved_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.approvedAmount' | translate }} </label>
+                                    <div id="approvedAmount" class="col-md-6 col-12"> {{ appInfo.approvedFinanceAmount?appInfo.approvedFinanceAmount:'-' }} Ks </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="term_of_finance" class="col-md-6 col-12 col-form-label">Term of Finance</label>
-                                    <div id="financeTerm" class="col-md-6 col-12"> {{ appInfo.financeTerm?appInfo.financeTerm:'-' }} </div>
+                                    <label for="term_of_finance" class="col-md-6 col-12 col-form-label"> {{ 'app.financeTerm' | translate }}</label>
+                                    <div id="financeTerm" class="col-md-6 col-12"> {{ appInfo.financeTerm?appInfo.financeTerm:'-' }} Months</div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="approved_term" class="col-md-6 col-12 col-form-label">{{ 'app.approvedTerm' | translate }}</label>
+                                    <div id="approvedTerm" class="col-md-6 col-12"> {{ appInfo.approvedFinanceTerm?appInfo.approvedFinanceTerm:'-' }} Months</div>
                                 </div>
                             </div>
 
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group row">
                                     <label for="processing_fees" class="col-md-6 col-12 col-form-label"> {{ 'app.processingFees' | translate }}</label>
-                                    <div id="processingFees" class="col-md-6 col-12"> {{ appInfo.processingFees?appInfo.processingFees:'-' }} </div>
+                                    <div id="processingFees" class="col-md-6 col-12"> {{ appInfo.processingFees?appInfo.processingFees:'-' }} Ks </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="compuslory_saving" class="col-md-6 col-12 col-form-label"> {{ 'app.conSaving' | translate }} </label>
-                                    <div id="conpuslorySaving" class="col-md-6 col-12"> {{ appInfo.conSaving?appInfo.conSaving:'-' }} </div>
+                                    <div id="conpuslorySaving" class="col-md-6 col-12"> {{ appInfo.compulsoryAmount?appInfo.compulsoryAmount:'-' }} Ks </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="total_repayment_amount" class="col-md-6 col-12 col-form-label"> {{'app.totalRepayment' | translate }}</label>
-                                    <div id="totalRepayment" class="col-md-6 col-12"> {{ appInfo.totalRepayment?appInfo.totalRepayment:'-' }}  </div>
+                                    <div id="totalRepayment" class="col-md-6 col-12"> {{ appInfo.totalRepayment?appInfo.totalRepayment:'-' }}Ks  </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="first_repayment_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.firstPayment' | translate }}</label>
-                                    <div id="firstRepayment" class="col-md-6 col-12"> {{ appInfo.firstPayment?appInfo.firstPayment:'-' }} </div>
+                                    <div id="firstRepayment" class="col-md-6 col-12"> {{ appInfo.firstPayment?appInfo.firstPayment:'-' }} Ks </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="monthly_repayment_amount" class="col-md-6 col-12 col-form-label"> {{ 'app.monthlyPayment' | translate }}</label>
-                                    <div id="monthlyRepayment" class="col-md-6 col-12"> {{ appInfo.monthlyInstallment?appInfo.monthlyInstallment:'-' }} </div>
+                                    <div id="monthlyRepayment" class="col-md-6 col-12"> {{ appInfo.monthlyInstallment?appInfo.monthlyInstallment:'-' }} Ks </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="last_payment" class="col-md-6 col-12 col-form-label"> {{ 'app.lastPayment' | translate }}</label>
-                                    <div id="lastRepayment" class="col-md-6 col-12"> {{ appInfo.lastPayment?appInfo.lastPayment:'-' }} </div>
+                                    <div id="lastRepayment" class="col-md-6 col-12"> {{ appInfo.lastPayment?appInfo.lastPayment:'-' }} Ks </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-lg-6 col-12" *ngFor="let attImage of appInfo.applicationInfoAttachmentDtoList">
                                 <div class="form-group row">
-                                    <label for="nrc_front" class="col-md-4 col-sm-12 col-form-label"> {{'app.NRCF' | translate }} </label>
-                                    <div class="col-md-8 col-sm-12 flex-main">
-                                        <img class="img-fluid" *ngIf="nrfcObject.filePath && nrfcObject.photoByte  === null" class="img-fluid" [src]="imagePath + nrfcObject.filePath" alt="{{'app.NRCF' | translate }}" title="{{'app.NRCF' | translate }}" />
-                                        <img class="img-fluid" *ngIf="nrfcObject.photoByte" class="img-fluid" [src]="imageType + nrfcObject.photoByte" alt="{{'app.NRCF' | translate }}" title="{{'app.NRCF' | translate }}" />
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="nrfcObject.editFlag">
-                                        <label for="nrfc" class="custom-file-upload back-btn cmn-btn pull-left"> {{ 'btn.browse' | translate }} </label>
-                                        <input id="nrfc" formControlName='nrfc' accept="image/*" type="file" (change)="imageUploader($event)">
+                                    <label for="member_card" class="col-12 col-md-4 col-form-label"> {{ attImage.fileType | attachementType  }} </label>
+                                    <div class="col-12 col-md-8">
+                                        <ul class="clearfix no-list-style image-box">
+                                            <li><img  class="img-fluid" [src]="imageUrl + attImage.filePath"></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label for="nrc_back" class="col-md-4 col-12 col-form-label"> {{'app.NRCB' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                            <img class="img-fluid" *ngIf="nrcbObject.filePath && nrcbObject.photoByte  === null" class="img-fluid" [src]="imagePath + nrcbObject.filePath" alt="{{'app.NRCB' | translate }}" title="{{'app.NRCB' | translate }}" />
-                                            <img class="img-fluid" *ngIf="nrcbObject.photoByte" class="img-fluid" [src]="imageType + nrcbObject.photoByte" alt="{{'app.NRCB' | translate }}" title="{{'app.NRCB' | translate }}" />
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="nrcbObject.editFlag">
-                                        <label for="nrcb" class="custom-file-upload back-btn cmn-btn "> <i class="fa fa-cloud-upload"></i> {{'btn.browse' | translate }}  </label>
-                                        <input id="nrcb" formControlName='nrcb' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
                             </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.IPA' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="ipaObject.filePath && ipaObject.photoByte  === null" class="img-fluid" [src]="imagePath + ipaObject.filePath" alt="{{'app.IPA' | translate }}" title="{{'app.IPA' | translate }}" />
-                                        <img class="img-fluid" *ngIf="ipaObject.photoByte" class="img-fluid" [src]="imageType + ipaObject.photoByte" alt="{{'app.IPA' | translate }}" title="{{'app.IPA' | translate }}" />
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="ipaObject.editFlag">
-                                        <label for="ipa" class="custom-file-upload back-btn cmn-btn "> <i class="fa fa-cloud-upload"></i> {{'btn.browse' | translate }}  </label>
-                                        <input id="ipa" formControlName='ipa' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.RPA' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="rpaObject.filePath && rpaObject.photoByte  === null" class="img-fluid" [src]="imagePath + rpaObject.filePath" alt="{{'app.RPA' | translate }}" title="{{'app.RPA' | translate }}" />
-                                        <img class="img-fluid" *ngIf="rpaObject.photoByte" class="img-fluid" [src]="imageType + rpaObject.photoByte" alt="{{'app.RPA' | translate }}" title="{{'app.RPA' | translate }}" />
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="rpaObject.editFlag">
-                                        <label for="rpa" class="custom-file-upload back-btn cmn-btn "> <i class="fa fa-cloud-upload"></i> {{'btn.browse' | translate }}  </label>
-                                        <input id="rpa" formControlName='rpa' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.GNRCF' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="gnrfObject.filePath && gnrfObject.photoByte  === null" class="img-fluid" [src]="imagePath + gnrfObject.filePath" alt="{{'app.GNRCF' | translate }}" title="{{'app.GNRCF' | translate }}" />
-                                        <img class="img-fluid" *ngIf="gnrfObject.photoByte" class="img-fluid" [src]="imageType + gnrfObject.photoByte" alt="{{'app.GNRCF' | translate }}" title="{{'app.GNRCF' | translate }}" />    
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="gnrfObject.editFlag">
-                                        <label for="gnrf" class="custom-file-upload back-btn cmn-btn "> <i class="fa fa-cloud-upload"></i> {{'btn.browse' | translate }}  </label>
-                                        <input id="gnrf" formControlName='gnrf' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.GNRCB' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="gnrcbObject.filePath && gnrcbObject.photoByte  === null" class="img-fluid" [src]="imagePath + gnrcbObject.filePath" alt="{{'app.GNRCB' | translate }}" title="{{'app.GNRCB' | translate }}"  />
-                                        <img class="img-fluid" *ngIf="gnrcbObject.photoByte" class="img-fluid" [src]="imageType + gnrcbObject.photoByte" alt="{{'app.GNRCB' | translate }}" title="{{'app.GNRCB' | translate }}"  />    
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="gnrcbObject.editFlag">
-                                        <label for="gnrcb" class="custom-file-upload back-btn cmn-btn "> <i class="fa fa-cloud-upload"></i> {{'btn.browse' | translate }}  </label>
-                                        <input id="gnrcb" formControlName='gnrcb' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.HCCA' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="hccaObject.filePath && hccaObject.photoByte  === null" class="img-fluid" [src]="imagePath + hccaObject.filePath" alt="{{'app.HCCA' | translate }}" title="{{'app.HCCA' | translate }}"  />
-                                        <img class="img-fluid" *ngIf="hccaObject.photoByte" class="img-fluid" [src]="imageType + hccaObject.photoByte" alt="{{'app.HCCA' | translate }}" title="{{'app.HCCA' | translate }}" />    
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="hccaObject.editFlag">
-                                        <label for="hcca" class="custom-file-upload back-btn cmn-btn "> <i class="fa fa-cloud-upload"></i> {{'btn.browse' | translate }}  </label>
-                                        <input id="hcca" formControlName='hcca' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.AppPhoto' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="appPhotoObject.filePath && appPhotoObject.photoByte  === null" class="img-fluid" [src]="imagePath + appPhotoObject.filePath" alt="{{'app.AppPhoto' | translate }}" title="{{'app.AppPhoto' | translate }}" />
-                                        <img class="img-fluid" *ngIf="appPhotoObject.photoByte" class="img-fluid" [src]="imageType + appPhotoObject.photoByte" alt="{{'app.AppPhoto' | translate }}" title="{{'app.AppPhoto' | translate }}" />    
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="appPhotoObject.editFlag">
-                                        <label for="appPhoto" class="mat-button custom-file-upload back"> {{ 'btn.browse' | translate }} <i class="material-icons"> attach_file </i> </label>
-                                        <input id="appPhoto" formControlName='appPhoto' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.customerSign' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="csmSignObject.filePath && csmSignObject.photoByte  === null" class="img-fluid" [src]="imagePath + csmSignObject.filePath" alt="{{'app.customerSign' | translate }}" title="{{'app.customerSign' | translate }}" />
-                                        <img class="img-fluid" *ngIf="csmSignObject.photoByte" class="img-fluid" [src]="imageType + csmSignObject.photoByte" alt="{{'app.customerSign' | translate }}" title="{{'app.customerSign' | translate }}"  />    
-                                    </div>
-                                    
-                                    <div class="col-8 col-md-8 offset-md-4 flex-main upload-wrapper" *ngIf="csmSignObject.editFlag">
-                                        <label for="csmSign" class="mat-button custom-file-upload back"> {{ 'btn.browse' | translate }} <i class="material-icons"> attach_file </i> </label>
-                                        <input id="csmSign" formControlName='hcca' accept="image/*" type="file" (change)="imageUploader($event)">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group row">
-                                    <label class="col-md-4 col-12 col-form-label"> {{'app.guarantorSign' | translate }}  </label>
-                                    <div class="col-8 col-md-8 flex-main">
-                                        <img class="img-fluid" *ngIf="guarantorSignObject.filePath && guarantorSignObject.photoByte  === null" class="img-fluid" [src]="imagePath + guarantorSignObject.filePath" alt="{{'app.guarantorSign' | translate }}" title="{{'app.guarantorSign' | translate }}" />
-                                        <img class="img-fluid" *ngIf="guarantorSignObject.photoByte" class="img-fluid" [src]="imageType + guarantorSignObject.photoByte" alt="{{'app.guarantorSign' | translate }}" title="{{'app.guarantorSign' | translate }}"  />    
-                                    </div>
-                                    
-                                 
-                                </div>
-                            </div>
-                        </div>
                     </mat-card-content>
 
                     <mat-card-actions>

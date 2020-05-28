@@ -1,4 +1,4 @@
-td > a { margin-left: 20px;}
+/* td > a { margin-left: 20px;} */
 :focus{outline: none;}
 
 .effect-2 ~ .focus-border { bottom: 19px; }

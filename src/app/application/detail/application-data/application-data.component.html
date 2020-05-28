@@ -1,12 +1,11 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
-        <span class="circle circle-right"></span>
 
-        <div class="row content-wrapper">
+
+        <div class="row content-wrapper" style="font-family: Roboto;">
             <div class="col-md-12">
                 <ul class="sub-nav-wrapper">
-                    <li><a routerLink="/application-detail" [state]="{ orderId: id }" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
+                    <li><a routerLink="/application-detail" [state]="{ orderId: id }" routerLinkActive="active">{{ 'application.title' | translate }} </a></li>
                     <li><a routerLink="/occupation-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.occupation' | translate }}</a></li>
                     <li><a routerLink="/emergency-contact-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.emergency' | translate }} </a></li>
                     <li><a routerLink="/guarantor-detail" [state]="{ orderId: id }" routerLinkActive="active"> {{ 'app.form.guarantor' | translate }} </a></li>
@@ -19,8 +18,8 @@
                     <mat-card-header>
                         <mat-card-title class="form-title"> 
                             <label class="page-number"> 1  </label> 
-                            <span class="page-text">  {{ 'your.appdata.title' | translate }} </span>
-                            <span class="page-pager"> 1/5 </span>
+                            <span class="page-text">  {{ 'application.title' | translate }} </span>
+                            <span class="page-pager-free"> 1/5 </span>
                         </mat-card-title>
                     </mat-card-header>  
 
@@ -46,6 +45,10 @@
                                     <label for="father_name" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.fatherName' | translate }} </label>
                                     <div id="applicantFaherName" class="col-12 col-md-8"> {{ appInfo.fatherName?appInfo.fatherName:'-'  }} </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="education" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.education' | translate }} </label>
+                                    <div id="applicanteducation" class="col-12 col-md-8"> {{ appInfo.highestEducationTypeId|education  }} </div>
+                                </div>
         
                                 <div class="form-group row">
                                     <label for="nationality" class="col-12 col-md-4 col-form-label"> {{ 'app.form.nationality' | translate }} </label>
@@ -68,32 +71,33 @@
                                     </mat-card-title>
                                   </mat-card-header>
                                 <div class="form-group row">
-                                    <label for="currentAddressBuildingNo" class="col-12 col-md-4 col-form-label">{{ 'app.form.buildingNo' | translate }} </label>
-                                    <div id="applicantCurAddBuildingNo" class="col-12 col-md-8"> {{ appInfo.currentAddressBuildingNo?currentAddressBuildingNo:'-'}}  </div>
+                                    <label  class="col-12 col-md-4 col-form-label">{{ 'app.form.buildingNo' | translate }} </label>
+                                    <div id="applicantCurAddBuildingNo" class="col-12 col-md-8"> {{ appInfo.currentAddressBuildingNo?appInfo.currentAddressBuildingNo:'-'}}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="currentAddressRoomNo" class="col-12 col-md-4 col-form-label">{{ 'app.form.roomNo' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label">{{ 'app.form.roomNo' | translate }} </label>
                                     <div id="applicantCurAddRoomNo" class="col-12 col-md-8"> {{ appInfo.currentAddressRoomNo?appInfo.currentAddressRoomNo:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="currentAddressFloor" class="col-12 col-md-4 col-form-label">{{ 'app.form.floor' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label">{{ 'app.form.floor' | translate }} </label>
                                     <div id="applicantCurAddFloor" class="col-12 col-md-8"> {{ appInfo.currentAddressFloor?appInfo.currentAddressFloor:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="currentAddressStreet " class="col-12 col-md-4 col-form-label">{{ 'app.form.street' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label">{{ 'app.form.street' | translate }} </label>
                                     <div id="applicantCurAddStreet" class="col-12 col-md-8"> {{ appInfo.currentAddressStreet?appInfo.currentAddressStreet:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="currentAddressQtr" class="col-12 col-md-4 col-form-label">{{ 'app.form.qtr' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label">{{ 'app.form.qtr' | translate }} </label>
                                     <div id="applicantCurAddQtr" class="col-12 col-md-8"> {{ appInfo.currentAddressQtr?appInfo.currentAddressQtr:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="currentAddressTownship" class="col-12 col-md-4 col-form-label">{{ 'app.form.township' | translate }} </label>
-                                    <div id="applicantCurAddTownship" class="col-12 col-md-8"> {{ appInfo.currentAddressTownship?appInfo.currentAddressTownship:'-' }}  </div>
+
+                                    <div id="applicantCurAddTownship" class="col-12 col-md-8"> {{ appInfo.currentAddressTownship| township: appInfo.currentAddressCity }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="currentAddressCity" class="col-12 col-md-4 col-form-label">{{ 'app.form.city' | translate }} </label>
-                                    <div id="applicantCurAddCity" class="col-12 col-md-8"> {{ appInfo.currentAddressCity?appInfo.currentAddressCity:'-' }}  </div>
+                                    <label class="col-12 col-md-4 col-form-label">{{ 'app.form.city' | translate }} </label>
+                                    <div id="applicantCurAddCity" class="col-12 col-md-8"> {{ appInfo.currentAddressCity|city }}  </div>
                                 </div>
                             </div>
     
@@ -105,32 +109,32 @@
                                     </mat-card-title>
                                   </mat-card-header>
                                 <div class="form-group row">
-                                    <label for="permanentAddressBuidlingNo" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.buildingNo' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.buildingNo' | translate }} </label>
                                     <div id="applicantPerAddBuildingNo" class="col-12 col-md-8"> {{ appInfo.permanentAddressBuildingNo?appInfo.permanentAddressBuildingNo:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="permanentAddressRoomNo" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.roomNo' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.roomNo' | translate }} </label>
                                     <div id="applicantPerAddRoomNo" class="col-12 col-md-8"> {{ appInfo.permanentAddressRoomNo?appInfo.permanentAddressRoomNo:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="permanentAddressFloor" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.floor' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.floor' | translate }} </label>
                                     <div id="applicantPerAddFloor" class="col-12 col-md-8"> {{ appInfo.permanentAddressFloor?appInfo.permanentAddressFloor:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="permanentAddressStreet" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.street' | translate }} </label>
+                                    <label  class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.street' | translate }} </label>
                                     <div id="applicantPerAddStreet" class="col-12 col-md-8"> {{ appInfo.permanentAddressStreet?appInfo.permanentAddressStreet:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="permanentAddressQtr" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.qtr' | translate }} </label>
-                                    <div id="applicantPerAddQtr" class="col-12 col-md-8"> {{ appInfo.permanentAddressQtr?appInfo.permanetAddressQtr:'-' }}  </div>
+                                    <label  class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.qtr' | translate }} </label>
+                                    <div id="applicantPerAddQtr" class="col-12 col-md-8"> {{ appInfo.permanentAddressQtr?appInfo.permanentAddressQtr:'-' }}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="permanentAddressTownship" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.township' | translate }} </label>
-                                    <div id="applicantPerAddTownship" class="col-12 col-md-8"> {{ appInfo.permanenAddressTownship?appInfo.permanentAddressTownship:'-'}}  </div>
+                                    <label  class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.township' | translate }} </label>
+                                    <div id="applicantPerAddTownship" class="col-12 col-md-8"> {{ appInfo.permanentAddressTownship|township: appInfo.permanentAddressCity}}  </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="permanentAddressCity" class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.city' | translate }} </label>
-                                    <div id="applicantPerAddCity" class="col-12 col-md-8"> {{ appInfo.permanentAddressCity?appInfo.permanentAddressCity:'-'}}  </div>
+                                    <label class="col-12 col-md-4 col-form-label pr-0"> {{ 'app.form.city' | translate }} </label>
+                                    <div id="applicantPerAddCity" class="col-12 col-md-8"> {{ appInfo.permanentAddressCity|city}}  </div>
                                 </div>
 
                                 <div class="form-group row">

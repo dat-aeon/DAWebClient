@@ -5,38 +5,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CompanyStatusPipe implements PipeTransform {
 
 companyInfo: string;
-companyStatus: any = [
-  'Trading',
-  'Factory & Garment & Manucature',
-  'Construction',
-  'Engineering',
-  'Insurance, Service & Agency',
-  'Mobile & Electronic',
-  'Transportation',
-  'Media & Entertainment',
-  'Supermarket & Convenience Store',
-  'Security Service',
-  'Communication',
-  'Manufacturing & Distribution',
-  'Government',
-  'Military',
-  'Police',
-  'Hotel & Restaurant',
-  'Travels and Tours',
-  'Hospital & Clinic',
-  'Private School',
-  'Microfinance',
-  'Aeon Orange',
-  'NGO',
-  'Bank',
-  'Fire station',
-  'Other'
+companyStatus: any = [  
+  'Public Company',
+  'Factory',
+   'Police' ,
+   'Private Company' ,
+  'SME Owner' ,
+  'Government Office',
+ 'Taxi Owner' ,
+    'Specialist' ,
+   'SME Officer' ,
+     'Military' ,
+     'NGO' ,
+     'Other' ,
 ];
 
   transform(value: number, companyStatusOther: string): any {
-    const indexValue = value - 1;
+    const indexValue = value ;
 
-    if(indexValue === 24 && companyStatusOther !== "") {
+    if(indexValue === 12 && companyStatusOther !== "") {
+ 
       this.companyInfo = companyStatusOther;
     } else {
       this.companyInfo = this.companyStatus[indexValue];

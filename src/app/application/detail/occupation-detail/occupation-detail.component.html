@@ -1,9 +1,8 @@
-<div class="row" id="row">
+<div class="row background-image" id="row">
     <div class="container">
-        <span class="circle circle-top"></span>
-        <span class="circle circle-right"></span>
 
-        <div class="row content-wrapper">
+
+        <div class="row content-wrapper" style="font-family: Roboto;">
             <div class="col-md-12">
                 <ul class="sub-nav-wrapper">
                     <li><a routerLink="/application-detail" [state]="{ orderId: id }" routerLinkActive="active">{{ 'app.form.title' | translate }} </a></li>
@@ -20,13 +19,13 @@
                         <mat-card-title class="form-title"> 
                             <label class="page-number"> 2  </label> 
                             <span class="page-text"> {{ 'title.occupation' | translate }} </span>
-                            <span class="page-pager"> 2/5 </span>
+                            <span class="page-pager-free"> 2/5 </span>
                         </mat-card-title>
                     </mat-card-header>  
 
                     <mat-card-content>
                         <div class="row">
-                            <div class="col-lg-6 col-12">
+                            <div class="col-lg-6 col-12" >
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{'app.form.companyName' | translate }} </label>
                                     <div id="occupationName" class="col-md-8 col-12"> {{ appInfo.companyName?appInfo.companyName:'-' }} </div>
@@ -60,11 +59,11 @@
                                 </div>
                                 <div class="form-group row">
                                     <label for="companyAddressTownship" class="col-md-4 col-12 col-form-label">{{ 'app.form.township' | translate }} </label>
-                                    <div id="occuaptionCompAddTownship" class="col-md-8 col-12"> {{ appInfo.companyAddressTownship?appInfo.companyAddressTownship:'-' }}</div>
+                                    <div id="occuaptionCompAddTownship" class="col-md-8 col-12"> {{ appInfo.companyAddressTownship|township:appInfo.companyAddressCity  }}</div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="companyAddressCity" class="col-md-4 col-12 col-form-label">{{ 'app.form.city' | translate }} </label>
-                                    <div id="occuaptionCompAddCity" class="col-md-8 col-12"> {{ appInfo.companyAddressCity?appInfo.companyAddressCity:'-' }}</div>
+                                    <div id="occuaptionCompAddCity" class="col-md-8 col-12"> {{ appInfo.companyAddressCity|city}}</div>
                                 </div>
 
                                 <div class="form-group row">
@@ -127,7 +126,7 @@
     
                                 <div class="form-group row">
                                     <label class="col-md-4 col-12 col-form-label"> {{ 'app.form.salaryDay' | translate }} </label>
-                                    <div id="occupationSalaryDay" class="col-md-8 col-12"> {{ appInfo.salaryDay }}  Days </div>
+                                    <div id="occupationSalaryDay" class="col-md-8 col-12">Day {{ appInfo.salaryDay }}   </div>
                                 </div>                            
                             </div>
                         </div>

@@ -1,14 +1,14 @@
 import { HttpHeaders } from '@angular/common/http';
  
 export const config = {
-  api: 'http://10.1.9.68:8083/daso',
+  api: 'https://ass.aeoncredit.com.mm/daso',
   base_url: 'http://localhost:8080/aeon_web/',
   apiUsername: 'vcs-api-client',
   apiPassword: 'vcs-api-client',
   inputPatten: /[^\x00-\x7F]+/ig,
   imageType: 'data:image/png;base64,',
-  imageUrl: 'http://10.1.9.68:8083/daso/digital-application-image-files/',
-  purchaseImgUrl: 'http://10.1.9.68:8083/daso/purchase-image-files/'
+  imageUrl: 'https://ass.aeoncredit.com.mm/daso/digital-application-image-files/',
+  purchaseImgUrl: 'https://ass.aeoncredit.com.mm/daso/purchase-image-files/'
 };
 
 export const BasicAuthHeader = new HttpHeaders({
@@ -77,13 +77,11 @@ export function JSONtoDate (jsonFormat: any = {}) {
 }
 
 export function dateToJsonFormat (dateFormat: string) {
-  console.log(dateFormat);
   const jsonFormat: any = {};
   const data = dateFormat.split('-');
   return data;
 }
 
 export function compareSelected(c1: any, c2:any): boolean {    
-  console.log(c2); 
   return c1 && c2 ? c1.id === c2.id : c1 === c2; 
 }

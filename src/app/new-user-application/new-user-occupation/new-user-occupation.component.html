@@ -7,8 +7,8 @@
             <div class="row content-wrapper">
               <div class="col-md-12">
                 <div class="col-md-12">
-                  <ul class="sub-nav-wrapper " style="font-family: none;">
-                    <li><a id="new-user"[routerLink]=""   (click)="clickBackLink($event)" >{{ 'app.form.title' | translate }} </a></li>
+                  <ul class="sub-nav-wrapper " style="padding: 14px; background: none; box-shadow: none;">
+                    <li><a id="new-user"[routerLink]=""   (click)="clickBackLink($event)" >{{ 'application.title' | translate }} </a></li>
                     <li><a id="new-user-occupation"  routerLink="/new-user-occupation"    routerLinkActive="active"  > {{ 'app.form.occupation' | translate }}</a></li>
                     <li><a  id="new-user-emergency"  [routerLink]="" (click)="clickLink($event)"> {{ 'app.form.emergency' | translate }} </a></li>
                     <li><a id="new-user-guarantor" [routerLink]="" (click)="clickLink($event)"> {{ 'app.form.guarantor' | translate }} </a></li>
@@ -35,7 +35,7 @@
                           <mat-form-field class="col-12">
                             <mat-label> {{'app.form.companyName' | translate }} <strong class="red-color">*</strong>
                             </mat-label>
-                            <input matInput type="text" autocomplete="off" maxLength="100" formControlName="companyName" oninput="this.value = this.value.toUpperCase()">
+                            <input matInput type="text"  autocomplete="off" maxLength="100" formControlName="companyName"  oninput="this.value = this.value.toUpperCase()" #companyName/>
                             <mat-hint align="end">{{ f.companyName.value?.length || 0 }}/100 </mat-hint>
 
                             <mat-error *ngIf="errorHandling('companyName', 'required')">{{ 'required-company' | translate }} 

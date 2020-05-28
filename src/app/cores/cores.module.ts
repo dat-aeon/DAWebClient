@@ -61,6 +61,12 @@ import { MyAccountComponent } from '../new-user-application/my-account/my-accoun
 import { NumberDirective } from './helper/numbers-only.directive';
 import { AttachmentEditComponent } from '../application/attachment-edit/attachment-edit.component';
 import { PurchaseTypePipe } from '../pipes/purchase-type.pipe';
+import { AttachementTypePurchasePipe } from '../pipes/attachement-type-purchase.pipe';
+import { TownshipPipe } from '../pipes/township.pipe';
+import { CityPipe } from '../pipes/city.pipe';
+import { EducationPipe } from '../pipes/education.pipe';
+
+import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 @NgModule({
   declarations: [
@@ -93,8 +99,12 @@ import { PurchaseTypePipe } from '../pipes/purchase-type.pipe';
     LivingTypePipe,
     CompanyStatusPipe,
     StatusPipe,
+    TownshipPipe,
+    CityPipe,
+    EducationPipe,
     LoanTypePipe,
     AttachementTypePipe,
+    AttachementTypePurchasePipe,
     PurchaseTypePipe,
     ServiceNotFoundComponent,
     ApplicatonRegistrationFormComponent,
@@ -110,7 +120,9 @@ import { PurchaseTypePipe } from '../pipes/purchase-type.pipe';
     NewUserComponent,
     MyAccountComponent,
     NumberDirective,
+
     AttachmentEditComponent,
+    
 
 
   ],
@@ -125,6 +137,7 @@ import { PurchaseTypePipe } from '../pipes/purchase-type.pipe';
     NgbDatepickerModule,
     NgxMaterialTimepickerModule,
     NgAutonumericModule,
+    Ng2ImgMaxModule,
     TranslateModule.forChild(),
     TranslateModule.forRoot({
       loader: {

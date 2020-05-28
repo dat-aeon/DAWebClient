@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { languageValidator, minLength, numOnlyValidator, phoneNumValidator, stayPeriodValidator } from 'src/app/cores/helper/validators';
+import { languageValidator, minLength, numOnlyValidator, phoneNumValidator, stayPeriodValidator, emailValidation } from 'src/app/cores/helper/validators';
 import { DataService } from 'src/app/cores/helper/data.service';
 import { AuthService } from 'src/app/cores/services/auth.service';
 import { MatSnackBar } from '@angular/material';
@@ -9,6 +9,7 @@ import { ApplicationFormService } from 'src/app/cores/services/application-form.
 import { appForm } from 'src/app/cores/helper/app-form';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-applicaton-registration-form',
@@ -22,7 +23,7 @@ export class ApplicatonRegistrationFormComponent implements OnInit {
   permanentTownshipList: any = [];
   hideTypeOfResident: boolean =true;
   hideNationality: boolean=true;
-  education: any = [];
+
   applicationRegistrationForm: FormGroup;
   nrcTypeList: any = [];
   townshipCodeResDtoList: any = [];
@@ -62,19 +63,7 @@ export class ApplicatonRegistrationFormComponent implements OnInit {
       this.currentUser = user.data;
     });
     this.f.name.setValue(this.currentUser.userInformationResDto.name);
-    this.dataService.getEducationList().subscribe((dataLists: any) => {
-      if(dataLists.status === 'SUCCESS' && dataLists.data !== null) {
-      for (const x of dataLists.data) {
-
-        this.education.push(x);
-      }
-   
-    }
-      
-  },(error: any) => {
-    console.log('Error : ' + JSON.stringify(error))
-    if(error) { this.modalService.open(ModalComponent); }
-    });
+    
 
     this.dataService.getCityTownshipCodeList().subscribe((dataLists: any) => {
       if(dataLists.status === 'SUCCESS' && dataLists.data !== null) {
@@ -120,7 +109,13 @@ export class ApplicatonRegistrationFormComponent implements OnInit {
         }
 
         this.f.fatherName.setValue(result.data.fatherName);
+        if(result.data.highestEducationTypeId===null)
+        {
+          this.f.highestEducationTypeId.setValue(0);
+        }
+        else{
         this.f.highestEducationTypeId.setValue(result.data.highestEducationTypeId);
+      }
 
         if(result.data.nationality === null) {
           this.f.nationality.setValue(1);
@@ -279,7 +274,7 @@ export class ApplicatonRegistrationFormComponent implements OnInit {
     
       name:['',[Validators.required]],
       fatherName: ['', [Validators.required]],
-      highestEducationTypeId: [1, [Validators.required]],
+      highestEducationTypeId: ['1', [Validators.required]],
       nationality: [1, [Validators.required]],
       nationalityOther: ['', [Validators.required]],
       gander: [1, [Validators.required]],
@@ -306,7 +301,7 @@ export class ApplicatonRegistrationFormComponent implements OnInit {
     
       residentTelNo: [''],
       otherPhoneNo: [''],
-      email: ['', [ Validators.email, languageValidator]]
+      email: ['', [ Validators.email, languageValidator,emailValidation]]
     }, { validators: stayPeriodValidator });
 
     this.f.nationalityOther.disable();
@@ -445,7 +440,6 @@ export class ApplicatonRegistrationFormComponent implements OnInit {
     this.FormBuilder();
     this.dataInit();
     this.lastApplicationInfo();
-console.log("start value change ");
     this.applicationRegistrationForm.valueChanges.subscribe((res: any) => {
       let data = res;
       data.name=this.currentUser.userInformationResDto.name;
@@ -453,7 +447,6 @@ console.log("start value change ");
       data.mobileNo=this.currentUser.userInformationResDto.phoneNo;
       data.nrcNo = this.currentUser.userInformationResDto.nrcNo;
       data.gender = res.gander;
-console.log("In value change ");
       if(this.applicationRegistrationForm.invalid) {
         data.applicationFormError= true;
       }
@@ -464,7 +457,6 @@ console.log("In value change ");
 
       this.applicationFormService.applicationFormObject.next(data);
     });
-    console.log("finished value change");
   }
   error(){
     

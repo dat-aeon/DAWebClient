@@ -7,8 +7,8 @@
             <div class="row content-wrapper">
               <div class="col-md-12">
                 <div class="col-md-12">
-                  <ul class="sub-nav-wrapper " style="font-family: none;">
-                    <li><a id="new-user" [routerLink]=""  (click)="clickBackLink($event)" >{{ 'app.form.title' | translate }} </a></li>
+                  <ul class="sub-nav-wrapper " style="padding: 14px; background: none; box-shadow: none;">
+                    <li><a id="new-user" [routerLink]=""  (click)="clickBackLink($event)" >{{ 'application.title' | translate }} </a></li>
                     <li><a id="new-user-occupation"  [routerLink]=""  (click)="clickBackLink($event)"   > {{ 'app.form.occupation' | translate }}</a></li>
                     <li><a  id="new-user-emergency"  routerLink="/new-user-emergency" routerLinkActive="active"> {{ 'app.form.emergency' | translate }} </a></li>
                     <li><a id="new-user-guarantor" [routerLink]="" (click)="clickLink($event)"> {{ 'app.form.guarantor' | translate }} </a></li>
@@ -34,7 +34,7 @@
                             <mat-form-field class="col-12">
                               <mat-label> {{ 'app.form.name' | translate }} <strong class="red-color">*</strong>
                               </mat-label>
-                              <input matInput autocomplete="off" type="text" formControlName="name"  oninput="this.value = this.value.toUpperCase()" >
+                              <input matInput #emergencyName   autocomplete="off" type="text" formControlName="name"  oninput="this.value = this.value.toUpperCase()" >
 
                               <mat-error *ngIf="errorHandling('name', 'required')">{{ 'required-name' | translate }}  </mat-error>
 

@@ -77,18 +77,13 @@ export class NewUserGuarantorComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
-    console.log('Constructor');
     this.modalOptions = { backdrop: 'static', backdropClass: 'customBackdrop' };   if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-      console.log(this.newRegister);
       if(!('emergencyContactInfoDto' in this.newRegister) ||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError || this.newRegister.emergencyContactInfoDto.emergencyFormError){
         this.dataService.formError=true;
-        this.router.navigate(['/new-user-emergency/']);
+        this.router.navigate(['/new-user-emergency/'], { queryParams:  filter, skipLocationChange: true});
       }
-      if(this.dataService.formError){
-        this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
-      this.dataService.formError=false;
-      }
+   
   
 
     } else {
@@ -105,19 +100,21 @@ export class NewUserGuarantorComponent implements OnInit {
 
     this.guarantorFormBuilder();
 
-
   }
+  ngAfterViewInit(){
 
+    if(this.dataService.formError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+    this.dataService.formError=false;
+    }
+  }
 
 
   nextSubmit() {
     this.submitted = true;
     this.nextLoading = true;
-    console.log(this.guarantorForm.invalid);
-    console.log(this.guarantorForm);
     if (this.guarantorForm.invalid) { this.nextLoading = false; return; }
     this.saveDraft();
-    console.log('Hello');
     this.router.navigate(['/new-user-loan/'], { queryParams:  filter, skipLocationChange: true});
   }
 
@@ -134,10 +131,10 @@ export class NewUserGuarantorComponent implements OnInit {
       nrcType: ['(N)'],
       nrcCode: [1],
       nrcList: [],
-      nrcNo: [, [Validators.required, numOnlyValidator]],
+      nrcNo: ['', [Validators.required, numOnlyValidator]],
       nationality: [1, [Validators.required]],
       nationalityOther: [this.guarantorInfoDto.nationalityOther, [Validators.required]],
-      mobileNo: [this.guarantorInfoDto.mobileNo, [Validators.required, numOnlyValidator, phoneNumValidator, minLength(9)]],
+      mobileNo: [this.guarantorInfoDto.mobileNo, [Validators.required, numOnlyValidator ]],
       residentTelNo: [this.guarantorInfoDto.residentTelNo],
       relationship: [1],
       relationshipOther: [this.guarantorInfoDto.relationshipOther, [Validators.required]],
@@ -157,12 +154,12 @@ export class NewUserGuarantorComponent implements OnInit {
       yearOfStayYear: ['0', [Validators.required]],
       yearOfStayMonth: ['0', [Validators.required]],
       companyName: [this.guarantorInfoDto.companyName, [Validators.required,]],
-      companyTelNo: [this.guarantorInfoDto.companyTelNo, [Validators.required, numOnlyValidator,phoneNumValidator]],
+      companyTelNo: [this.guarantorInfoDto.companyTelNo, [Validators.required]],
       companyBuildingNo: [this.guarantorInfoDto.companyAddressBuildingNo],
       companyRoomNo: [this.guarantorInfoDto.companyAddressRoomNo],
       companyFloor: [this.guarantorInfoDto.companyAddressFloor],
       companyStreet: [this.guarantorInfoDto.companyAddressStreet, [ Validators.required]],
-      companyQtr: [this.guarantorInfoDto.compnayAddressQtr, [ Validators.required]],
+      companyQtr: [this.guarantorInfoDto.companyAddressQtr, [ Validators.required]],
       companyTownship: [ ,[Validators.required]] ,
       companyCity: [2],
       department: [this.guarantorInfoDto.department, [Validators.required]],
@@ -287,7 +284,6 @@ export class NewUserGuarantorComponent implements OnInit {
 
       dataLists.data.find( (key: any) => {
         if (Number(this.guarantorInfoDto.companyAddressCity) === key.cityId) {
-          console.log('Hello');
           this.companyTownshipList = key.townshipInfoList;
           this.f.companyTownship.setValue(this.guarantorInfoDto.companyAddressTownship);
 
@@ -353,7 +349,6 @@ export class NewUserGuarantorComponent implements OnInit {
   }
 
   relationshipChange($event: any) {
-    console.log($event.value);
     if ($event.value === 5) {
       this.hideRelationship = false;
       this.f.relationshipOther.enable();
@@ -429,7 +424,7 @@ export class NewUserGuarantorComponent implements OnInit {
       companyAddressRoomNo: this.f.companyRoomNo.value,
       companyAddressFloor: this.f.companyFloor.value,
       companyAddressStreet: this.f.companyStreet.value,
-      compnayAddressQtr: this.f.companyQtr.value,
+      companyAddressQtr: this.f.companyQtr.value,
       companyAddressTownship: this.f.companyTownship.value,
       companyAddressCity: this.f.companyCity.value,
     };
@@ -447,7 +442,6 @@ export class NewUserGuarantorComponent implements OnInit {
   }
 
   changeYearOfStay($event: any, type: any) {
-    console.log('Year Of Stay');
     if (type === 'Year') {
          this.year = $event.value;
          this.month = this.f.yearOfStayMonth.value;
@@ -458,7 +452,6 @@ export class NewUserGuarantorComponent implements OnInit {
 
 
     if (this.year === '0' && this.month === '0'  ) {
-        console.log('ColorChange');
 
         document.getElementById('yearOfStayYearLabel').style.color = 'red';
         document.getElementById('yearOfStayMonthLabel').style.color = 'red';
@@ -471,7 +464,6 @@ export class NewUserGuarantorComponent implements OnInit {
 
     }
     changeYearOfService($event: any, type: any) {
-      console.log('Year Of Stay');
       if (type === 'Year') {
            this.year = $event.value;
            this.month = this.f.yearOfServiceMonth.value;
@@ -482,7 +474,6 @@ export class NewUserGuarantorComponent implements OnInit {
 
 
       if (this.year === '0' && this.month === '0'  ) {
-          console.log('ColorChange');
 
           document.getElementById('yearOfServiceYearLabel').style.color = 'red';
           document.getElementById('yearOfServiceMonthLabel').style.color = 'red';
@@ -520,7 +511,6 @@ export class NewUserGuarantorComponent implements OnInit {
           this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
           this.nextLoading = false; return; }
         this.saveDraft();
-        console.log('Next');
         this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
     
       }

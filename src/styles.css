@@ -1,9 +1,9 @@
 /** Angular Material UI **/
 @charset "UTF-8";
-@font-face { font-family: "Roboto"; src: url('./assets/fonts/Roboto-Regular.woff') format('woff'); text-transform: initial; }
+@font-face { font-family: none; src: url('./assets/fonts/Roboto-Regular.woff') format('woff'); text-transform: initial; }
 @font-face { font-family: "myanmar-unicode"; src: url('./assets/fonts/myanmar-unicode.woff') format('woff'); text-transform: initial; }
 
-body { background: #fff; color: #000; font-size: 16px; line-height: 150%; font-family: "Roboto","myanmar-unicode"!important; }
+body { background: #fff; color: #000; font-size: 16px; line-height: 150%; font-family:none,"myanmar-unicode"!important; }
 a { color: #9B51E0; }
 
 *{ margin: 0px; padding: 0px; outline: none; }
@@ -84,16 +84,22 @@ mat-card { box-shadow: 1px 1px 5px 1px rgba(140, 79, 202, 0.4)!important; }
 .sub-nav-wrapper > li:first-child { margin-left: 0px; }
 
 /* Material Form */
-.form-title { width: 100%; display: flex; flex-direction: row; }
+.form-title { width: 100%; display: flex; flex-direction: row; font-family: none;}
 .form-title > .page-number { width: 50px; height: 50px; border-radius: 50%; padding: 5px; text-align: center; background: #9B51E0; color: #fff; font-size: 30px; line-height: 35px; }
-.form-title > .page-text { color: #9B51E0; font-size: 30px; font-weight: bold; }
+.form-title > .page-text { color: #9B51E0; font-size: 30px; font-weight: bold;  font-family: none; }
 .form-title > .page-pager { color: #9B51E0; font-size: 30px; font-weight: bold; justify-content: space-between; }
 .form-title > .page-pager-free { color: #9B51E0; font-size: 30px; font-weight: bold; float: right; line-height: 45px; }
 .form-ttl {
 	text-align: center;
 	margin-bottom: 30px;
+	font-weight: bold;
 }
-.mat-error { padding-top: 3px; padding-bottom: 3px; }
+.form-ttl-lvl2 {
+	margin-top: 20px;
+	margin-bottom: 30px;
+	font-weight: bold;
+}
+.login-title { text-align: left; color: #9B51E0;}
 .mat-hint { padding-bottom: 3px; padding-top: 3px; }
 .mat-form-field-label { padding-bottom: 3px; }
 
@@ -165,12 +171,13 @@ mat-form-field,
 .mat-step-label,
 .mat-option-text, .mat-select-value-text,
 .forget-pwd,
-.btn-gp > p { font-family: "Roboto","myanmar-unicode"!important; }
+.btn-gp > p { font-family: none,"myanmar-unicode"!important; }
 .mat-card-title > h3 { text-align: center; color: #9B51E0; font-weight: bold; }
 h4 {
 	font-size: 20px;
 	color: #9B51E0;
 }
+
 .mat-card-header-text,
 .form-container > * { width: 100%; margin-top: 20px; }
 .form-wrapper > mat-form-field { width: 100%; }

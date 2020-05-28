@@ -67,8 +67,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    console.log(new Date().toLocaleString('my-MM', options));
-    console.log(new Date().toLocaleString('my-MM',{month:"long"}));
 
     this.errorMsg = errorMessage;
     this.loginForm = this.fb.group({
@@ -182,7 +180,6 @@ public changeNrcState($event: any) {
     phoneNo: this.ff.phoneNo.value,
 
     };
-    console.log(checkMember);
     this.api.checkMember(checkMember).subscribe( (res: any) => {
       if (res.status === 'FAILED') {
 

@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NumeralPipe } from 'ngx-numeral';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
+import { Ng2ImgMaxService } from 'ng2-img-max';
 
 @Component({
   selector: 'app-new-user-loan',
@@ -86,9 +87,11 @@ export class NewUserLoanComponent implements OnInit {
     this.applicationPhotoObject,
     this.customerSignObject,
     this.guarantorSignObject,
+    
   ];
 
   constructor(
+    private ng2ImgMax: Ng2ImgMaxService,
     private dataService: DataService,
     private authService: AuthService,
     private snackBar: MatSnackBar,
@@ -100,16 +103,11 @@ export class NewUserLoanComponent implements OnInit {
   ) {
       if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
-      console.log(this.newRegister);
       if(!('guarantorInfoDto' in this.newRegister)||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError || this.newRegister.emergencyContactInfoDto.emergencyFormError||this.newRegister.guarantorInfoDto.guarantorFormError){
         this.dataService.formError=true;
-        this.router.navigate(['/new-user-guarantor/']);
+        this.router.navigate(['/new-user-guarantor/'], { queryParams:  filter, skipLocationChange: true});
       }
-      if(this.dataService.formError){
-        this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
-      this.dataService.formError=false;
-      }
-
+     
     
     } else {
       this.router.navigate(['login']);
@@ -125,7 +123,14 @@ export class NewUserLoanComponent implements OnInit {
     this.loanCalculateErrorState = false;
     this.authService.refreshToken();
     this.loanFormBuilder();
+   
 
+  }
+  ngAfterViewInit(){
+    if(this.dataService.formError){
+      this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
+      this.dataService.formError=false;
+    }
   }
 
 
@@ -226,7 +231,6 @@ export class NewUserLoanComponent implements OnInit {
         if(res.status === "FAILED") {
           this.errorMsg.getLoanErrorMessage = 'Minimum of finance amount must be 100000.';
         }
-      console.log('Hello');
         if(res.status === "SUCCESS" && res.data !== null) {
           
           this.loanCalculateErrorState = false;
@@ -249,7 +253,6 @@ export class NewUserLoanComponent implements OnInit {
   get p() { return this.passwordConfirmForm.controls; }
 
   loanCalculate($event: any){
-    console.log($event.value);
     if(this.f.financeAmount.value === '' || !Number(this.f.financeAmount.value)) {
       this.loanCalculateErrorState = true;
     } else {
@@ -263,7 +266,6 @@ export class NewUserLoanComponent implements OnInit {
         if(res.status === "FAILED") {
           this.errorMsg.getLoanErrorMessage = 'Minimum of finance amount must be 100000.';
         }
-      console.log('Hello');
         if(res.status === "SUCCESS" && res.data !== null) {
           this.loanCalculateErrorState = false;
           this.processingFees=(res.data.processingFees);
@@ -287,17 +289,24 @@ export class NewUserLoanComponent implements OnInit {
 
   imageUploader($event: any) {
     let reader = new FileReader();
-    reader.readAsDataURL($event.target.files[0]);
-    
-      
-    reader.onload = (_event) => { 
+    let image = $event.target.files[0];
+
+this.ng2ImgMax.resizeImage(image, 400, 300).subscribe(
+  result => {
+ 
+ 
+    reader.readAsDataURL(  result);
+    reader.onload = (_event) => {
       this[$event.target.id + 'Object'].photoByte = (<string>reader.result).split(',')[1];
     }
 
     $event.target.value = null;
-    console.log(this.f.nrcFront.value);
-  
 
+  },
+  error => {
+    console.log('😢 Oh no!', error);
+  }
+);
 
   }
     nextSubmit() {
@@ -308,11 +317,13 @@ export class NewUserLoanComponent implements OnInit {
     this.saveDraft();
     this.router.navigate(['/my-account/'], { queryParams:  filter, skipLocationChange: true});
   }
-
-  imageCancle($event: any){
-
-    this[$event.target.value + 'Object'].photoByte = null;
-    this.f[$event.target.value].setValue(null);
+ imageCancle(photoControl: any, photoObject: any){
+    if(photoObject.photoByte !== undefined && photoObject.photoByte !== null) {
+      photoObject.photoByte = null;
+      let value : any = this.f[photoControl];
+      value.value = null;
+      value.errors = { required: true };
+    }
   }
 
   saveDraft() {
@@ -321,7 +332,8 @@ export class NewUserLoanComponent implements OnInit {
     this.newRegister.applicationInfoAttachmentDtoList = this.applicationInfoAttachmentDtoList;
     this.newRegister.financeAmount= this.f.financeAmount.value;
     this.newRegister.financeTerm= this.f.financeTerm.value;
-    if(this.loanForm.invalid){    this.newRegister.loanFormError=true;
+    this.checkError();
+    if(this.loanForm.invalid ){    this.newRegister.loanFormError=true;
     }
     else{
       this.newRegister.loanFormError=false;
@@ -359,7 +371,6 @@ export class NewUserLoanComponent implements OnInit {
 
   }
   clickLink($event: any){
-    console.log (this.f.residentProofAttachment);
     this.submitted = true;
     this.nextLoading = true;
     this.checkError();
@@ -367,7 +378,6 @@ export class NewUserLoanComponent implements OnInit {
       this.snackBar.openFromTemplate(this.erorrSnack, { duration: 3000, verticalPosition : "top", horizontalPosition : "center"});
       this.nextLoading = false; return; }
     this.saveDraft();
-    console.log('Next');
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
 
   }
@@ -376,38 +386,40 @@ export class NewUserLoanComponent implements OnInit {
     this.router.navigate(['/'+$event.target.id+'/'], { queryParams:  filter, skipLocationChange: true});
   }
   checkError(){
+    
+    if (this.nrcFrontObject.photoByte === null || this.nrcFrontObject.photoByte ==="" || this.nrcFrontObject.photoByte ===undefined){
 
-    if (this.nrcFrontObject.photoByte === null || this.nrcFrontObject.photoByte ===""){
       this.f.nrcFront.setErrors({required:true});
     }
-    if (this.nrcBackObject.photoByte === null || this.nrcBackObject.photoByte ===""){
+    if (this.nrcBackObject.photoByte === null || this.nrcBackObject.photoByte ==="" || this.nrcBackObject.photoByte === undefined ){
+
       this.f.nrcBack.setErrors({required:true});
     }
-    if (this.residentProofAttachmentObject.photoByte === null || this.residentProofAttachmentObject.photoByte ===""){
+    if (this.residentProofAttachmentObject.photoByte === null || this.residentProofAttachmentObject.photoByte ==="" || this.residentProofAttachmentObject.photoByte === undefined){
       this.f.residentProofAttachment.setErrors({required:true}); 
     }
-    if (this.incomeProofAttachmentObject.photoByte === null || this.incomeProofAttachmentObject.photoByte ===""){
+    if (this.incomeProofAttachmentObject.photoByte === null || this.incomeProofAttachmentObject.photoByte ==="" || this.incomeProofAttachmentObject.photoByte ===undefined){
       this.f.incomeProofAttachment.setErrors({required:true});
     }
-    if (this.householdCriminalClearanceObject.photoByte === null || this.householdCriminalClearanceObject.photoByte ===""){
+    if (this.householdCriminalClearanceObject.photoByte === null || this.householdCriminalClearanceObject.photoByte ==="" || this.householdCriminalClearanceObject.photoByte === undefined){
       this.f.householdCriminalClearance.setErrors({required:true});
     }
-    if (this.nrcGuarantorFrontObject.photoByte === null || this.nrcGuarantorFrontObject.photoByte ===""){
+    if (this.nrcGuarantorFrontObject.photoByte === null || this.nrcGuarantorFrontObject.photoByte ===""|| this.nrcGuarantorFrontObject.photoByte === undefined){
       this.f.nrcGuarantorFront.setErrors({required:true});
     }
-    if (this.nrcGuarantorBackObject.photoByte === null || this.nrcGuarantorBackObject.photoByte ===""){
+    if (this.nrcGuarantorBackObject.photoByte === null || this.nrcGuarantorBackObject.photoByte ==="" || this.nrcGuarantorBackObject.photoByte ===undefined){
       this.f.nrcGuarantorBack.setErrors({required:true});
     }
-    if (this.applicationPhotoObject.photoByte === null || this.applicationPhotoObject.photoByte ===""){
+    if (this.applicationPhotoObject.photoByte === null || this.applicationPhotoObject.photoByte ===""|| this.applicationPhotoObject.photoByte ===undefined){
       this.f.applicationPhoto.setErrors({required:true});
     }
-    if (this.customerSignObject.photoByte === null || this.customerSignObject.photoByte ===""){
+    if (this.customerSignObject.photoByte === null || this.customerSignObject.photoByte ==="" || this.customerSignObject.photoByte ===undefined){
       this.f.customerSign.setErrors({required:true});
     }
-    if (this.guarantorSignObject.photoByte === null || this.guarantorSignObject.photoByte ===""){
+    if (this.guarantorSignObject.photoByte === null || this.guarantorSignObject.photoByte ==="" || this.guarantorSignObject.photoByte ===undefined){
       this.f.guarantorSign.setErrors({required:true});
     }
- 
+
 
   }
   back(){

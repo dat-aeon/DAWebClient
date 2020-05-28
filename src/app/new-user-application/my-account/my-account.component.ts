@@ -11,6 +11,9 @@ import { ApiService } from 'src/app/cores/services/api.service';
 
 import { ModalComponent } from 'src/app/cores/helper/modal/modal.component';
 import { filter } from 'rxjs/operators';
+import { AuthService } from 'src/app/cores/services/auth.service';
+import { discardPeriodicTasks } from '@angular/core/testing';
+
 
 @Component({
   selector: 'app-my-account',
@@ -50,6 +53,8 @@ commandError: boolean;
  
   @ViewChild( 'erorrSnack', {static: false })
     erorrSnack: any = TemplateRef;
+    @ViewChild( 'applicationFail', {static: false })
+    applicationFail: any = TemplateRef;
 
 @ViewChild('duplicatedQuestion', { static : false })
 duplicatedQuestion: any = TemplateRef;
@@ -67,12 +72,13 @@ securityFail: any = TemplateRef;
     private dialog: MatDialog,
     private securityService: SecurrityService,
     private snackBar: MatSnackBar,
+    private authService: AuthService,
   ) {
     if (localStorage.getItem('newRegister')) {
       this.newRegister = JSON.parse(localStorage.getItem('newRegister'));
       if(!('applicationInfoAttachmentDtoList' in this.newRegister)||this.newRegister.applicantFormError || this.newRegister.applicantCompanyInfoDto.occupationFormError || this.newRegister.emergencyContactInfoDto.emergencyFormError||this.newRegister.guarantorInfoDto.guarantorFormError||this.newRegister.loanFormError){
         this.dataService.formError=true;
-        this.router.navigate(['/new-user-loan/']);
+        this.router.navigate(['/new-user-loan/'], { queryParams:  filter, skipLocationChange: true});
       }
       this.dataService.formError=false;
 
@@ -194,8 +200,6 @@ securityFail: any = TemplateRef;
 termsAndCondition(){
   this.loading=true;
       if(this.myAccountForm.invalid) {
-        console.log("My Account Form Invalid"); 
-        console.log(this.erorrSnack);
         this.submitted = true;
         this.snackBar.openFromTemplate(this.erorrSnack, this.snackBarOption);
          this.loading=false;
@@ -232,6 +236,7 @@ private securityQuestionValidatosrs() {
   }
   if(errorstatus.length === 0) {
     this.display='block'; //Set block css
+    console.log(this.display);
    
     this.saveDraft();
     this.loading=false;
@@ -244,21 +249,46 @@ private securityQuestionValidatosrs() {
     delete this.newRegister.applicantCompanyInfoDto['occupationFormError'];
     delete this.newRegister.emergencyContactInfoDto['emergencyFormError'];
     delete this.newRegister.guarantorInfoDto['guarantorFormError'];
+    console.log(this.newRegister);
+    
     this.dataService.freeRegistration( this.newRegister).subscribe( (res: any) => {
-      console.log(res.status);
-
+console.log(res);
        if(res.status === 'FAILED') {
-        console.log('Failed');
         this.title = 'Failed!';
+        
         this.body =res.message;
         this.display='none';
-    //    this.openDialog();
+        this.snackBar.openFromTemplate(this.applicationFail, this.snackBarOption);
+   // this.openDialog();
        
       }
 
      else if(res.status === 'SUCCESS') {
         this.display='none';
-        this.router.navigate(['login']);
+        const accLogin={username:this.newRegister.mobileNo,
+          password: this.newRegister.password};
+          console.log(accLogin);
+         
+        this.authService.loginFromService(accLogin).subscribe((auth: any) => {
+          console.log(auth);
+
+          if(auth.status === 'FAILED') {
+            this.body =res.message;
+            this.display='none';
+            this.snackBar.openFromTemplate(this.applicationFail, this.snackBarOption);
+            return;
+          }
+    
+          if(auth.status === 'SUCCESS') {
+            auth.data.password = this.newRegister.password;
+            localStorage.setItem('user_info', JSON.stringify(auth));
+            this.authService.currentUserObject.next(auth);
+            console.log('sadasdasd');
+            this.router.navigateByUrl('/dashboard');
+          }
+        });
+    
+
      
       }
       
@@ -273,7 +303,6 @@ private securityQuestionValidatosrs() {
   
   
   saveDraft(){
-    console.log(this.newRegister);
   
     const customerSecurityQuestionDtoList=this.myAccountForm.value.question;
     this.newRegister.customerSecurityQuestionDtoList=customerSecurityQuestionDtoList;

@@ -45,6 +45,7 @@ export class LoanDetailComponent implements OnInit {
   loanCalculateInfo: any = {};
   modalOptions:NgbModalOptions;
   loanEdit: boolean = false;
+  imageUrl: string = config.imageUrl;
 
   constructor(
     private authService: AuthService,
@@ -106,6 +107,9 @@ export class LoanDetailComponent implements OnInit {
       });
 
       this.appInfo = res.data;
+      this.appInfo.approvedFinanceAmount=new NumeralPipe(res.data.approvedFinanceAmount).format('0,0');
+      this.appInfo.approvedFinanceTerm=new NumeralPipe(res.data.approvedFinanceTerm).format('0,0');
+      this.appInfo.compulsoryAmount=new NumeralPipe(res.data.compulsoryInfoDto.compulsoryAmount).format('0,0');
       this.appInfo.financeAmount = new NumeralPipe(res.data.financeAmount).format('0,0');
       this.appInfo.processingFees = new NumeralPipe(res.data.processingFees).format('0,0');
       this.appInfo.totalInterest = new NumeralPipe(res.data.totalInterest).format('0,0');
